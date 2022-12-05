@@ -1,0 +1,30 @@
+:root {
+	font-size: 16px;
+	font-family: 'Inter', sans-serif;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	width: 100%;
+	min-height: 100vh;
+	overflow-x: hidden;
+}
+
+@supports (font-variation-settings: normal) {
+  :root { font-family: 'Inter var', sans-serif; }
+}
+
+@media screen and (max-width: 800px) {
+	:root {
+		font-size: 14px;
+	}
+}
+
+@media screen and (max-width: 400px) {
+	:root {
+		font-size: 12px;
+	}
+}

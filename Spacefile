@@ -1,0 +1,11 @@
+# Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
+v: 0
+micros:
+    - name: api
+      src: api
+      engine: nodejs16
+      primary: true
+    - name: editor
+      src: editor
+      engine: svelte
+      primary: false
