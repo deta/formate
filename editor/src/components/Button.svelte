@@ -1,62 +1,88 @@
 <script lang="ts">
-	export let style: "normal" | "neutral" | "danger" = "normal";
-	export let fullWidth: boolean = false;
+    export let style: 'normal' | 'neutral' | 'link' |'danger' = 'normal';
+    export let fullWidth: boolean = false;
+    export let small: boolean = false;
+    export let disabled: boolean = false;
+	export let position: 'centered' | 'left' | 'right' | 'auto' = 'auto';
 </script>
 
-<button on:click class:fullWidth class={style}>
-	<slot />
+<button on:click class:small class:fullWidth class:disabled class="{style} {position}">
+    <slot />
 </button>
 
 <style>
-	button {
-		all: unset;
-	}
+    button {
+        all: unset;
+    }
 
-	button {
-		cursor: pointer;
-		gap: 0.5rem;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: center;
-		white-space: nowrap;
-		color: white;
-		text-align: center;
-		font-weight: bold;
-		font-size: 1rem;
-		line-height: 1rem;
-		border-radius: 8px;
+    button {
+        cursor: pointer;
+        gap: 0.5rem;
+		width: fit-content;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        user-select: none;
+        white-space: nowrap;
+        color: white;
+        text-align: center;
+        font-weight: 600;
+        font-size: 1rem;
+        line-height: 1rem;
+        border-radius: 0.5rem;
 		padding: 1rem 1.25rem;
-		background-color: #ff9f76;
-		transition: 0.1s ease;
+        background-color: #ff9f76;
+        transition: 0.1s ease;
+    }
+
+    button:hover {
+        filter: brightness(1.05);
+    }
+
+    button:active {
+        transform: translateY(2px);
+    }
+
+    .normal {
+        color: #ffffff;
+        background-color: #ff9f76;
+    }
+
+    .neutral {
+        color: #c2b4a5;
+        background-color: #ffead4;
+    }
+
+    .danger {
+        color: white;
+        background-color: #ff7979;
+    }
+
+    .fullWidth {
+        width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+
+	.small {
+		padding: 0.75rem 1.25rem;
 	}
 
-	button:hover {
-		filter: brightness(1.1);
+	.centered {
+		margin: 0 auto;
 	}
 
-	button:active {
-		transform: translateY(2px);
+	.left {
+		margin-right: auto;
 	}
 
-	.normal {
-		color: #ffffff;
-		background-color: #ff9f76;
-	}
-
-	.neutral {
-		color: #787171;
-		background-color: #ffead4;
-	}
-
-	.danger {
-		color: white;
-		background-color: #ff7979;
-	}
-
-	.fullWidth {
-		width: 100%;
-		padding-left: 0;
-		padding-right: 0;
+	.right {
+		margin-left: auto;
 	}
 </style>

@@ -1,25 +1,61 @@
 <script lang="ts">
+    import { fly } from 'svelte/transition';
+    import { onMount } from 'svelte';
     import Animation from '../components/Animation.svelte';
     import Button from '../components/Button.svelte';
-    import { isOverlayShown } from '../state/ui';
+    import Plus from '../components/icons/Plus.svelte';
+    import TrashBin from '../components/icons/TrashBin.svelte';
+    import { deleteForm, fetchForms, forms, formsLoading, selectForm } from '../stores/forms';
+    import { currentPage, isCreateModalShown } from '../stores/ui';
+
+    onMount(async () => {
+        try {
+            await fetchForms();
+        } catch (error) {
+            console.error(error);
+        }
+    });
+
+    let isVisible = false;
+    const onAnimationStop = () => (isVisible = true);
+
+    function openCreateFormModal() {
+        $isCreateModalShown = true;
+    }
 </script>
 
 <div class="welcome">
     <div class="content">
-        <div class="header">
-            <Animation class="logo" width={512} height={512} src="./logo.riv" />
+        <div class="hero">
+            <Animation class="logo" width={512} height={512} src="./logo.riv" onStop={onAnimationStop} />
 
-            <!-- <img class="logo" alt="logo" src="/logo.svg" /> -->
-            <h1>formate</h1>
-            <p>Make forms in a matter of minutes</p>
+            {#if isVisible}
+                <h1 in:fly={{ y: 8, duration: 200 }}>formate</h1>
+                <p in:fly={{ y: 8, duration: 200, delay: 50 }}>Make forms in a matter of minutes</p>
+            {/if}
         </div>
 
-        <div class="list">
-            <div class="item">My Form</div>
-            <div class="item">My Form</div>
-        </div>
+        {#if isVisible}
+            {#if $forms && $forms.length}
+                <div class="list" in:fly={{ y: 8, duration: 200, delay: 100 }}>
+                    {#each $forms as form}
+                        <div class="item">
+                            <div class="form-name" on:click={() => selectForm(form.key)}>{form.name}</div>
 
-        <Button fullWidth on:click={() => ($isOverlayShown = true)}>Create form</Button>
+                            <button on:click={() => deleteForm(form.key)}>
+                                <TrashBin size={18} />
+                            </button>
+                        </div>
+                    {/each}
+                </div>
+            {/if}
+
+            <div in:fly={{ y: 8, duration: 200, delay: 150 }}>
+                <Button position="centered" fullWidth on:click={openCreateFormModal}>
+                    Create form <Plus color="white" size={16} />
+                </Button>
+            </div>
+        {/if}
     </div>
 </div>
 
@@ -42,11 +78,11 @@
         max-width: 500px;
     }
 
-    .header {
+    .hero {
         padding-bottom: 2rem;
     }
 
-    .header :global(.logo) {
+    .hero :global(.logo) {
         display: block;
         width: 12rem;
         height: 12rem;
@@ -55,18 +91,30 @@
         filter: drop-shadow(0 2px 4px #0000001a);
     }
 
+    .form-name {
+        width: 100%;
+        opacity: 0.5;
+        cursor: pointer;
+        margin-right: auto;
+    }
+
+    .form-name:hover {
+        opacity: 1;
+    }
+
     .list {
         display: flex;
         flex-direction: column;
         width: 100%;
         border: 2px solid;
-        border-radius: 8px;
+        border-radius: 0.5rem;
         border-color: #ece6e3;
         background-color: white;
     }
 
     .list .item {
         display: flex;
+        align-items: center;
         padding: 1rem;
         border-bottom: 2px solid;
         border-color: #ece6e3;
@@ -74,6 +122,25 @@
 
     .list .item:last-of-type {
         border-bottom: none;
+    }
+
+    .list button {
+        all: unset;
+        cursor: pointer;
+        opacity: 0.3;
+        transition: 0.1s ease;
+    }
+
+    .list button:hover {
+        opacity: 1;
+    }
+
+    .list button :global(svg) {
+        display: block;
+    }
+    
+    .list button:hover :global(svg *) {
+        stroke: red;
     }
 
     h1 {

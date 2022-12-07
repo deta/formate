@@ -11,11 +11,15 @@
   },
   "dependencies": {
     "@rive-app/canvas": "^1.0.95",
-    "normalize.css": "^8.0.1"
+    "immer": "^9.0.16",
+    "nanoid": "^4.0.0",
+    "normalize.css": "^8.0.1",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^1.1.0",
     "@tsconfig/svelte": "^3.0.0",
+    "@types/validator": "^13.7.10",
     "prettier": "^2.8.0",
     "svelte": "^3.52.0",
     "svelte-check": "^2.9.2",

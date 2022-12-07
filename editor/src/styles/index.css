@@ -8,6 +8,8 @@
 }
 
 body {
+	color: #4a4a4a;
+	background-color: white;
 	width: 100%;
 	min-height: 100vh;
 	overflow-x: hidden;
@@ -19,12 +21,19 @@ body {
 
 @media screen and (max-width: 800px) {
 	:root {
-		font-size: 14px;
+		font-size: 12px;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	:root {
+		font-size: 8px;
 	}
 }
 
 @media screen and (max-width: 400px) {
 	:root {
-		font-size: 12px;
+		font-size: 4px;
 	}
 }
+
