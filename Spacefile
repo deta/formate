@@ -18,6 +18,9 @@ micros:
     run: "node index.js"
     commands:
       - npm run build
+    public_routes:
+      - /fetch
+      - /submit
 
   - name: renderer
     src: renderer
