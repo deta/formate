@@ -18,6 +18,6 @@ app.use(Express.static(join(__dirname, 'dist')));
 app.get('*', (req, res) => res.sendFile(join(__dirname, 'dist', 'index.html')));
 
 // Start server
-app.listen(3030, () => {
-	console.log(`Formate Renderer started in "${process.env.NODE_ENV || 'development'}" mode on port 3030! 🥳`);
+app.listen(process.env.PORT, () => {
+	console.log(`Formate Renderer started in "${process.env.NODE_ENV || 'development'}" mode on port ${process.env.PORT}! 🥳`);
 });

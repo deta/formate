@@ -4,10 +4,12 @@ app_name: "Formate"
 micros:
   - name: editor
     src: editor
-    engine: svelte
     primary: true
+    engine: static
+    serve: dist
     commands:
       - npm run build
+
   - name: api
     src: api
     engine: nodejs16
@@ -16,6 +18,7 @@ micros:
     run: "node index.js"
     commands:
       - npm run build
+
   - name: renderer
     src: renderer
     path: f
@@ -24,3 +27,5 @@ micros:
     run: "node index.js"
     commands:
       - npm run build
+    public_routes:
+      - /*

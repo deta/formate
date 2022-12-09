@@ -77,6 +77,6 @@ app.post('/publish', async (req, res) => {
 });
 
 // Start server
-app.listen(8080, () => {
-	console.log(`Formate API started in "${process.env.NODE_ENV || 'development'}" mode on port 8080! 🥳`);
+app.listen(process.env.PORT, () => {
+	console.log(`Formate API started in "${process.env.NODE_ENV || 'development'}" mode on port ${process.env.PORT}! 🥳`);
 });

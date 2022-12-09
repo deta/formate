@@ -20,7 +20,7 @@
             window.open(`http://localhost:8081/f/${$form.slug}`);
         } else {
             await POST('/api/publish', $form);
-            window.open(`http://localhost:8081/f/${$form.slug}`);
+            window.open(`/f/${$form.slug}`);
         }
     }
 
