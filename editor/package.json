@@ -1,5 +1,5 @@
 {
-  "name": "formate-editor",
+  "name": "@formate/editor",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@rive-app/canvas": "^1.0.95",
+    "date-fns": "^2.29.3",
     "immer": "^9.0.16",
     "nanoid": "^4.0.0",
     "normalize.css": "^8.0.1",

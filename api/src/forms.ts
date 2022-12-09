@@ -1,10 +1,11 @@
 import { Router } from 'express';
+import { nanoid } from 'nanoid';
 import db from './database.js';
 
 const api = Router();
 
 // CREATE form
-api.post('/forms', async (req, res) => {
+api.post('/', async (req, res) => {
 	try {
 		const data = req.body;
 		const form = await db.forms.insert(data);
@@ -16,7 +17,7 @@ api.post('/forms', async (req, res) => {
 });
 
 // READ Forms
-api.get('/forms', async (req, res) => {
+api.get('/', async (req, res) => {
 	try {
 		const forms = await db.forms.fetch();
 		res.send({ success: true, forms: forms.items });
@@ -27,7 +28,7 @@ api.get('/forms', async (req, res) => {
 });
 
 // READ Form by ID
-api.get('/forms/:key', async (req, res) => {
+api.get('/:key', async (req, res) => {
 	try {
 		const key = req.params.key;
 		const form = await db.forms.get(key);
@@ -39,7 +40,7 @@ api.get('/forms/:key', async (req, res) => {
 });
 
 // UPDATE Form by ID
-api.put('/forms/:key', async (req, res) => {
+api.put('/:key', async (req, res) => {
 	try {
 		const key = req.params.key;
 		const data = req.body;
@@ -55,7 +56,7 @@ api.put('/forms/:key', async (req, res) => {
 });
 
 // DELETE form
-api.delete('/forms/:key', async (req, res) => {
+api.delete('/:key', async (req, res) => {
 	try {
 		const key = req.params.key;
 		await db.forms.delete(key);

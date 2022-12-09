@@ -3,19 +3,33 @@
     import Button from '../components/Button.svelte';
     import ArrowLeft from './icons/ArrowLeft.svelte';
     import { form } from '../stores/form';
-    import { hideAllModals, currentPage, isSettingsModalShown } from '../stores/ui';
+    import Publication from './modals/Publication.svelte';
+    import { hideAllModals, currentPage, isSettingsModalShown, isPublicationShow } from '../stores/ui';
+    import { POST } from '../utils';
 
     function showSettingsModal() {
         hideAllModals();
         $isSettingsModalShown = true;
     }
 
-    function openPreview() {
-
+    async function openPreview() {
+        console.log($form);
+        
+        if (import.meta.env.DEV) {
+            await POST('/api/publish', $form);
+            window.open(`http://localhost:8081/f/${$form.slug}`);
+        } else {
+            await POST('/api/publish', $form);
+            window.open(`http://localhost:8081/f/${$form.slug}`);
+        }
     }
 
     function backToForms() {
         $currentPage = 'welcome';
+    }
+
+    function togglePublish() {
+        $isPublicationShow = !$isPublicationShow;
     }
 </script>
 
@@ -34,18 +48,23 @@
     <div class="right" in:fly={{ delay: 200, y: 8, duration: 200 }}>
         <Button small style="neutral" on:click={showSettingsModal}>Settings</Button>
         <Button small style="neutral" on:click={openPreview}>Preview</Button>
-        <Button small>Publish</Button>
+        <Button small on:click={togglePublish}>Publish</Button>
     </div>
+
+    {#if $isPublicationShow}
+        <Publication />
+    {/if}
 </header>
 
 <style>
     header {
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: space-between;
         width: 100%;
         height: 4rem;
-        gap: 12px;
+        gap: 0.75rem;
         padding: 1rem 2rem;
         border-bottom: 1px solid;
         border-color: #ece6e3;
@@ -53,21 +72,21 @@
 
     .left {
         width: 100%;
-        gap: 12px;
+        gap: 0.75rem;
         display: flex;
         justify-content: start;
     }
 
     .center {
         width: 100%;
-        gap: 12px;
+        gap: 0.75rem;
         display: flex;
         justify-content: center;
     }
 
     .right {
         width: 100%;
-        gap: 12px;
+        gap: 0.75rem;
         display: flex;
         justify-content: flex-end;
     }

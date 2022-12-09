@@ -77,8 +77,8 @@
     button {
         all: unset;
         position: absolute;
-        top: 24px;
-        right: 16px;
+        top: 1rem;
+        right: 1rem;
         opacity: 0;
         pointer-events: none;
         transition: 0.1s ease;
@@ -86,7 +86,6 @@
 
     .card:hover button {
         opacity: 0.5;
-        top: 16px;
         pointer-events: initial;
     }
 

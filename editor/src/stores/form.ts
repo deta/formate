@@ -1,8 +1,11 @@
 import type { Form } from '../types';
 import { writable, get, derived } from 'svelte/store';
 import { nanoid } from 'nanoid';
-import produce from 'immer';
+import produce, { setAutoFreeze } from 'immer';
 import { GET, POST, DELETE, PUT } from '../utils';
+
+// Disable immer auto freeze
+setAutoFreeze(false);
 
 // Current form key
 export const formKey = writable<string>();
@@ -10,45 +13,55 @@ export const formKey = writable<string>();
 // Current opened form
 export const form = writable<Form>();
 
-// Current selected question
-export const selectedQuestion = writable<string>();
+// Current selected screen
+export const selectedScreen = writable<string>();
 
-// Current selected question index
-export const selectedQuestionIndex = derived([selectedQuestion, form], ([questionKey, form]) => {
-    return form.questions.findIndex((question) => question.key === questionKey);
+// Current selected screen index
+export const selectedScreenIndex = derived([selectedScreen, form], ([screenKey, form]) => {
+    return form.screens.findIndex((screen) => screen.key === screenKey);
 });
+
+let timer;
 
 // Send updates to the server
 form.subscribe((value) => {
-    if (value?.key) PUT(`/api/forms/${value.key}`, value);
+    if (!value?.key) return;
+    if (timer) clearInterval(timer);
+
+    const key = value.key;
+    const data = structuredClone(value);
+
+    timer = setTimeout(() => {
+        PUT(`/api/forms/${key}`, data);
+    }, 500);
 });
 
 /**
- * Add new question
+ * Add new scren
  */
-export function addQuestion() {
-    const questionKey = nanoid();
+export function addScreen() {
+    const screenKey = nanoid();
 
     form.update(produce((draft) => {
-        draft.questions.push({
-            key: questionKey,
-            question: `New question #${draft.questions.length}`,
-            description: `You can put question description here.`,
+        draft.screens.push({
+            key: screenKey,
+            title: `New screen #${draft.screens.length}`,
+            description: `You can put screen description here.`,
             fields: []
         });
 
-        selectedQuestion.set(questionKey);
+        selectedScreen.set(screenKey);
     }));
 }
 
 /**
- * Remove question
+ * Remove screen
  */
- export function deleteQuestion(key: string) {
+export function deleteScreen(key: string) {
     form.update(produce((draft) => {
-        draft.questions = draft.questions.filter((question) => question.key !== key);
-        if (get(selectedQuestion) === key) selectedQuestion.set(draft.questions.at(-1).key);
-    }));   
+        draft.screens = draft.screens.filter((screen) => screen.key !== key);
+        if (get(selectedScreen) === key) selectedScreen.set(draft.screens.at(-1).key);
+    }));
 }
 
 /**
@@ -57,7 +70,27 @@ export function addQuestion() {
  */
 export function addField(type: string) {
     form.update(produce((draft) => {
-        const questionIndex = get(selectedQuestionIndex);
-        draft.questions[questionIndex].fields.push({ type });
-    }));  
+        const screenIndex = get(selectedScreenIndex);
+
+        draft.screens[screenIndex].fields.push({
+            key: nanoid(),
+            type: type,
+            required: false,
+            title: `New input field #${draft.screens[screenIndex].fields.length}`
+        });
+    }));
+}
+
+/**
+ * Remove field
+ * @param type Field type
+ */
+export function deleteField(key: string) {
+    form.update(produce((draft) => {
+        const screenIndex = get(selectedScreenIndex);
+
+        draft.screens[screenIndex].fields = draft.screens[screenIndex].fields.filter((field) => {
+            return field.key !== key;
+        });
+    }));
 }

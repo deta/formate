@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { addField, form, selectedQuestion } from '../../stores/form';
+    import { addField, form, selectedScreen } from '../../stores/form';
     import { currentPage, hideAllModals } from '../../stores/ui';
     import Calendar from '../icons/Calendar.svelte';
     import Checkbox from '../icons/Checkbox.svelte';
@@ -16,7 +16,7 @@
     import Modal from '../Modal.svelte';
 
     function selectField(type: string) {
-        addField(type)
+        addField(type);
         hideAllModals();
     }
 
@@ -24,7 +24,8 @@
 
 <Modal title="Add field" paddings={false}>
     <div class="fields">
-        <div class="field" on:click={() => selectField('text')}>
+        <!-- svelte-ignore a11y-click-events-have-key-events -->
+        <div class="field" on:click={() => selectField('Short text')}>
             <div class="icon">
                 <Cursor />
             </div>
@@ -194,5 +195,13 @@
     p {
         font-weight: 400;
         opacity: 0.5;
+    }
+
+    .field {
+        opacity: 0.3;
+    }
+
+    .field:first-of-type {
+        opacity: 1;
     }
 </style>

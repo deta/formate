@@ -7,6 +7,8 @@ export const isPublishModalShown = writable(false);
 export const isSettingsModalShown = writable(false);
 export const isAddFieldModalShown = writable(false);
 
+export const isPublicationShow = writable(false);
+
 /**
  * Hide all modals
  */

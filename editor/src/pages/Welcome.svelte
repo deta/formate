@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { fly } from 'svelte/transition';
+    import { fly, slide } from 'svelte/transition';
     import { onMount } from 'svelte';
     import Animation from '../components/Animation.svelte';
     import Button from '../components/Button.svelte';
@@ -39,7 +39,7 @@
             {#if $forms && $forms.length}
                 <div class="list" in:fly={{ y: 8, duration: 200, delay: 100 }}>
                     {#each $forms as form}
-                        <div class="item">
+                        <div class="item" transition:slide|local={{ duration: 200 }}>
                             <div class="form-name" on:click={() => selectForm(form.key)}>{form.name}</div>
 
                             <button on:click={() => deleteForm(form.key)}>

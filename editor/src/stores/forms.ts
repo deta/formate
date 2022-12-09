@@ -3,7 +3,7 @@ import type { Form } from '../types';
 import { nanoid } from 'nanoid';
 import { writable, get } from 'svelte/store';
 import { GET, POST, DELETE, createSlug } from '../utils';
-import { form, formKey, selectedQuestion } from './form';
+import { form, formKey, selectedScreen } from './form';
 import { currentPage } from './ui';
 
 export const formsLoading = writable(false);
@@ -40,7 +40,7 @@ export function selectForm(key: string) {
 
     form.set(formData);
     formKey.set(formData.key);
-    selectedQuestion.set(formData.questions.at(0).key);
+    if (formData.screens.length > 0) selectedScreen.set(formData.screens.at(0).key);
 
     currentPage.set('dashboard');
 }
@@ -57,7 +57,7 @@ export async function createForm(data: Partial<Form> & { name: string }) {
         data.style = data.style || 'clean';
         data.color = data.color || 'orange';
         data.slug = data.slug || createSlug(data.name);
-        data.questions = data.questions || [];
+        data.screens = data.screens || [];
 
         formsLoading.set(true);
 
