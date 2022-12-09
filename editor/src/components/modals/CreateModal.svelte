@@ -51,11 +51,11 @@
         <Label title="Form Name" description="Name of your form, that will be displayed on the welcome page." />
         <Input bind:value={$values.name} error={$errors.name} on:keyup={() => resetKeyError('name')} />
     </div>
-
+<!-- 
     <div>
         <Label title="Color Scheme" description="Name of your form, that will be displayed on the welcome page." />
         <ColorPicker bind:value={$values.color} />
-    </div>
+    </div> -->
 
     <Button position="right" on:click={submit} disabled={$hasErrors}>Create</Button>
 </Modal>

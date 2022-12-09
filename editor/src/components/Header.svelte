@@ -14,7 +14,7 @@
 
     async function openPreview() {
         console.log($form);
-        
+
         if (import.meta.env.DEV) {
             await POST('/api/publish', $form);
             window.open(`http://localhost:8081/f/${$form.slug}`);
@@ -46,9 +46,9 @@
     </div>
 
     <div class="right" in:fly={{ delay: 200, y: 8, duration: 200 }}>
-        <Button small style="neutral" on:click={showSettingsModal}>Settings</Button>
-        <Button small style="neutral" on:click={openPreview}>Preview</Button>
-        <Button small on:click={togglePublish}>Publish</Button>
+        <!-- <Button small style="neutral" on:click={showSettingsModal}>Settings</Button>
+        <Button small style="neutral" on:click={openPreview}>Preview</Button> -->
+        <Button small on:click={openPreview}>Publish</Button>
     </div>
 
     {#if $isPublicationShow}

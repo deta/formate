@@ -93,7 +93,6 @@
                 <Button position="right" on:click={next}>
                     {currentScreenIndex === screens.length - 1 ? 'Submit' : 'Next Question'}
                 </Button>
-                {JSON.stringify(inputs)}
             </div>
         {:else if finished}
             <div class="card finished" transition:fly={{ duration: 500, y: 8 }}>
