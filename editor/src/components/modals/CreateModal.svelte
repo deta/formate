@@ -7,7 +7,7 @@
     import ColorPicker from '../ColorPicker.svelte';
 
     import { createForm } from '../../stores/forms';
-    import { form, formKey } from '../../stores/form';
+    import { form } from '../../stores/form';
     import { currentPage, hideAllModals } from '../../stores/ui';
 
     import { HeadlessForm } from '../../utils';
@@ -17,7 +17,7 @@
         color: ColorScheme;
     }
 
-    const initialValues = {
+    const initialValues: CreateFormValues = {
         name: '',
         color: 'orange',
     };
@@ -39,7 +39,6 @@
 
         const newForm = await createForm($values);
         $form = newForm;
-        $formKey = newForm.key;
 
         hideAllModals();
         $currentPage = 'dashboard';
@@ -51,11 +50,11 @@
         <Label title="Form Name" description="Name of your form, that will be displayed on the welcome page." />
         <Input bind:value={$values.name} error={$errors.name} on:keyup={() => resetKeyError('name')} />
     </div>
-<!-- 
+
     <div>
-        <Label title="Color Scheme" description="Name of your form, that will be displayed on the welcome page." />
+        <Label title="Color Scheme" description="Accent color that will be used in the editor of your forms UI" />
         <ColorPicker bind:value={$values.color} />
-    </div> -->
+    </div>
 
     <Button position="right" on:click={submit} disabled={$hasErrors}>Create</Button>
 </Modal>

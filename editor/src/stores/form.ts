@@ -7,9 +7,6 @@ import { GET, POST, DELETE, PUT } from '../utils';
 // Disable immer auto freeze
 setAutoFreeze(false);
 
-// Current form key
-export const formKey = writable<string>();
-
 // Current opened form
 export const form = writable<Form>();
 
@@ -35,6 +32,19 @@ form.subscribe((value) => {
         PUT(`/api/forms/${key}`, data);
     }, 500);
 });
+
+/**
+ * Force-Save current form state to the database
+ */
+export async function forceSave() {
+    const formData = get(form);
+    if (!formData?.key) return;
+
+    if (timer) clearInterval(timer);
+    const key = formData.key;
+    const data = structuredClone({ ...formData, key: undefined });
+    await PUT(`/api/forms/${key}`, data);
+}
 
 /**
  * Add new scren

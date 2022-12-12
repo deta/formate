@@ -74,14 +74,14 @@
         gap: 1rem;
         width: 100%;
         padding: 0 2.5rem;
-        border-bottom: 1px solid;
-        border-color: #ece6e3;
+        background-color: var(--neutral);
     }
 
     .tab {
         all: unset;
         opacity: 0.5;
         cursor: pointer;
+        color: var(--accent);
         padding-bottom: 0.5rem;
         font-size: 0.9rem;
         font-weight: 400;
@@ -112,6 +112,8 @@
         padding-bottom: 1.5rem;
         font-weight: 700;
         font-size: 1.5rem;
+        color: var(--accent);
+        background-color: var(--neutral);
     }
 
 </style>

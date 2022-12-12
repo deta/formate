@@ -33,7 +33,7 @@
         line-height: 1rem;
         border-radius: 0.5rem;
 		padding: 1rem 1.25rem;
-        background-color: #ff9f76;
+        background-color: var(--accent);
         transition: 0.1s ease;
     }
 
@@ -46,18 +46,22 @@
     }
 
     .normal {
-        color: #ffffff;
-        background-color: #ff9f76;
+        color: white;
+        background-color: var(--accent);
     }
 
     .neutral {
-        color: #c2b4a5;
-        background-color: #ffead4;
+        color: var(--accent);
+        background-color: var(--neutral);
     }
 
     .danger {
         color: white;
-        background-color: #ff7979;
+        background-color: var(--danger);
+    }
+
+    .danger :global(svg *), .normal :global(svg *) {
+        stroke: white;
     }
 
     .fullWidth {

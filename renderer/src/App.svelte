@@ -82,7 +82,7 @@
                 </div>
 
                 <div class="fields">
-                    {#each screen.fields as field}
+                    {#each screen.fields as field (field.key)}
                         <div>
                             <Label title={field.title} />
                             <Input placeholder={field?.placeholder} bind:value={inputs[field.fieldKey]} />

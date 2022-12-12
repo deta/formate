@@ -8,26 +8,21 @@
     export let title: string;
     export let description: string = '';
     export let selected: boolean = false;
-    export let deletable: boolean = true;
 </script>
-
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div class="card-wrapper" transition:slide|local={{ duration: 100 }}>
     <div class="card" class:selected on:click>
         <h3>{title}</h3>
         <p>{description}</p>
-    
-        {#if deletable}
-            <button on:click|stopPropagation={() => dispatch('delete')}>
-                <TrashBin color="red" />
-            </button>
-        {/if}
+
+        <button class="delete" on:click|stopPropagation={() => dispatch('delete')}>
+            <TrashBin />
+        </button>
     </div>
 
     <div class="separator" />
 </div>
-
 
 <style>
     .card {
@@ -36,14 +31,14 @@
         padding: 2rem;
         border-radius: 1rem;
         border: 2px solid;
-        border-color: #ece6e3;
+        border-color: var(--border);
         background-color: white;
         transition: border-color 0.1s ease;
     }
 
     .card:hover,
     .selected {
-        border-color: #ff9f76;
+        border-color: var(--accent);
     }
 
     .card h3,
@@ -71,10 +66,10 @@
         width: 2px;
         min-height: 1.25rem;
         margin: 0.25rem auto;
-        background-color: #ece6e3;
+        background-color: var(--border);
     }
 
-    button {
+    .delete {
         all: unset;
         position: absolute;
         top: 1rem;
@@ -84,12 +79,20 @@
         transition: 0.1s ease;
     }
 
-    .card:hover button {
-        opacity: 0.5;
+    .delete :global(svg *) {
+        stroke: var(--text);
+    }
+
+    .card:hover .delete {
+        opacity: 0.3;
         pointer-events: initial;
     }
 
-    button:hover {
+    .delete:hover {
         opacity: 1 !important;
+    }
+
+    .delete:hover :global(svg *) {
+        stroke: var(--danger);
     }
 </style>

@@ -3,7 +3,7 @@ import type { Form } from '../types';
 import { nanoid } from 'nanoid';
 import { writable, get } from 'svelte/store';
 import { GET, POST, DELETE, createSlug } from '../utils';
-import { form, formKey, selectedScreen } from './form';
+import { form, selectedScreen } from './form';
 import { currentPage } from './ui';
 
 export const formsLoading = writable(false);
@@ -39,7 +39,7 @@ export function selectForm(key: string) {
     const formData = currentForms.find((form) => form.key === key);
 
     form.set(formData);
-    formKey.set(formData.key);
+
     if (formData.screens.length > 0) selectedScreen.set(formData.screens.at(0).key);
 
     currentPage.set('dashboard');

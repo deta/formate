@@ -46,9 +46,11 @@
     </div>
 
     <div class="right" in:fly={{ delay: 200, y: 8, duration: 200 }}>
-        <!-- <Button small style="neutral" on:click={showSettingsModal}>Settings</Button>
-        <Button small style="neutral" on:click={openPreview}>Preview</Button> -->
-        <Button small on:click={openPreview}>Publish</Button>
+        <Button small style="neutral" on:click={showSettingsModal}>Settings</Button>
+        <Button small style="neutral" on:click={openPreview}>Preview</Button>
+        <Button small on:click={openPreview}>
+            Publish
+        </Button>
     </div>
 
     {#if $isPublicationShow}
@@ -67,7 +69,7 @@
         gap: 0.75rem;
         padding: 1rem 2rem;
         border-bottom: 1px solid;
-        border-color: #ece6e3;
+        border-color: var(--border);
     }
 
     .left {
@@ -107,7 +109,7 @@
     }
 
     .go-back :global(svg *) {
-        stroke: #4a4a4a;
+        stroke: var(--text);
     }
 
     .go-back :global(svg) {

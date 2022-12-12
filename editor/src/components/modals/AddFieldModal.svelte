@@ -155,12 +155,12 @@
         width: 100%;
     }
 
-    .field:hover .icon :global(svg *) {
-        opacity: 1;
-    }
-
     .field:hover {
         color: black;
+    }
+
+    .field:hover .icon :global(svg) {
+        opacity: 1;
     }
 
     .icon {
@@ -173,14 +173,18 @@
         min-height: 2.5rem;
         white-space: nowrap;
         border-radius: 50%;
-        background-color: #FFF4E8;
+        background-color: var(--neutral);
     }
 
     .icon :global(svg *) {
+        stroke: var(--accent);
+    }
+
+    .icon :global(svg) {
         opacity: 0.5;
-        stroke: #948E87;
         transition: 0.1s ease;
     }
+
 
     h3, p {
         all: unset;

@@ -48,14 +48,15 @@
         flex-direction: row;
         border: 1px solid;
         border-radius: 0.5rem;
-        border-color: #ece6e3;
+        border-color: var(--border);
         padding: 0 1.25rem;
         overflow-x: auto;
         overflow-y: hidden;
+        transition: border-color 0.1s ease;
     }
 
     .input-wrapper:focus-within {
-        border-color: #bdb6b2;
+        border-color: var(--borderDarker);
     }
 
     .input-wrapper.disabled {
@@ -64,11 +65,11 @@
     }
 
     .input-wrapper.error {
-        border-color: #ff6363;
+        border-color: var(--danger);
     }
 
     .input-wrapper.error .prefix {
-        color: #ff6363;
+        color: var(--danger);
     }
 
     input::placeholder {
@@ -104,7 +105,7 @@
     }
 
     .error-message {
-        color:#ff6363;
+        color:var(--danger);
         padding: 0 1rem;
         margin-top: 0.5rem;
         font-size: 0.75rem;

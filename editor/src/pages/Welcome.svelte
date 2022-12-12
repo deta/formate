@@ -9,6 +9,7 @@
     import { currentPage, isCreateModalShown } from '../stores/ui';
 
     onMount(async () => {
+        document.documentElement.className = '';
         try {
             await fetchForms();
         } catch (error) {
@@ -24,7 +25,7 @@
     }
 </script>
 
-<div class="welcome">
+<div class="welcome orange">
     <div class="content">
         <div class="hero">
             <Animation class="logo" width={512} height={512} src="./logo.riv" onStop={onAnimationStop} />
@@ -38,12 +39,15 @@
         {#if isVisible}
             {#if $forms && $forms.length}
                 <div class="list" in:fly={{ y: 8, duration: 200, delay: 100 }}>
-                    {#each $forms as form}
+                    {#each $forms as form (form.key)}
                         <div class="item" transition:slide|local={{ duration: 200 }}>
-                            <div class="form-name" on:click={() => selectForm(form.key)}>{form.name}</div>
+                            <button class="name" on:click={() => selectForm(form.key)}>
+                                <span class="{form.color} indicator">⏺</span>
+                                {form.name}
+                            </button>
 
-                            <button on:click={() => deleteForm(form.key)}>
-                                <TrashBin size={18} />
+                            <button class="delete" on:click={() => deleteForm(form.key)}>
+                                <TrashBin />
                             </button>
                         </div>
                     {/each}
@@ -52,7 +56,7 @@
 
             <div in:fly={{ y: 8, duration: 200, delay: 150 }}>
                 <Button position="centered" fullWidth on:click={openCreateFormModal}>
-                    Create form <Plus color="white" size={16} />
+                    Create form <Plus />
                 </Button>
             </div>
         {/if}
@@ -60,13 +64,36 @@
 </div>
 
 <style>
+    button {
+        all: unset;
+        display: block;
+    }
+
+    h1 {
+        margin: 0;
+        font-size: 5rem;
+        font-weight: bold;
+        text-align: center;
+        color: var(--text);
+        opacity: 0.75;
+    }
+
+    p {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: lighter;
+        text-align: center;
+        color: var(--text);
+        opacity: 0.5;
+    }
+
     .welcome {
         display: flex;
         min-width: 100%;
         min-height: 100vh;
         align-items: flex-start;
         justify-content: center;
-        background-color: #fff9f2;
+        background-color: var(--background);
     }
 
     .content {
@@ -91,71 +118,69 @@
         filter: drop-shadow(0 2px 4px #0000001a);
     }
 
-    .form-name {
-        width: 100%;
-        opacity: 0.5;
-        cursor: pointer;
-        margin-right: auto;
-    }
-
-    .form-name:hover {
-        opacity: 1;
-    }
-
     .list {
         display: flex;
         flex-direction: column;
         width: 100%;
         border: 2px solid;
         border-radius: 0.5rem;
-        border-color: #ece6e3;
+        border-color: var(--border);
         background-color: white;
     }
 
     .list .item {
         display: flex;
         align-items: center;
-        padding: 1rem;
+        justify-content: space-between;
         border-bottom: 2px solid;
-        border-color: #ece6e3;
+        border-color: var(--border);
     }
 
     .list .item:last-of-type {
         border-bottom: none;
     }
 
-    .list button {
-        all: unset;
+    .delete :global(svg) {
+        display: block;
         cursor: pointer;
-        opacity: 0.3;
+        opacity: 0;
+        pointer-events: none;
+        width: 1.25rem;
+        height: 1.25rem;
         transition: 0.1s ease;
     }
 
-    .list button:hover {
+    .item:hover .delete :global(svg) {
+        opacity: 0.5;
+        pointer-events: fill;
+    }
+
+    .item:hover .delete:hover :global(svg) {
         opacity: 1;
     }
 
-    .list button :global(svg) {
-        display: block;
+    .item:hover .delete:hover :global(svg *) {
+        stroke: var(--danger);
+    }
+
+    .delete {
+        margin-right: 1rem;
     }
     
-    .list button:hover :global(svg *) {
-        stroke: red;
+    .name {
+        padding: 1rem;
+        width: 100%;
+        opacity: 0.5;
+        cursor: pointer;
+        transition: 0.1s ease;
     }
 
-    h1 {
-        margin: 0;
-        font-size: 5rem;
-        font-weight: bold;
-        text-align: center;
-        color: #787171;
+    .name:hover {
+        opacity: 1;
     }
 
-    p {
-        margin: 0;
-        font-size: 1.25rem;
-        font-weight: lighter;
-        text-align: center;
-        color: #787171;
+    .indicator {
+        color: var(--accent);
+        margin-right: 0.25rem;
     }
 </style>

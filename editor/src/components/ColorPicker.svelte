@@ -1,9 +1,15 @@
-<script context="module" lang="ts">
-    export type ColorScheme = 'red' | 'orange' | 'green' | 'blue' | 'purple';
-</script>
-
 <script lang="ts">
+    import type { ColorScheme } from '../types';
     export let value: ColorScheme = 'orange';
+
+    // List of all colors
+    const colors: ColorScheme[] = ['red', 'orange', 'green', 'blue', 'purple'];
+
+    // Update color scheme of the editor
+    $: {
+        document.documentElement.className = '';
+        document.documentElement.classList.add(value);
+    }
 
     // Create select color handler
     const selectHandler = (color: ColorScheme) => () => {
@@ -13,25 +19,11 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div class="colors">
-    <div class="color" style:background-color="#FF7676" on:click={selectHandler('red')}>
-        {value === 'red' ? '✓' : ''}
-    </div>
-
-    <div class="color" style:background-color="#FF9F76" on:click={selectHandler('orange')}>
-        {value === 'orange' ? '✓' : ''}
-    </div>
-
-    <div class="color" style:background-color="#9EE77C" on:click={selectHandler('green')}>
-        {value === 'green' ? '✓' : ''}
-    </div>
-
-    <div class="color" style:background-color="#76BDFF" on:click={selectHandler('blue')}>
-        {value === 'blue' ? '✓' : ''}
-    </div>
-
-    <div class="color" style:background-color="#AC8EFF" on:click={selectHandler('purple')}>
-        {value === 'purple' ? '✓' : ''}
-    </div>
+    {#each colors as color}
+        <div class="{color} color" on:click={selectHandler(color)}>
+            {value === color ? '✓' : ''}
+        </div>
+    {/each}
 </div>
 
 <style>
@@ -50,6 +42,7 @@
         width: 2rem;
         border-radius: 50%;
         transition: 0.1s ease;
+        background-color: var(--accent);
     }
 
     .color:hover {

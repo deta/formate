@@ -17,7 +17,7 @@
 
 </script>
 
-<div class="field" in:fly|local={{ duration: 100, x: -8, delay: 50 * index }} out:fly|local={{ duration: 200, x: 8, delay: 50 * index }}>
+<div class="field" in:fly={{ x: -8, delay: 100 * index }} out:fly|local={{ x: 8, delay: 100 * index }}>
     <div class="heading">
         <button on:click={() => deleteField(field.key)}><TrashBin /></button>
 
@@ -45,7 +45,7 @@
         flex-direction: column;
         padding: 2rem 2.25rem;
         border-bottom: 1px solid;
-        border-color: #ece6e3;
+        border-color: var(--border);
     }
 
     .icon {
@@ -57,7 +57,7 @@
         min-width: 3.5rem;
         min-height: 3.5rem;
         border-radius: 50%;
-        background-color: #fff4e8;
+        background-color: var(--neutral);
     }
 
     .icon :global(svg) {
@@ -67,7 +67,7 @@
     }
 
     .icon :global(svg *) {
-        stroke: #afaaa4;
+        stroke: var(--accent);
     }
 
     .heading {
@@ -123,5 +123,9 @@
 
     button:hover {
         opacity: 1 !important;
+    }
+
+    button:hover :global(svg *) {
+        stroke: var(--danger);
     }
 </style>

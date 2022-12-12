@@ -49,7 +49,7 @@
         padding: 2rem;
         border-radius: 1rem;
         border: 1px solid;
-        border-color: #ff9f76;
+        border-color: var(--accent);
         box-shadow: 0 2px 32px rgba(255, 160, 100, 0.1);
         background-color: white;
     }

@@ -44,7 +44,7 @@
     }
 
     button.active {
-        color: #ff9f76;
-        border-color: #ff9f76;
+        color: var(--accent);
+        border-color: var(--accent);
     }
 </style>

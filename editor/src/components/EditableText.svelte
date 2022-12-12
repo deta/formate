@@ -1,11 +1,15 @@
 <script lang="ts">
     import Pencil from './icons/Pencil.svelte';
-    export let value;
+
+    let element: HTMLDivElement;
+    export let value: string;
 </script>
 
 <div class="editable">
-    <div class="input" spellcheck="false" contenteditable bind:textContent={value} />
-    <div class="icon">
+    <div class="input" bind:this={element} spellcheck="false" contenteditable bind:textContent={value} />
+    
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <div class="icon" on:click={() => element.focus()}>
         <Pencil />
     </div>
 </div>
@@ -15,6 +19,7 @@
         position: relative;
         cursor: pointer;
         display: flex;
+        align-items: center;
     }
 
     .input {
@@ -28,8 +33,7 @@
     .icon {
         opacity: 0;
         transition: 0.1s ease;
-        margin-left: 1rem;
-        transform: translate(-50%, -40%);
+        margin-left: 0.5rem;
     }
 
     .icon :global(svg) {
@@ -38,8 +42,15 @@
         height: 1.25rem;
     }
 
-    .editable:hover .icon, .editable:focus-within .icon {
+    .icon :global(svg *) {
+        stroke: var(--text);
+    }
+
+    .editable:hover .icon {
         opacity: 0.3;
-        transform: translate(-50%, -50%);
+    }
+
+    .editable:focus-within .icon {
+        opacity: 1;
     }
 </style>

@@ -13,6 +13,12 @@
 
     $: screen = $form.screens[$selectedScreenIndex];
 
+    // Update color scheme of the editor
+    $: {
+        document.documentElement.className = '';
+        document.documentElement.classList.add($form.color);
+    }
+
     function showAddFieldModal() {
         hideAllModals();
         $isAddFieldModalShown = true;
@@ -24,12 +30,11 @@
 
     <main>
         <div class="sidebar" in:fly={{ delay: 300, x: -16 }}>
-            {#each $form.screens as screen}
+            {#each $form.screens as screen (screen.key)}
                 <Card
                     title={screen.title}
                     description={screen.description}
                     selected={$selectedScreen === screen.key}
-                    deletable={$form.screens.length > 1}
                     on:click={() => ($selectedScreen = screen.key)}
                     on:delete={() => deleteScreen(screen.key)}
                 />
@@ -40,37 +45,39 @@
 
         {#if screen}
             <div class="fields" in:fly={{ delay: 400, y: 16 }}>
-                <div class="field">
-                    <h3>
-                        <EditableText bind:value={$form.screens[$selectedScreenIndex].title} />
-                    </h3>
-                    <p>
-                        <EditableText bind:value={$form.screens[$selectedScreenIndex].description} />
-                    </p>
-                </div>
+                {#key $selectedScreenIndex}
+                    <div class="field">
+                        <h3>
+                            <EditableText bind:value={$form.screens[$selectedScreenIndex].title} />
+                        </h3>
+                        <p>
+                            <EditableText bind:value={$form.screens[$selectedScreenIndex].description} />
+                        </p>
+                    </div>
 
-                {#each screen.fields as field, index}
-                    <FieldEditor {field} {index}>
-                        <div class="container">
-                            <div>
-                                <Label title="Field key" description="Unique value, that will be used as a key for this input field" />
-                                <Input bind:value={field.fieldKey} />
+                    {#each screen.fields as field, index (field.key)}
+                        <FieldEditor {field} {index}>
+                            <div class="container">
+                                <div>
+                                    <Label title="Field key" description="Unique value, that will be used as a key for this input field" />
+                                    <Input bind:value={field.fieldKey} />
+                                </div>
+                                <div>
+                                    <Label title="Default Value" description="Initial value, that will be put inside the input" />
+                                    <Input bind:value={field.defaultValue} />
+                                </div>
+                                <div>
+                                    <Label title="Placeholder" description="Filler text that shares some characteristics of text" />
+                                    <Input bind:value={field.placeholder} />
+                                </div>
                             </div>
-                            <div>
-                                <Label title="Default Value" description="Initial value, that will be put inside the input" />
-                                <Input bind:value={field.defaultValue} />
-                            </div>
-                            <div>
-                                <Label title="Placeholder" description="Filler text that shares some characteristics of a real written text" />
-                                <Input bind:value={field.placeholder} />
-                            </div>
-                        </div>
-                    </FieldEditor>
-                {/each}
+                        </FieldEditor>
+                    {/each}
 
-                <div class="buttons">
-                    <Button position="right" style="neutral" on:click={showAddFieldModal}>Add Field</Button>
-                </div>
+                    <div class="buttons">
+                        <Button position="right" style="neutral" on:click={showAddFieldModal}>Add Field</Button>
+                    </div>
+                {/key}
             </div>
         {/if}
     </main>
@@ -100,9 +107,9 @@
         max-width: 20rem;
         padding: 2rem;
         padding-bottom: 4rem;
-        background-color: #fff9f2;
+        background-color: var(--background);
         border-right: 1px solid;
-        border-color: #ece6e3;
+        border-color: var(--border);
     }
 
     .fields {
@@ -117,7 +124,7 @@
     .field {
         padding: 2rem 2.25rem;
         border-bottom: 1px solid;
-        border-color: #ece6e3;
+        border-color: var(--border);
     }
 
     .buttons {
