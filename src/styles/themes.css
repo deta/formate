@@ -1,0 +1,45 @@
+:root,
+.orange {
+	--text: #4a4a4a;
+	--accent: #fda985;
+	--neutral: #ffe8d5;
+	--danger: #ff6363;
+	--border: #ece6e3;
+	--background: #fff9f2;
+}
+
+.red {
+	--text: #4a4a4a;
+	--accent: #ff7d7d;
+	--neutral: #ffd4d4;
+	--danger: #fe4646;
+	--border: #ece3e3;
+	--background: #fff2f2;
+}
+
+.green {
+	--text: #4a4a4a;
+	--accent: #70d481;
+	--neutral: #d2fbe0;
+	--danger: #ff6363;
+	--border: #e3eceb;
+	--background: #f9fff2;
+}
+
+.blue {
+	--text: #4a4a4a;
+	--accent: #76b6ff;
+	--neutral: #d5e9ff;
+	--danger: #ff6363;
+	--border: #e3e3ec;
+	--background: #f2f9ff;
+}
+
+.purple {
+	--text: #4a4a4a;
+	--accent: #b381ff;
+	--neutral: #e2d0fd;
+	--danger: #ff6363;
+	--border: #e9e3ec;
+	--background: #fcf2ff;
+}

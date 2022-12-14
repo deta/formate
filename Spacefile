@@ -1,35 +1,15 @@
 # Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
 v: 0
 app_name: "Formate"
-icon: ./icon.png
+icon: ./static/icon.png
 micros:
-  - name: editor
-    src: editor
+  - name: formate
+    src: ./
+    engine: nodejs16
     primary: true
-    engine: static
-    serve: dist
-    commands:
-      - npm run build
-
-  - name: api
-    src: api
-    engine: nodejs16
-    primary: false
-    path: api
-    run: "node index.js"
+    run: "PORT=8080 node dist"
     commands:
       - npm run build
     public_routes:
-      - /fetch
-      - /submit
-
-  - name: renderer
-    src: renderer
-    path: f
-    engine: nodejs16
-    primary: false
-    run: "node index.js"
-    commands:
-      - npm run build
-    public_routes:
-      - /*
+      - /f/*
+      - /api/submit
