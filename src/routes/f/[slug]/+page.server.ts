@@ -1,6 +1,6 @@
 import type { PageServerLoad, PageServerData } from './$types';
 import type { Form } from '$lib/types';
-import { error } from '@sveltejs/kit';
+import { error, type Actions } from '@sveltejs/kit';
 import db from '$lib/server/database';
 
 export const load: PageServerLoad = async ({ params }) => {
@@ -9,4 +9,10 @@ export const load: PageServerLoad = async ({ params }) => {
 
 	if (data.items.length === 0) throw error(404, 'Not found');
 	return data.items[0] as Form;
+};
+
+export const actions: Actions = {
+	submit: async (event) => {
+		// TODO log the user in
+	}
 };

@@ -2,7 +2,15 @@ import type { PageServerLoad } from './$types';
 import type { Form } from '$lib/types';
 import db from '$lib/server/database';
 
-export const load: PageServerLoad = async ({ params }) => {
-	const form = (await db.forms.get(params.key)) as unknown;
-	return { form: form as Form };
+/**
+ * Load form data & publication info
+ */
+export const load: PageServerLoad = async ({ params, fetch }) => {
+	const request = await fetch(`/api/forms/${params.key}`);
+	const data = await request.json();
+
+	return { 
+		form: data.form as Form,
+		publication: {}
+	};
 };

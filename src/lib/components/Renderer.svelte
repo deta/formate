@@ -28,6 +28,19 @@
 	$: screen = form?.screens?.[currentScreenIndex];
 
 	/**
+	 * Go to previous screen
+	 */
+	function back() {
+		if (!visible) return;
+		visible = false;
+
+		setTimeout(() => {
+			if (currentScreenIndex > 0) currentScreenIndex -= 1;
+			visible = true;
+		}, 300);
+	}
+
+	/**
 	 * Go to next screen
 	 */
 	function next() {
@@ -57,7 +70,9 @@
 	}
 
 	onMount(() => {
-		visible = true;
+		setTimeout(() => {
+			visible = true;
+		}, 300);
 	});
 </script>
 
@@ -70,8 +85,13 @@
 		{#if !finished}
 			<div class="form" in:fly={{ duration: 200, y: 8 }} out:fly={{ duration: 200, y: -8 }}>
 				<div class="heading">
-					<h2>{screen.title}</h2>
-					<p>{screen.description}</p>
+					{#if screen?.title}
+						<h2>{screen.title}</h2>
+					{/if}
+
+					{#if screen?.description}
+						<p>{screen.description}</p>
+					{/if}
 				</div>
 
 				<div class="fields">
@@ -83,9 +103,15 @@
 					{/each}
 				</div>
 
-				<Button position="right" on:click={next}>
-					{currentScreenIndex === form.screens.length - 1 ? 'Submit' : 'Next Question'}
-				</Button>
+				<div class="buttons">
+					{#if currentScreenIndex > 0}
+						<Button on:click={back} style="neutral">Previous</Button>
+					{/if}
+
+					<Button on:click={next}>
+						{currentScreenIndex === form.screens.length - 1 ? 'Submit' : 'Next question'}
+					</Button>
+				</div>
 			</div>
 		{:else}
 			<div class="card finished" transition:fly={{ duration: 500, y: 8 }}>
@@ -96,9 +122,9 @@
 
 			<div class="info" in:fly={{ duration: 500, delay: 500 }}>
 				<span in:fly={{ duration: 500, y: 8, delay: 600 }}>Built with</span>
-				<a href="/" in:fly={{ duration: 500, y: 8, delay: 700 }}>Formate</a>
+				<a href="https://alpha.deta.space/discovery/@kirlovon/formate" in:fly={{ duration: 500, y: 8, delay: 700 }}>Formate</a>
 				<span in:fly={{ duration: 500, y: 8, delay: 800 }}>, powered by</span>
-				<a href="/" in:fly={{ duration: 500, y: 8, delay: 900 }}>Deta Space</a>
+				<a href="https://alpha.deta.space/" in:fly={{ duration: 500, y: 8, delay: 900 }}>Deta Space</a>
 			</div>
 		{/if}
 	{/if}
@@ -215,11 +241,18 @@
 		border: 2px solid;
 		border-radius: 0.5rem;
 		padding: 1rem 1.25rem;
-		box-shadow: 0 0 1rem -0.2rem var(--neutral);
+		box-shadow: 0 0 2rem -0.25rem var(--neutral);
 		border-color: var(--accent);
 	}
 
 	.info > * {
 		display: block;
+	}
+
+	.buttons {
+		margin-left: auto;
+		display: flex;
+		gap: 1rem;
+		flex-direction: row;
 	}
 </style>

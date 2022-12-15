@@ -8,28 +8,30 @@
 	export let prefix: string = undefined;
 	export let icon: ConstructorOfATypedSvelteComponent = undefined;
 	export let placeholder: string = '';
+	export let readonly: boolean = false;
+	export let spellcheck: boolean = false;
 
-	let inputElemenet: HTMLInputElement;
+	let inputElement: HTMLInputElement;
 
 	// Focus on the input element
-	const focus = () => inputElemenet && inputElemenet.focus();
+	const focus = () => inputElement && inputElement.focus();
 
 	// Handle inputs
 	const handleInput = (event: any) => {
+		if (readonly) return;
 		value = type.match(/^(number|range)$/) ? +event.target.value : event.target.value;
 	};
 </script>
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
 <div>
 	<div class="input-wrapper" class:disabled class:error>
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		{#if prefix}
 			<span class="prefix" on:click={focus}>{prefix}</span>
 		{/if}
 
-		<input bind:this={inputElemenet} on:input={handleInput} on:change on:keyup on:click on:focus on:blur {placeholder} {type} {value} />
+		<input bind:this={inputElement} on:input={handleInput} on:change on:keyup on:click on:focus on:blur {placeholder} {type} {value} {spellcheck} {disabled} {readonly} />
 
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		{#if icon}
 			<span class="icon" on:click={focus}>
 				<svelte:component this={icon} />
@@ -52,11 +54,17 @@
 		padding: 0 1.25rem;
 		overflow-x: auto;
 		overflow-y: hidden;
+		min-height: 1.5rem;
+		min-width: 1.5rem;
 		transition: border-color 0.1s ease;
 	}
 
 	.input-wrapper:focus-within {
 		border-color: var(--accent);
+	}
+
+	.input-wrapper:focus-within .icon :global(svg *) {
+		stroke: var(--accent);
 	}
 
 	.input-wrapper.disabled {
@@ -74,6 +82,7 @@
 
 	input::placeholder {
 		opacity: 0.5;
+		font-weight: 300;
 	}
 
 	input,
@@ -91,17 +100,26 @@
 
 	.prefix,
 	.icon {
-		opacity: 0.3;
 		user-select: none;
 		min-width: fit-content;
 	}
 
 	.icon {
-		margin-left: 0.25rem;
+		margin-left: 0.5rem;
+		margin-right: -0.25rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	.icon :global(svg) {
 		display: block;
+		width: 1.5rem;
+		height: 1.5rem;
+	}
+
+	.icon :global(svg *) {
+		stroke: var(--border);
 	}
 
 	.error-message {

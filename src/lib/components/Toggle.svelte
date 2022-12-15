@@ -1,9 +1,12 @@
 <script lang="ts">
+	import Checkmark from './icons/Checkmark.svelte';
 	export let active: boolean = false;
 </script>
 
-<button class:active on:click>
-	<slot />
+<button class:active class:with-checkmark={!$$slots.default} on:click={() => active = !active}>
+	<slot>
+		<Checkmark />
+	</slot>
 </button>
 
 <style>
@@ -31,6 +34,8 @@
 		font-size: 1rem;
 		line-height: 1rem;
 		padding: 1rem 1.25rem;
+		min-height: 1.5rem;
+		min-width: 1.5rem;
 		background-color: white;
 		transition: 0.1s ease;
 	}
@@ -46,5 +51,24 @@
 	button.active {
 		color: var(--accent);
 		border-color: var(--accent);
+	}
+
+	button :global(svg) {
+		display: block;
+		width: 1rem;
+		height: 1rem;
+		transform: scale(1.5);
+	}
+
+	button :global(svg *) {
+		stroke: var(--border);
+	}
+
+	button.active :global(svg *) {
+		stroke: var(--accent);
+	}
+
+	.with-checkmark {
+		padding: 1rem;
 	}
 </style>

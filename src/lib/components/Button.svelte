@@ -32,7 +32,9 @@
 		font-size: 1rem;
 		line-height: 1rem;
 		border-radius: 0.5rem;
-		padding: 1rem 1.25rem;
+		padding: 1rem 1.5rem;
+		min-height: 1rem;
+		min-width: 1rem;
 		background-color: var(--accent);
 		transition: 0.1s ease;
 	}
@@ -88,6 +90,8 @@
 	}
 
 	.small {
+		min-height: 1rem;
+		min-width: 1rem;
 		padding: 0.75rem 1.25rem;
 	}
 

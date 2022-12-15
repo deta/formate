@@ -18,5 +18,5 @@ export const POST: RequestHandler = async ({ request }) => {
 	if (!data) throw error(400, { message: 'Body is not specified' });
 
 	const form = await db.forms.insert(data);
-	return json({ success: true, form });
+	return json({ form });
 };

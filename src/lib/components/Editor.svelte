@@ -9,6 +9,7 @@
 	import Label from '$lib/components/Label.svelte';
 	import { form, addScreen, selectedScreen, deleteScreen, selectedScreenIndex } from '$lib/stores/editor';
 	import { openAddFieldModal } from '$lib/stores/modals';
+	import Toggle from './Toggle.svelte';
 
 	// Update color scheme of the editor
 	$: if ($form.color) {
@@ -51,6 +52,12 @@
 								<Label title="Field key" description="Unique value, that will be used as a key for this input field" />
 								<Input bind:value={field.fieldKey} />
 							</div>
+							<div>
+								<Label title="Is Required" description="Unique value, that will be used as a key for this input field" />
+								<Toggle bind:active={field.required} />
+							</div>
+						</div>
+						<div class="container">
 							<div>
 								<Label title="Default Value" />
 								<Input bind:value={field.defaultValue} />

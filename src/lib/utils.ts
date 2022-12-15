@@ -6,7 +6,14 @@ import { writable, derived, get } from 'svelte/store';
  * @returns
  */
 export function createSlug(value: string) {
-	return value.toLowerCase().trim().split(/\s+/g).join('-');
+	return value
+		.toLowerCase()
+		.trim()
+		.replace(/\s+/g, '-')
+		.replace(/[^\w-]+/g, '')
+		.replace(/--+/g, '-')
+		.replace(/^-+/, '')
+		.replace(/-+$/, '');
 }
 
 /**

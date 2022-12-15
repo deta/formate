@@ -29,9 +29,10 @@ export interface Screen {
 
 export interface Form {
 	key: string;
+	hash: string;
+	update: number;
 	name: string;
 	slug: string;
-	font: string;
 	style: Style;
 	color: ColorScheme;
 	css?: string;
@@ -40,8 +41,38 @@ export interface Form {
 
 export interface Publication {
 	key: string;
-	form: string;
-	date: string;
+	hash: string;
+	update: number;
 	slug: string;
 	content: string;
 }
+
+export const fieldTypes = {
+	short: {
+		name: 'Short Text'
+	},
+	long: {
+		name: 'Long Text'
+	},
+	number: {
+		name: 'Number'
+	},
+	checkbox: {
+		name: 'Checkbox'
+	},
+	dropdown: {
+		name: 'Dropdown'
+	},
+	select: {
+		name: 'Select'
+	},
+	email: {
+		name: 'Email'
+	},
+	phone: {
+		name: 'Phone Number'
+	},
+	link: {
+		name: 'Link'
+	}
+};

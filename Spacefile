@@ -7,9 +7,12 @@ micros:
     src: ./
     engine: nodejs16
     primary: true
-    run: "PORT=8080 node dist"
+    run: "PORT=8080 node build"
     commands:
       - npm run build
+    include:
+      - build
+      - static
     public_routes:
       - /f/*
       - /api/submit

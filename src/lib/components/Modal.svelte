@@ -95,7 +95,7 @@
 		height: 100%;
 		overflow-x: hidden;
 		overflow-y: auto;
-		gap: 2rem;
+		gap: 2.5rem;
 	}
 
 	.tab:hover,

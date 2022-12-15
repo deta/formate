@@ -1,6 +1,6 @@
 :root {
 	font-size: 16px;
-	font-family: 'Inter', sans-serif;
+	font-family: 'Inter', system, sans-serif;
 }
 
 * {
@@ -15,6 +15,11 @@ body {
 	overflow-x: hidden;
 }
 
+::selection {
+	color: white;
+	background: var(--accent);
+}
+
 @supports (font-variation-settings: normal) {
 	:root {
 		font-family: 'Inter var', sans-serif;
@@ -23,18 +28,18 @@ body {
 
 @media screen and (max-width: 800px) {
 	:root {
-		font-size: 12px;
+		font-size: 14px;
 	}
 }
 
 @media screen and (max-width: 600px) {
 	:root {
-		font-size: 8px;
+		font-size: 12px;
 	}
 }
 
 @media screen and (max-width: 400px) {
 	:root {
-		font-size: 4px;
+		font-size: 8px;
 	}
 }

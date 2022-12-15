@@ -5,7 +5,8 @@ import { GET } from '$lib/http';
 
 // Load all forms
 export const load: PageServerLoad = async ({ fetch }) => {
-	const req = await fetch('/api/forms');
-	const data = await req.json();
+	const request = await fetch('/api/forms');
+	const data = await request.json();
+	
 	return { forms: data.forms };
 };
