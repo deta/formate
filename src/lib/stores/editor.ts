@@ -1,9 +1,10 @@
-import type { Form } from '$lib/types';
+import type { Form, Publication } from '$lib/types';
 import { writable, get, derived } from 'svelte/store';
 import { nanoid } from 'nanoid';
 import { GET, POST, DELETE, PUT } from '$lib/http';
 import { invalidateAll } from '$app/navigation';
 import { browser } from '$app/environment';
+import { createSlug } from '$lib/utils';
 
 // Current opened form
 export const form = writable<Form>();
@@ -17,7 +18,7 @@ export const selectedScreenIndex = derived([selectedScreen, form], ([screenKey, 
 	return index === -1 ? 0 : index;
 });
 
-// Send updates to the server
+// Send form updates to the server
 let timer: NodeJS.Timeout;
 form.subscribe((value) => {
 	if (!browser) return;
@@ -81,22 +82,24 @@ export function deleteScreen(key: string) {
 
 /**
  * Add new field
- * @param type Field type
- */
+A */
 export function addField(type: string) {
 	form.update((value) => {
 		const screenIndex = get(selectedScreenIndex);
 		const fieldsCount = value.screens[screenIndex].fields.length;
+		const capitalizedType = type.charAt(0).toUpperCase() + type.slice(1);
+		const title = `${capitalizedType} field #${fieldsCount}`;
 
 		value.screens[screenIndex].fields.push({
 			key: nanoid(),
 			type: type,
+			title: title,
+			fieldKey: createSlug(`${type} ${nanoid(4)}`),
 			required: false,
 			defaultValue: '',
 			placeholder: '',
-			fieldKey: 'sdf',
-			title: `New input field #${fieldsCount}`
 		});
+
 
 		return value;
 	});
@@ -114,6 +117,28 @@ export function deleteField(key: string) {
 			return field.key !== key;
 		});
 
+		return value;
+	});
+}
+
+export function moveField(key: string, direction: 'up' | 'down') {
+	form.update((value) => {
+		const screenIndex = get(selectedScreenIndex);
+		const fields = value.screens[screenIndex].fields;
+
+		const fieldIndex = fields.findIndex((field) => field.key === key);
+		if (fieldIndex === -1) return value;
+
+		// Pick next index
+		const nextFieldIndex = direction === 'up' ? fieldIndex - 1 : fieldIndex + 1;
+		if (nextFieldIndex < 0 || nextFieldIndex >= fields.length) return value;
+
+		// Swap elements
+		const fieldData = fields[fieldIndex];
+		fields.splice(fieldIndex, 1);
+		fields.splice(nextFieldIndex, 0, fieldData);
+
+		value.screens[screenIndex].fields = fields;
 		return value;
 	});
 }

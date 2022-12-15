@@ -1,14 +1,26 @@
 <script lang="ts">
 	import { fly, fade } from 'svelte/transition';
 	import { hideModals } from '$lib/stores/modals';
+	import { createEventDispatcher } from 'svelte';
 
 	export let title: string;
 	export let paddings: boolean = true;
 	export let tabs: string[] = [];
 	export let currentTab: string = tabs?.[0] || '';
 
+	// Dispatch close event
+	const dispatch = createEventDispatcher();
+
 	// Handle click on tab
 	const createTabHandler = (tab: string) => () => (currentTab = tab);
+
+	/**
+	 * Hide modal
+	 */
+	function hide() {
+		dispatch('hide');
+		hideModals();
+	}
 </script>
 
 <div class="wrapper" transition:fade={{ duration: 200 }}>
@@ -25,7 +37,7 @@
 	</div>
 
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
-	<div class="overlay" on:click={hideModals} />
+	<div class="overlay" on:click={hide} />
 </div>
 
 <style>
@@ -104,7 +116,8 @@
 	}
 
 	.paddings {
-		padding: 2rem 2.5rem;
+		padding: 2.5rem;
+		padding-bottom: 3rem;
 	}
 
 	h2 {

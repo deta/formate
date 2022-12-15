@@ -3,10 +3,12 @@ import type { Form } from '$lib/types';
 import { error } from '@sveltejs/kit';
 import db from '$lib/server/database';
 
-export const load: PageServerLoad = async ({ params }) => {
+export const load: PageServerLoad = async ({ params, fetch }) => {
 	const key = params.key;
-	const data = (await db.forms.get(key)) as unknown;
 
-	if (!data) throw error(404, 'Not found');
-	return data as Form;
+	const response = await fetch(`/api/forms/${key}`);
+	const data = await response.json() as { form: Form };
+
+	if (!data?.form) throw error(404, 'Form not found');
+	return data.form;
 };

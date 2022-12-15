@@ -30,7 +30,6 @@ export interface Screen {
 export interface Form {
 	key: string;
 	hash: string;
-	update: number;
 	name: string;
 	slug: string;
 	style: Style;
@@ -42,9 +41,9 @@ export interface Form {
 export interface Publication {
 	key: string;
 	hash: string;
-	update: number;
+	date: number;
 	slug: string;
-	content: string;
+	content: Form;
 }
 
 export const fieldTypes = {

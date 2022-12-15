@@ -6,11 +6,14 @@
 	import AddFieldModal from '$lib/components/modals/AddFieldModal.svelte';
 	import { openedModal } from '$lib/stores/modals';
 	import { form, selectedScreenIndex } from '$lib/stores/editor';
+	import { publication } from '$lib/stores/publication';
 
 	export let data: PageData;
 
-	// Automatically set data as form
+	// Automatically set form & publication data
 	$: $form = data.form;
+	$: $publication = data.publication;
+
 </script>
 
 <svelte:head>

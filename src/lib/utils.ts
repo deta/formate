@@ -1,4 +1,6 @@
+import type { Form } from './types';
 import { writable, derived, get } from 'svelte/store';
+import md5 from 'md5';
 
 /**
  * Create URL slug
@@ -8,7 +10,6 @@ import { writable, derived, get } from 'svelte/store';
 export function createSlug(value: string) {
 	return value
 		.toLowerCase()
-		.trim()
 		.replace(/\s+/g, '-')
 		.replace(/[^\w-]+/g, '')
 		.replace(/--+/g, '-')
@@ -59,4 +60,22 @@ export function HeadlessForm<T>(initial: T, validators: { [key in keyof T]?: (va
 	};
 
 	return { values, errors, hasErrors, resetValues, resetErrors, resetKeyError, validate };
+}
+
+/**
+ * Generate form data hash
+ * @param form Form to create hash from
+ */
+export function getFormHash(form: Form) {
+	const content = JSON.stringify({
+		key: form.key,
+		name: form.name,
+		slug: form.slug,
+		style: form.style,
+		css: form.css,
+		color: form.color,
+		screens: form.screens
+	});
+
+	return md5(content);
 }

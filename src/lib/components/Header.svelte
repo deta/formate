@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
+	import { goto } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
 	import ArrowLeft from '$lib/components/icons/ArrowLeft.svelte';
-	import { form } from '$lib/stores/editor';
 	import Publication from './modals/Publication.svelte';
-	import { POST } from '$lib/http';
-	import { openSettingsModal } from '$lib/stores/modals';
 	import Rocket from './icons/Rocket.svelte';
+	import { openSettingsModal } from '$lib/stores/modals';
+	import { forceSave, form } from '$lib/stores/editor';
+	import { POST } from '$lib/http';
 
 	let isPublicationShow = false;
 
@@ -20,14 +21,22 @@
 	function togglePublish() {
 		isPublicationShow = !isPublicationShow;
 	}
+
+	/**
+	 * Go back to forms list
+	 */
+	async function goBack() {
+		await forceSave();
+		await goto('/');
+	}
 </script>
 
 <header>
 	<div class="left" in:fly={{ y: 8, duration: 200 }}>
-		<a class="go-back" href="/">
+		<button class="go-back" on:click={goBack}>
 			<ArrowLeft />
 			<span>Back to forms</span>
-		</a>
+		</button>
 	</div>
 
 	<div class="center" in:fly={{ delay: 100, y: 8, duration: 200 }}>

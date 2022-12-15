@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { fly, slide } from 'svelte/transition';
+	import { onMount } from 'svelte';
 	import Input from '../Input.svelte';
 	import Label from '../Label.svelte';
 	import Toggle from '../Toggle.svelte';
 	import Button from '../Button.svelte';
-	import { onMount } from 'svelte';
 	import Copy from '../icons/Copy.svelte';
+	import { createPublication, deletePublication, publication, loading } from '$lib/stores/publication';
 	import { form } from '$lib/stores/editor';
 
 	// Click outside event
@@ -14,29 +15,32 @@
 	// Publication window element
 	let element: HTMLElement;
 
-	let isPublic: boolean = false;
+	// Is publication exists
+	$: isPublic = $publication !== null;
 
 	/**
 	 * Copy URL on click
 	 * @param event Click event
 	 */
 	function copyPublicURL(event: MouseEvent) {
-		event.target.select();
-		navigator.clipboard.writeText(`${window.location.origin}/f/${$form.slug}`);
+		(event.target as HTMLInputElement).select();
+		navigator.clipboard.writeText(`${window.location.origin}/f/${$publication.slug}`);
 	}
 
 	/**
 	 * Make form public
 	 */
 	function makePublic() {
-		isPublic = true;
+		if (isPublic || $loading) return;
+		createPublication($form);
 	}
 
 	/**
 	 * Make form private
 	 */
 	function makePrivate() {
-		isPublic = false;
+		if (!isPublic || $loading) return;
+		deletePublication($form.key);
 	}
 
 	/**
@@ -57,19 +61,19 @@
 
 <div class="publication" bind:this={element} transition:fly|local={{ duration: 200, y: -8 }}>
 	<div class="buttons">
-		<Toggle active={isPublic} on:click={makePublic}>Public</Toggle>
-		<Toggle active={!isPublic} on:click={makePrivate}>Private</Toggle>
+		<Toggle value={isPublic} on:click={makePublic} controlled>Public</Toggle>
+		<Toggle value={!isPublic} on:click={makePrivate} controlled>Private</Toggle>
 	</div>
 
 	{#if isPublic}
 		<div class="publication-info" transition:slide|local={{ duration: 200 }}>
 			<div>
 				<Label title="Public URL" description="Click to copy & share it with your users!" />
-				<Input value="{window.location.origin}/f/{$form.slug}" icon={Copy} on:click={copyPublicURL} readonly />
+				<Input value="{window.location.origin}/f/{$publication.slug}" icon={Copy} on:click={copyPublicURL} readonly />
 			</div>
 
 			<div>
-				<Label title="Update published form" description="You have some changes, thats not visible to your users." />
+				<Label title="Update form" description="You have changes that are not in the published version" />
 				<Button style="neutral" small>Apply changes</Button>
 			</div>
 		</div>
@@ -83,7 +87,7 @@
 		display: flex;
 		overflow: hidden;
 		flex-direction: column;
-		min-width: 24rem;
+		min-width: 26rem;
 		top: calc(100% + 1.5rem);
 		right: 2rem;
 		padding: 0 2rem;

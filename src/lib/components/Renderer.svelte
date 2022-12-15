@@ -1,10 +1,10 @@
 <script lang="ts">
+	import type { Form } from '$lib/types';
 	import { onMount, createEventDispatcher } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Label from '$lib/components/Label.svelte';
-	import type { Form } from '$lib/types';
 
 	// Dispatch events
 	const dispatch = createEventDispatcher<{ submit: Record<string, any> }>();
@@ -26,6 +26,11 @@
 
 	// Current screen
 	$: screen = form?.screens?.[currentScreenIndex];
+
+	// On renderer mount
+	onMount(() => {
+		setTimeout(() => (visible = true), 300);
+	});
 
 	/**
 	 * Go to previous screen
@@ -68,12 +73,6 @@
 			visible = true;
 		}, 300);
 	}
-
-	onMount(() => {
-		setTimeout(() => {
-			visible = true;
-		}, 300);
-	});
 </script>
 
 <svelte:head>

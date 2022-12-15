@@ -1,24 +1,44 @@
 <script lang="ts">
 	import type { Field } from '../types';
 	import { fly } from 'svelte/transition';
-	import { deleteField, form, selectedScreenIndex } from '$lib/stores/editor';
+	import { deleteField, form, moveField, selectedScreenIndex } from '$lib/stores/editor';
 	import TrashBin from './icons/TrashBin.svelte';
 	import Input from './Input.svelte';
 
 	import Cursor from './icons/Cursor.svelte';
 	import EditableText from './EditableText.svelte';
+	import ArrowDown from './icons/ArrowDown.svelte';
+	import ArrowLeft from './icons/ArrowLeft.svelte';
+	import ArrowUp from './icons/ArrowUp.svelte';
 
 	const icons = {
 		'Short text': Cursor
 	};
 
+	// Field data
 	export let field: Field;
+
+	// Index inside the fields list
 	export let index: number = 0;
+
+	// Total fields amount
+	$: totalFields = $form?.screens?.[$selectedScreenIndex]?.fields?.length || 0;
+
 </script>
 
 <div class="field" in:fly={{ x: -8, delay: 100 * index }} out:fly|local={{ x: 8, delay: 100 * index }}>
 	<div class="heading">
-		<button on:click={() => deleteField(field.key)}><TrashBin /></button>
+		<div class="buttons">
+			{#if index > 0}
+				<button on:click={() => moveField(field.key, 'up')}><ArrowUp /></button>
+			{/if}
+						
+			{#if index < totalFields - 1}
+				<button on:click={() => moveField(field.key, 'down')}><ArrowDown /></button>
+			{/if}
+
+			<button class="delete" on:click={() => deleteField(field.key)}><TrashBin /></button>
+		</div>
 
 		<div class="icon">
 			<svelte:component this={icons[field.type]} />
@@ -47,6 +67,7 @@
 		padding: 2rem 2.25rem;
 		border-bottom: 1px solid;
 		border-color: var(--border);
+		background-color: white;
 	}
 
 	.icon {
@@ -106,10 +127,11 @@
 		gap: 1.5rem;
 	}
 
-	button {
-		all: unset;
+	.buttons {
 		position: absolute;
-		cursor: pointer;
+		display: flex;
+		flex-direction: row;
+		gap: 1rem;
 		top: 0;
 		right: 0;
 		opacity: 0;
@@ -117,16 +139,23 @@
 		transition: 0.1s ease;
 	}
 
-	.field:hover button {
-		opacity: 0.5;
+	.field:hover .buttons {
+		opacity: 1;
 		pointer-events: all;
+	}
+
+	button {
+		all: unset;
+		cursor: pointer;
+		opacity: 0.3;
+		transition: 0.1s ease;
 	}
 
 	button:hover {
 		opacity: 1 !important;
 	}
 
-	button:hover :global(svg *) {
+	.delete:hover :global(svg *) {
 		stroke: var(--danger);
 	}
 </style>

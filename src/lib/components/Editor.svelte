@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { fly, slide } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
+	import { flip } from 'svelte/animate';
+
 	import Button from '$lib/components/Button.svelte';
 	import Card from '$lib/components/Card.svelte';
 	import EditableText from '$lib/components/EditableText.svelte';
 	import FieldEditor from '$lib/components/FieldEditor.svelte';
-	import Header from '$lib/components/Header.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Label from '$lib/components/Label.svelte';
 	import { form, addScreen, selectedScreen, deleteScreen, selectedScreenIndex } from '$lib/stores/editor';
@@ -46,28 +47,30 @@
 				</div>
 
 				{#each $form.screens[$selectedScreenIndex].fields as field, index (field.key)}
-					<FieldEditor {field} {index}>
-						<div class="container">
-							<div>
-								<Label title="Field key" description="Unique value, that will be used as a key for this input field" />
-								<Input bind:value={field.fieldKey} />
+					<div animate:flip={{ duration: 300 }}>
+						<FieldEditor {field} {index}>
+							<div class="container">
+								<div>
+									<Label title="Field key" description="Unique value, that will be used as a key for this input field" />
+									<Input bind:value={field.fieldKey} />
+								</div>
+								<div>
+									<Label title="Is Required" description="Unique value, that will be used as a key for this input field" />
+									<Toggle bind:value={field.required} />
+								</div>
 							</div>
-							<div>
-								<Label title="Is Required" description="Unique value, that will be used as a key for this input field" />
-								<Toggle bind:active={field.required} />
+							<div class="container">
+								<div>
+									<Label title="Default Value" />
+									<Input bind:value={field.defaultValue} />
+								</div>
+								<div>
+									<Label title="Placeholder" />
+									<Input bind:value={field.placeholder} />
+								</div>
 							</div>
-						</div>
-						<div class="container">
-							<div>
-								<Label title="Default Value" />
-								<Input bind:value={field.defaultValue} />
-							</div>
-							<div>
-								<Label title="Placeholder" />
-								<Input bind:value={field.placeholder} />
-							</div>
-						</div>
-					</FieldEditor>
+						</FieldEditor>
+					</div>
 				{/each}
 
 				<div class="buttons">

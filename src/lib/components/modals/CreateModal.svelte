@@ -45,7 +45,6 @@
 
 		// Set default values
 		data.key = data.key || nanoid();
-		data.font = data.font || 'system';
 		data.style = data.style || 'clean';
 		data.color = data.color || 'orange';
 		data.slug = data.slug || createSlug(data.name);

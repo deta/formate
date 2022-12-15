@@ -7,6 +7,14 @@
 
 	// Inputs data
 	let inputs: Record<any, any> = {};
+
+	/**
+	 * Handle form submit
+	 * @param data Inputs data
+	 */
+	async function submit(data: any) {
+		console.log(data);
+	}
 </script>
 
-<Renderer form={data} bind:inputs on:submit={() => console.log()} />
+<Renderer form={data} bind:inputs on:submit={({ detail }) => submit(detail)} />

@@ -1,9 +1,26 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
 	import Checkmark from './icons/Checkmark.svelte';
-	export let active: boolean = false;
+
+	// Is toggle active
+	export let value: boolean = false;
+
+	// Set to true if value controlled from the outside
+	export let controlled: boolean = false;
+
+	// Click event
+	const dispath = createEventDispatcher();
+
+	/**
+	 * Toggle
+	 */
+	function toggle() {
+		if (!controlled) value = !value;
+		dispath('click');
+	}
 </script>
 
-<button class:active class:with-checkmark={!$$slots.default} on:click={() => active = !active}>
+<button class:active={value} class:with-checkmark={!$$slots.default} on:click={toggle}>
 	<slot>
 		<Checkmark />
 	</slot>

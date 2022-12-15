@@ -29,6 +29,12 @@ export const PUT: RequestHandler = async ({ request, params }) => {
  * DELETE Form by Key
  */
 export const DELETE: RequestHandler = async ({ params }) => {
+
+	// Delete form
 	await db.forms.delete(params.key);
+
+	// Delete publication
+	await db.publications.delete(params.key);
+
 	return json({ success: true });
 };
