@@ -50,6 +50,7 @@
 	textarea::placeholder {
 		opacity: 0.5;
 		font-weight: 300;
+		font-style: italic;
 	}
 
 	textarea {

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
+	import { addField } from '$lib/stores/editor';
 
 	import Button from '$lib/components/Button.svelte';
 	import Card from '$lib/components/Card.svelte';
@@ -11,12 +12,19 @@
 	import { form, addScreen, selectedScreen, deleteScreen, selectedScreenIndex } from '$lib/stores/editor';
 	import { openAddFieldModal } from '$lib/stores/modals';
 	import Toggle from './Toggle.svelte';
+	import { browser } from '$app/environment';
 
 	// Update color scheme of the editor
-	$: if ($form.color) {
+	$: if (browser && $form.color) {
 		document.documentElement.className = '';
 		document.documentElement.classList.add($form.color);
 	}
+
+	function addFieldTemp() {
+		addField('short')
+	}
+
+	let errors = {};
 </script>
 
 <div class="editor">
@@ -48,25 +56,25 @@
 
 				{#each $form.screens[$selectedScreenIndex].fields as field, index (field.key)}
 					<div animate:flip={{ duration: 300 }}>
-						<FieldEditor {field} {index}>
+						<FieldEditor bind:field {index}>
 							<div class="container">
 								<div>
-									<Label title="Field key" description="Unique value, that will be used as a key for this input field" />
-									<Input bind:value={field.fieldKey} />
+									<Label title="Column" required />
+									<Input bind:value={field.column} placeholder="Unique value, that will be used as a column key" />
 								</div>
 								<div>
-									<Label title="Is Required" description="Unique value, that will be used as a key for this input field" />
-									<Toggle bind:value={field.required} />
+									<Label title="Is Required" />
+									<Toggle bind:value={field.required}  />
 								</div>
 							</div>
 							<div class="container">
 								<div>
 									<Label title="Default Value" />
-									<Input bind:value={field.defaultValue} />
+									<Input bind:value={field.initial} placeholder="Initial input value" />
 								</div>
 								<div>
 									<Label title="Placeholder" />
-									<Input bind:value={field.placeholder} />
+									<Input bind:value={field.placeholder} placeholder="Filler text" />
 								</div>
 							</div>
 						</FieldEditor>
@@ -74,7 +82,7 @@
 				{/each}
 
 				<div class="buttons">
-					<Button position="right" style="neutral" on:click={openAddFieldModal}>Add Field</Button>
+					<Button position="right" style="neutral" on:click={addFieldTemp}>Add Field</Button>
 				</div>
 			</div>
 		{/key}
@@ -139,11 +147,18 @@
 
 	.container {
 		display: flex;
+		flex-direction: row;
 		width: 100%;
-		gap: 1rem;
+		gap: 1.5rem;
 	}
 
 	.container > * {
 		width: 100%;
+	}
+
+	@media screen and (max-width: 800px) {
+		.container {
+			flex-direction: column;
+		}
 	}
 </style>

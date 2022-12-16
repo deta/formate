@@ -21,6 +21,11 @@
 		if (readonly) return;
 		value = type.match(/^(number|range)$/) ? +event.target.value : event.target.value;
 	};
+
+	// Scroll to element if error appeared
+	$: if (error) {
+		inputElement?.scrollIntoView({ block: 'center' });
+	}
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -30,7 +35,21 @@
 			<span class="prefix" on:click={focus}>{prefix}</span>
 		{/if}
 
-		<input bind:this={inputElement} on:input={handleInput} on:change on:keyup on:click on:focus on:blur {placeholder} {type} {value} {spellcheck} {disabled} {readonly} />
+		<input
+			bind:this={inputElement}
+			on:input={handleInput}
+			on:change
+			on:keyup
+			on:click
+			on:focus
+			on:blur
+			{placeholder}
+			{type}
+			{value}
+			{spellcheck}
+			{disabled}
+			{readonly}
+		/>
 
 		{#if icon}
 			<span class="icon" on:click={focus}>
@@ -80,11 +99,6 @@
 		color: var(--danger);
 	}
 
-	input::placeholder {
-		opacity: 0.5;
-		font-weight: 300;
-	}
-
 	input,
 	.prefix,
 	.icon {
@@ -96,6 +110,17 @@
 
 	input {
 		width: 100%;
+	}
+
+	input::placeholder {
+		opacity: 0.5;
+		font-weight: 300;
+		font-style: italic;
+	}
+
+	.prefix {
+		opacity: 0.5;
+		letter-spacing: -0.05rem;
 	}
 
 	.prefix,

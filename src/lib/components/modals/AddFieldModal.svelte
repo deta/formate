@@ -25,7 +25,7 @@
 <Modal title="Add field" paddings={false}>
 	<div class="fields">
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div class="field" on:click={() => selectField('Short text')}>
+		<div class="field" on:click={() => selectField('short')}>
 			<div class="icon">
 				<Cursor />
 			</div>
@@ -114,8 +114,6 @@
 				<p>Input for HTTP links.</p>
 			</div>
 		</div>
-
-		<!-- TODO: Add later -->
 
 		<!-- <div class="field">
 			<div class="icon">

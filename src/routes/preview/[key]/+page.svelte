@@ -1,8 +1,11 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import Renderer from '$lib/components/Renderer.svelte';
 	import { onMount } from 'svelte';
-	import { browser } from '$app/environment';
+	import Renderer from '$lib/components/Renderer.svelte';
+
+	// Enable server rendering
+	export const ssr = true;
+	export const csr = true;
 
 	// Form data
 	export let data: PageData;
@@ -14,13 +17,6 @@
 	onMount(() => {
 		console.log('🔎 Formate Preview', data);
 	});
-
-	// Append global styles
-	if (browser) {
-		const element = document.createElement('style');
-		element.textContent = data.css;
-		document.head.append(element);
-	}
 </script>
 
 <div class="preview">
@@ -31,7 +27,7 @@
 
 <style>
 	.preview {
-		position: absolute;
+		position: fixed;
 		top: 1rem;
 		left: 1rem;
 		font-size: 0.75rem;

@@ -119,10 +119,10 @@
 		background-color: rgba(0, 0, 0, 0.5);
 	}
 
-    .selection :global(svg) {
-        width: 2rem;
-        height: 2rem;
-    }
+	.selection :global(svg) {
+		width: 2rem;
+		height: 2rem;
+	}
 
 	.selection :global(svg *) {
 		stroke: white;

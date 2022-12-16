@@ -1,9 +1,11 @@
+import type { fieldsData } from './fields';
+
 export interface InputField {
 	key: string;
+	column: string;
 	type: string;
 	title: string;
-	defaultValue: string;
-	fieldKey: string;
+	initial: string;
 	placeholder: string;
 	required: boolean;
 }
@@ -18,8 +20,16 @@ export type Style = 'clean' | 'framed' | 'long';
  */
 export type ColorScheme = 'red' | 'orange' | 'green' | 'blue' | 'purple';
 
+/**
+ * Type of the field
+ */
+export type FieldType = keyof typeof fieldsData;
+
 export type Field = InputField;
 
+/**
+ * Form screen type
+ */
 export interface Screen {
 	key: string;
 	title: string;
@@ -27,51 +37,27 @@ export interface Screen {
 	fields: Field[];
 }
 
+/**
+ * Form structure
+ */
 export interface Form {
 	key: string;
-	hash: string;
 	name: string;
 	slug: string;
 	style: Style;
 	color: ColorScheme;
+	table: string;
 	css?: string;
 	screens: Screen[];
 }
 
+/**
+ * Publication structure
+ */
 export interface Publication {
 	key: string;
-	hash: string;
 	date: number;
 	slug: string;
 	content: Form;
 }
 
-export const fieldTypes = {
-	short: {
-		name: 'Short Text'
-	},
-	long: {
-		name: 'Long Text'
-	},
-	number: {
-		name: 'Number'
-	},
-	checkbox: {
-		name: 'Checkbox'
-	},
-	dropdown: {
-		name: 'Dropdown'
-	},
-	select: {
-		name: 'Select'
-	},
-	email: {
-		name: 'Email'
-	},
-	phone: {
-		name: 'Phone Number'
-	},
-	link: {
-		name: 'Link'
-	}
-};

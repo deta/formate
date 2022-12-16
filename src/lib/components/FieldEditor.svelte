@@ -3,17 +3,11 @@
 	import { fly } from 'svelte/transition';
 	import { deleteField, form, moveField, selectedScreenIndex } from '$lib/stores/editor';
 	import TrashBin from './icons/TrashBin.svelte';
-	import Input from './Input.svelte';
-
 	import Cursor from './icons/Cursor.svelte';
 	import EditableText from './EditableText.svelte';
 	import ArrowDown from './icons/ArrowDown.svelte';
-	import ArrowLeft from './icons/ArrowLeft.svelte';
 	import ArrowUp from './icons/ArrowUp.svelte';
-
-	const icons = {
-		'Short text': Cursor
-	};
+	import { fieldsData } from '$lib/fields';
 
 	// Field data
 	export let field: Field;
@@ -32,7 +26,7 @@
 			{#if index > 0}
 				<button on:click={() => moveField(field.key, 'up')}><ArrowUp /></button>
 			{/if}
-						
+
 			{#if index < totalFields - 1}
 				<button on:click={() => moveField(field.key, 'down')}><ArrowDown /></button>
 			{/if}
@@ -41,15 +35,13 @@
 		</div>
 
 		<div class="icon">
-			<svelte:component this={icons[field.type]} />
+			<svelte:component this={fieldsData[field.type].icon} />
 		</div>
 
 		<div>
-			<small class="type">{field.type}</small>
+			<small class="type">{fieldsData[field.type]?.name}</small>
 			<h4 class="title">
-				{#if $form?.screens?.[$selectedScreenIndex]?.fields?.[index]?.title}
-					<EditableText bind:value={$form.screens[$selectedScreenIndex].fields[index].title} />
-				{/if}
+				<EditableText bind:value={$form.screens[$selectedScreenIndex].fields[index].title} />
 			</h4>
 		</div>
 	</div>

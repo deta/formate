@@ -5,6 +5,10 @@
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Label from '$lib/components/Label.svelte';
+	import { browser } from '$app/environment';
+	import { sleep } from '$lib/utils';
+
+	const TRANSITION_SPEED = 400;
 
 	// Dispatch events
 	const dispatch = createEventDispatcher<{ submit: Record<string, any> }>();
@@ -14,6 +18,9 @@
 
 	// Inputs data
 	export let inputs = {};
+
+	// Inputs data
+	export let errors = {};
 
 	// Is form finished
 	export let finished = form.screens.length === 0;
@@ -27,51 +34,84 @@
 	// Current screen
 	$: screen = form?.screens?.[currentScreenIndex];
 
+	// Check if errors exists
+	$: hasErrors = Object.keys(errors).some((key) => typeof errors[key] === 'string');
+
+	// Append global styles
+	if (browser && form?.css) {
+		const element = document.createElement('style');
+		element.textContent = form.css;
+		document.head.append(element);
+	}
+
+	// Initial values
+	if (browser) {
+		form.screens.forEach((screen) => {
+			screen.fields.forEach((field) => {
+				inputs[field.column] = field.initial || '';
+			});
+		});
+	}
+
 	// On renderer mount
 	onMount(() => {
-		setTimeout(() => (visible = true), 300);
+		setTimeout(() => (visible = true), TRANSITION_SPEED);
 	});
 
 	/**
 	 * Go to previous screen
 	 */
-	function back() {
-		if (!visible) return;
+	async function back() {
 		visible = false;
+		await sleep(TRANSITION_SPEED / 2);
 
-		setTimeout(() => {
-			if (currentScreenIndex > 0) currentScreenIndex -= 1;
-			visible = true;
-		}, 300);
+		errors = {};
+		if (currentScreenIndex > 0) currentScreenIndex -= 1;
+
+		await sleep(TRANSITION_SPEED / 2);
+		visible = true;
 	}
 
 	/**
 	 * Go to next screen
 	 */
-	function next() {
-		if (!visible) return;
+	async function next() {
+		const isValid = validate();
+		if (!isValid) return;
+
 		visible = false;
+		await sleep(TRANSITION_SPEED / 2);
 
-		setTimeout(() => {
+		if (currentScreenIndex >= form.screens.length - 1) {
+			finished = true;
+			dispatch('submit', inputs);
+		} else {
 			currentScreenIndex += 1;
+		}
 
-			if (currentScreenIndex >= form.screens.length) {
-				finished = true;
+		await sleep(TRANSITION_SPEED / 2);
+		visible = true;
+	}
 
-				dispatch('submit', inputs);
+	/**
+	 * Validate form data
+	 */
+	function validate() {
+		let isValid = true;
 
-				// await fetch('/api/submit', {
-				// 	method: 'POST',
-				// 	body: JSON.stringify(inputs),
-				// 	headers: {
-				// 		Accept: 'application/json',
-				// 		'Content-Type': 'application/json'
-				// 	}
-				// });
+		screen.fields.forEach((field) => {
+			const inputValue = inputs[field.column];
+
+			// If field required
+			if (field.required) {
+				if (inputValue.trim() === '') {
+					errors[field.key] = 'This field cant be empty';
+					isValid = false;
+				}
 			}
+		});
 
-			visible = true;
-		}, 300);
+		return isValid;
 	}
 </script>
 
@@ -79,10 +119,10 @@
 	<title>{form.name}</title>
 </svelte:head>
 
-<div class="wrapper {form.color}">
-	{#if visible}
+<div class="wrapper {form.color} {form.style}">
+	<div class="container">
 		{#if !finished}
-			<div class="form" in:fly={{ duration: 200, y: 8 }} out:fly={{ duration: 200, y: -8 }}>
+			<div class="form" class:hidden={!visible}>
 				<div class="heading">
 					{#if screen?.title}
 						<h2>{screen.title}</h2>
@@ -96,40 +136,48 @@
 				<div class="fields">
 					{#each screen.fields as field (field.key)}
 						<div>
-							<Label title={field.title} />
-							<Input placeholder={field?.placeholder} bind:value={inputs[field.fieldKey]} />
+							<Label title={field.title} required={field.required} />
+							<Input
+								placeholder={field?.placeholder}
+								bind:value={inputs[field.column]}
+								error={errors[field.key]}
+								on:keyup={() => (errors[field.key] = undefined)}
+							/>
 						</div>
 					{/each}
 				</div>
 
 				<div class="buttons">
-					{#if currentScreenIndex > 0}
+					{#if currentScreenIndex !== 0}
 						<Button on:click={back} style="neutral">Previous</Button>
 					{/if}
 
-					<Button on:click={next}>
-						{currentScreenIndex === form.screens.length - 1 ? 'Submit' : 'Next question'}
+					<Button on:click={next} disabled={hasErrors}>
+						{currentScreenIndex === form.screens.length - 1 ? 'Submit' : 'Next'}
 					</Button>
 				</div>
 			</div>
 		{:else}
-			<div class="card finished" transition:fly={{ duration: 500, y: 8 }}>
-				<div class="icon">🎉</div>
-				<h3>Thanks!</h3>
-				<p>Your data was successfully sent! Thanks for filling in!</p>
+			<div class="form finished" class:hidden={!visible}>
+				<div>
+					<div class="icon">🎉</div>
+					<h3>Thanks!</h3>
+					<p>Your data was successfully submited!</p>
+				</div>
 			</div>
 
-			<div class="info" in:fly={{ duration: 500, delay: 500 }}>
-				<span in:fly={{ duration: 500, y: 8, delay: 600 }}>Built with</span>
-				<a href="https://alpha.deta.space/discovery/@kirlovon/formate" in:fly={{ duration: 500, y: 8, delay: 700 }}>Formate</a>
-				<span in:fly={{ duration: 500, y: 8, delay: 800 }}>, powered by</span>
-				<a href="https://alpha.deta.space/" in:fly={{ duration: 500, y: 8, delay: 900 }}>Deta Space</a>
+			<div class="info" in:fly={{ duration: 500, delay: 500, y: 64 }}>
+				<span in:fly={{ duration: 500, y: 8, delay: 700 }}>Built with</span>
+				<a href="https://alpha.deta.space/discovery/@kirlovon/formate" in:fly={{ duration: 500, y: 8, delay: 800 }}>Formate</a>
+				<span in:fly={{ duration: 500, y: 8, delay: 900 }}>, powered by</span>
+				<a href="https://alpha.deta.space/" in:fly={{ duration: 500, y: 8, delay: 1000 }}>Deta Space</a>
 			</div>
 		{/if}
-	{/if}
+	</div>
 </div>
 
 <style>
+	h3,
 	h2,
 	p,
 	a {
@@ -160,6 +208,13 @@
 	}
 
 	.wrapper {
+		width: 100%;
+		min-height: 100vh;
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
+
+	.container {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -170,7 +225,7 @@
 	}
 
 	.form {
-		color: #636363;
+		color: var(--text);
 		position: relative;
 		display: flex;
 		flex-direction: column;
@@ -181,6 +236,13 @@
 		max-width: 40rem;
 		border-radius: 1rem;
 		background-color: white;
+		transition: 0.2s ease;
+	}
+
+	.form.hidden {
+		opacity: 0;
+		pointer-events: none;
+		transform: translateY(0.5rem);
 	}
 
 	.fields {
@@ -201,47 +263,38 @@
 
 	.icon {
 		font-size: 6rem;
+		margin-bottom: 1rem;
 	}
 
 	.finished h3 {
 		all: unset;
 		display: block;
 		font-weight: bold;
-		font-size: 6rem;
+		font-size: 4rem;
 	}
 
 	.finished p {
-		all: unset;
 		display: block;
 		font-size: 1rem;
 		font-weight: 300;
 	}
 
-	.card {
-		padding: 4rem;
-		border-radius: 1rem;
-		background-color: white;
-	}
-
-	.preview {
-		position: fixed;
-		top: 1rem;
-		right: 1rem;
-	}
-
 	.info {
+		position: fixed;
+		bottom: 0;
 		display: flex;
+		justify-content: center;
+		width: 100%;
+		margin: 0 auto;
 		gap: 0.25rem;
 		text-align: center;
 		font-style: italic;
 		font-size: 0.75rem;
 		font-weight: 300;
-		margin-top: 1rem;
-		border: 2px solid;
-		border-radius: 0.5rem;
+		margin-top: 3rem;
+		text-align: center;
 		padding: 1rem 1.25rem;
-		box-shadow: 0 0 2rem -0.25rem var(--neutral);
-		border-color: var(--accent);
+		background-color: white;
 	}
 
 	.info > * {
@@ -253,5 +306,40 @@
 		display: flex;
 		gap: 1rem;
 		flex-direction: row;
+	}
+
+	/* Framed form style */
+
+	.framed {
+		background-color: var(--accent);
+	}
+
+	/* Long form style */
+
+	.long {
+		background-color: var(--accent);
+	}
+
+	.long .container {
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+
+	.long .form {
+		border-radius: 0;
+		min-height: 100vh;
+	}
+
+	.long .form.hidden {
+		transform: none;
+	}
+
+	.long .finished {
+		border-radius: 0;
+		min-height: 100vh;
+	}
+
+	.long .info {
+		width: fit-content;
 	}
 </style>

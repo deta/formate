@@ -88,18 +88,17 @@ export function addField(type: string) {
 		const screenIndex = get(selectedScreenIndex);
 		const fieldsCount = value.screens[screenIndex].fields.length;
 		const capitalizedType = type.charAt(0).toUpperCase() + type.slice(1);
-		const title = `${capitalizedType} field #${fieldsCount}`;
+		const title = `${capitalizedType} input #${fieldsCount}`;
 
 		value.screens[screenIndex].fields.push({
 			key: nanoid(),
+			column: createSlug(`${type} ${nanoid(4)}`),
 			type: type,
 			title: title,
-			fieldKey: createSlug(`${type} ${nanoid(4)}`),
 			required: false,
-			defaultValue: '',
-			placeholder: '',
+			initial: '',
+			placeholder: ''
 		});
-
 
 		return value;
 	});

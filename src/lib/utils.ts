@@ -79,3 +79,10 @@ export function getFormHash(form: Form) {
 
 	return md5(content);
 }
+
+
+/**
+ * Async sleep function
+ * @param ms Time to sleep
+ */
+export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));

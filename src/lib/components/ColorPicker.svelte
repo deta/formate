@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import type { ColorScheme } from '../types';
 	export let value: ColorScheme = 'orange';
 
@@ -6,7 +7,7 @@
 	const colors: ColorScheme[] = ['red', 'orange', 'green', 'blue', 'purple'];
 
 	// Update color scheme of the editor
-	$: {
+	$: if (browser) {
 		document.documentElement.className = '';
 		document.documentElement.classList.add(value);
 	}

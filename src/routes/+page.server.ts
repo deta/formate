@@ -7,6 +7,6 @@ import { GET } from '$lib/http';
 export const load: PageServerLoad = async ({ fetch }) => {
 	const request = await fetch('/api/forms');
 	const data = await request.json();
-	
+
 	return { forms: data.forms };
 };

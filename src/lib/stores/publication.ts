@@ -1,10 +1,6 @@
 import type { Form, Publication } from '$lib/types';
-import { writable, get, derived } from 'svelte/store';
-import { nanoid } from 'nanoid';
-import { GET, POST, DELETE, PUT } from '$lib/http';
-import { invalidateAll } from '$app/navigation';
-import { browser } from '$app/environment';
-import { getFormHash } from '$lib/utils';
+import { writable } from 'svelte/store';
+import { DELETE, PUT } from '$lib/http';
 
 // Is publication creating or removing
 export const loading = writable<boolean>(false);
@@ -17,38 +13,37 @@ export const publication = writable<Publication | null>();
  * @param form Form to publish
  */
 export async function createPublication(form: Form) {
-    try {
-        const data: Publication = {
-            key: form.key,
-            slug: form.slug,
-            date: Date.now(),
-            hash: getFormHash(form),
-            content: form,
-        }
+	try {
+		const data: Publication = {
+			key: form.key,
+			slug: form.slug,
+			date: Date.now(),
+			content: form
+		};
 
-        loading.set(true);
-        publication.set(data);
+		loading.set(true);
+		publication.set(data);
 
-        await PUT(`/api/publications/${form.key}`, data);
-    } catch (error) {
-        console.error(error);
-    } finally {
-        loading.set(false);
-    }
+		await PUT(`/api/publications/${form.key}`, data);
+
+	} catch (error) {
+		console.error(error);
+	} finally {
+		loading.set(false);
+	}
 }
 
 /**
  * Make current form private
  */
 export async function deletePublication(formKey: string) {
-    try {
-        loading.set(true);
-        publication.set(null);
-        await DELETE(`/api/publications/${formKey}`);
-    } catch (error) {
-        console.error(error);
-    } finally {
-        loading.set(false);
-    }
+	try {
+		loading.set(true);
+		publication.set(null);
+		await DELETE(`/api/publications/${formKey}`);
+	} catch (error) {
+		console.error(error);
+	} finally {
+		loading.set(false);
+	}
 }
-

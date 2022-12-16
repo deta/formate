@@ -13,9 +13,3 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
 	if (!publication) throw error(404, 'Form not found');
 	return publication.content;
 };
-
-export const actions: Actions = {
-	submit: async (event) => {
-		// TODO log the user in
-	}
-};

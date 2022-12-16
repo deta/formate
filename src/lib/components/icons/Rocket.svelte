@@ -6,6 +6,12 @@
 		stroke-linecap="round"
 		stroke-linejoin="round"
 	/>
-	<path d="M7 14C4.87095 15.202 3.68415 17.5756 4 20C6.42443 20.3159 8.79803 19.1291 10 17" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+	<path
+		d="M7 14C4.87095 15.202 3.68415 17.5756 4 20C6.42443 20.3159 8.79803 19.1291 10 17"
+		stroke="black"
+		stroke-width="2"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+	/>
 	<circle cx="15" cy="9" r="1" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
 </svg>

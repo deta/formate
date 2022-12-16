@@ -4,16 +4,16 @@
 	import Editor from '$lib/components/Editor.svelte';
 	import SettingsModal from '$lib/components/modals/SettingsModal.svelte';
 	import AddFieldModal from '$lib/components/modals/AddFieldModal.svelte';
-	import { openedModal } from '$lib/stores/modals';
+	import { deleteFormCandidate, openedModal } from '$lib/stores/modals';
 	import { form, selectedScreenIndex } from '$lib/stores/editor';
 	import { publication } from '$lib/stores/publication';
+	import DeleteFormModal from '$lib/components/modals/DeleteFormModal.svelte';
 
 	export let data: PageData;
 
 	// Automatically set form & publication data
 	$: $form = data.form;
 	$: $publication = data.publication;
-
 </script>
 
 <svelte:head>
@@ -26,6 +26,10 @@
 
 {#if $openedModal === 'add_field'}
 	<AddFieldModal />
+{/if}
+
+{#if $deleteFormCandidate}
+	<DeleteFormModal />
 {/if}
 
 <div class="wrapper">

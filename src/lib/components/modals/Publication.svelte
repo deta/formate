@@ -46,7 +46,10 @@
 	/**
 	 * Apply form update
 	 */
-	function applyChanges() {}
+	function applyChanges() {
+		 if ($loading) return;
+		createPublication($form);
+	}
 
 	// Handle outside click
 	onMount(() => {
@@ -73,8 +76,8 @@
 			</div>
 
 			<div>
-				<Label title="Update form" description="You have changes that are not in the published version" />
-				<Button style="neutral" small>Apply changes</Button>
+				<Label title="Update form" description="Apply unpublished changes to the form." />
+				<Button style="neutral" on:click={applyChanges} small>Apply changes</Button>
 			</div>
 		</div>
 	{/if}

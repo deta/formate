@@ -1,15 +1,16 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { fly, slide, fade } from 'svelte/transition';
+	import { fly, slide } from 'svelte/transition';
 	import { onMount } from 'svelte';
 
 	import Animation from '$lib/components/Animation.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Plus from '$lib/components/icons/Plus.svelte';
 	import TrashBin from '$lib/components/icons/TrashBin.svelte';
-	import { openCreateFormModal, openedModal } from '$lib/stores/modals';
+	import { deleteFormCandidate, openCreateFormModal, openedModal, setFormDeleteCandidate } from '$lib/stores/modals';
 	import { DELETE } from '$lib/http';
 	import CreateModal from '$lib/components/modals/CreateModal.svelte';
+	import DeleteFormModal from '$lib/components/modals/DeleteFormModal.svelte';
 
 	export let data: PageData;
 
@@ -23,15 +24,6 @@
 	// Show UI on animation finish
 	let animationFinished = false;
 	const onAnimationStop = () => (animationFinished = true);
-
-	/**
-	 * Delete form
-	 * @param key Form key to delete
-	 */
-	async function deleteForm(key: string) {
-		forms = forms.filter((form) => form.key !== key);
-		await DELETE(`/api/forms/${key}`);
-	}
 </script>
 
 <svelte:head>
@@ -42,6 +34,10 @@
 	<CreateModal />
 {/if}
 
+{#if $deleteFormCandidate}
+	<DeleteFormModal />
+{/if}
+
 <div class="welcome orange">
 	<div class="content">
 		<div class="hero">
@@ -49,7 +45,7 @@
 
 			{#if animationFinished}
 				<h1 in:fly={{ y: -8, duration: 200 }}>formate</h1>
-				<p in:fly={{ y: -8, duration: 200, delay: 50 }}>Make forms in a matter of minutes</p>
+				<p in:fly={{ y: -8, duration: 200, delay: 50 }}>Build forms in a matter of minutes</p>
 			{/if}
 		</div>
 
@@ -63,7 +59,7 @@
 								<span class="name">{form.name}</span>
 							</a>
 
-							<button class="delete" on:click={() => deleteForm(form?.key)}>
+							<button class="delete" on:click={() => setFormDeleteCandidate(form.key)}>
 								<TrashBin />
 							</button>
 						</div>

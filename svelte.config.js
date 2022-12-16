@@ -7,6 +7,6 @@ export default {
 	// for more information about preprocessors
 	preprocess: vitePreprocess(),
 	kit: {
-		adapter: adapter({ out: 'build' })
+		adapter: adapter()
 	}
 };

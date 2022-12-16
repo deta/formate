@@ -5,14 +5,8 @@ icon: ./static/icon.png
 micros:
   - name: formate
     src: ./
-    engine: nodejs16
+    engine: svelte-kit
     primary: true
-    run: "PORT=8080 node build"
-    commands:
-      - npm run build
-    include:
-      - build
-      - static
     public_routes:
       - /f/*
       - /api/submit

@@ -4,7 +4,7 @@ import { Deta } from 'deta';
 const DETA_PROJECT_KEY = process.env.DETA_PROJECT_KEY || (await import('$env/static/private')).DETA_PROJECT_KEY;
 
 // Initiate Deta SDK
-const deta = Deta(DETA_PROJECT_KEY);
+export const deta = Deta(DETA_PROJECT_KEY);
 
 // Database table
 export default {

@@ -10,10 +10,8 @@
 	import ColorPicker from '../ColorPicker.svelte';
 
 	import { form } from '$lib/stores/editor';
-	import { goto, invalidate, invalidateAll } from '$app/navigation';
-	import { GET, POST, DELETE } from '$lib/http';
-
-	import { HeadlessForm } from '$lib/utils';
+	import { goto, invalidateAll } from '$app/navigation';
+	import { POST } from '$lib/http';
 	import { hideModals } from '$lib/stores/modals';
 
 	interface CreateFormValues {
@@ -21,32 +19,32 @@
 		color: ColorScheme;
 	}
 
-	const initialValues: CreateFormValues = {
+	// Form values
+	let inputs: CreateFormValues = {
 		name: '',
 		color: 'orange'
 	};
 
-	const validators = {
-		name: (value) => {
-			if (value.length < 4) throw new TypeError('Name must be at least 4 characters');
-		}
-	};
+	// Form errors
+	let errors: Partial<Record<keyof CreateFormValues, string | undefined>> = {};
 
-	const { errors, hasErrors, values, validate, resetKeyError } = HeadlessForm<CreateFormValues>(initialValues, validators);
+	// Check if errors exists
+	$: hasErrors = Object.keys(errors).some((key) => typeof errors[key] === 'string');
 
 	/**
 	 * Handle form submit
 	 */
 	async function submit() {
-		validate();
-		if ($hasErrors) return;
+		const isValid = validate();
+		if (!isValid) return;
 
-		const data: Partial<Form> = { ...$values };
+		const data: Partial<Form> = { ...inputs };
 
 		// Set default values
 		data.key = data.key || nanoid();
 		data.style = data.style || 'clean';
 		data.color = data.color || 'orange';
+		data.table = data.table || `submissions-${createSlug(data.name)}`;
 		data.slug = data.slug || createSlug(data.name);
 		data.screens = data.screens || [];
 
@@ -56,18 +54,33 @@
 		hideModals();
 		await goto(`/editor/${data.key}`);
 	}
+
+	/**
+	 * Validate form inputs
+	 */
+	function validate() {
+		let isValid = true;
+
+		if (!inputs.name || inputs.name.length < 4) {
+			errors.name = 'Name must be at least 4 characters';
+			isValid = false;
+		}
+
+		return isValid;
+	}
+
 </script>
 
 <Modal title="Create Form">
 	<div>
-		<Label title="Form Name" description="Name of your form, that will be displayed on the welcome page." />
-		<Input bind:value={$values.name} error={$errors.name} on:keyup={() => resetKeyError('name')} />
+		<Label title="Form Name" description="Name of your form, that will be displayed on the welcome page." required />
+		<Input bind:value={inputs.name} error={errors.name} on:keyup={() => errors.name = undefined} />
 	</div>
 
 	<div>
 		<Label title="Color Scheme" description="Accent color that will be used in the editor of your forms UI" />
-		<ColorPicker bind:value={$values.color} />
+		<ColorPicker bind:value={inputs.color} />
 	</div>
 
-	<Button position="right" on:click={submit} disabled={$hasErrors}>Create</Button>
+	<Button position="right" on:click={submit} disabled={hasErrors}>Create</Button>
 </Modal>
