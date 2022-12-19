@@ -3,12 +3,18 @@
 
 	export let value: string;
 
+	// ContentEditable element
 	let element: HTMLDivElement;
+
+	// Focuse on the element
 	const focus = () => element.focus();
+
+	// Disable Enter press to prevent newline
+	const disableNewline = (event: KeyboardEvent) => event.key === 'Enter' && event.preventDefault();
 </script>
 
 <div class="editable">
-	<div class="input" bind:this={element} spellcheck="false" contenteditable bind:textContent={value} />
+	<div class="input" bind:this={element} spellcheck="false" contenteditable on:keydown={disableNewline} bind:textContent={value} />
 
 	{#if !value}
 		<i class="input empty" on:keydown={focus} contenteditable>empty</i>
