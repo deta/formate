@@ -23,6 +23,7 @@
 <style>
 	.label {
 		margin-bottom: 0.75rem;
+		line-height: 1.5rem;
 	}
 
 	.star {
@@ -45,13 +46,11 @@
 		overflow: hidden;
 		font-size: 1rem;
 		font-weight: 700;
-		margin-bottom: 0.25rem;
 	}
 
 	p {
 		display: block;
-		font-size: 0.75rem;
-		line-height: 1rem;
+		font-size: 0.9rem;
 		opacity: 0.5;
 		font-weight: 300;
 	}

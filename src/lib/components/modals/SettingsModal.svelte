@@ -42,7 +42,7 @@
 		</div>
 
 		<div in:fly|local={{ duration: 200, x: -8, delay: 50 }}>
-			<Label title="Table Name" description="Name of the table, that will be used for storing submissions" required />
+			<Label title="Storage Table" description="Name of the table, that will be used for storing submissions" required />
 			<Input bind:value={$form.table} />
 		</div>
 

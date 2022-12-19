@@ -141,7 +141,7 @@
 	p {
 		all: unset;
 		display: block;
-		font-size: 1.25rem;
+		font-size: 1.5rem;
 		font-weight: 300;
 	}
 

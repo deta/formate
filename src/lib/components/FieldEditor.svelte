@@ -3,7 +3,6 @@
 	import { fly } from 'svelte/transition';
 	import { deleteField, form, moveField, selectedScreenIndex } from '$lib/stores/editor';
 	import TrashBin from './icons/TrashBin.svelte';
-	import Cursor from './icons/Cursor.svelte';
 	import EditableText from './EditableText.svelte';
 	import ArrowDown from './icons/ArrowDown.svelte';
 	import ArrowUp from './icons/ArrowUp.svelte';
@@ -101,7 +100,7 @@
 	.type {
 		opacity: 0.5;
 		font-weight: 400;
-		font-size: 0.75rem;
+		font-size: 0.9rem;
 		margin-bottom: 0.2rem;
 	}
 

@@ -60,7 +60,7 @@
 	}
 
 	.card p {
-		font-weight: lighter;
+		font-weight: 300;
 		opacity: 0.5;
 	}
 

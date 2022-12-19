@@ -29,7 +29,7 @@
 <Modal title="Delete Form">
 	<Label
 		title="Are you sure?"
-		description="It will be impossible to undo this action. All publications of this form will also be deleted. All data submited by users will remain."
+		description="This action cannot be undone. The published form won’t be available afterwards. Form submissions will not be deleted and will remain accessible through Base."
 	/>
 
 	<div class="buttons">

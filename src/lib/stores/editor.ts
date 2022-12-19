@@ -20,17 +20,26 @@ export const selectedScreenIndex = derived([selectedScreen, form], ([screenKey, 
 
 // Send form updates to the server
 let timer: NodeJS.Timeout;
+// let previousData: Form | undefined = undefined;
 form.subscribe((value) => {
 	if (!browser) return;
 	if (!value?.key) return;
-
 	if (timer) clearInterval(timer);
 
-	const key = value.key;
-	const data = structuredClone(value);
+	timer = setTimeout(async () => {
+		const key = value.key;
+		const data = structuredClone(value);
 
-	timer = setTimeout(() => {
-		PUT(`/api/forms/${key}`, data);
+		// if (!previousData) {
+		// 	previousData = data;
+		// 	return;
+		// }
+
+		// for(const key in data) {
+		// 	if (data[key] === previousData[key]) delete data[key];
+		// }
+
+		await PUT(`/api/forms/${key}`, data);
 	}, 500);
 });
 

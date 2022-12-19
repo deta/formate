@@ -3,14 +3,15 @@
 	import { fly, slide } from 'svelte/transition';
 	import { onMount } from 'svelte';
 
+
 	import Animation from '$lib/components/Animation.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Plus from '$lib/components/icons/Plus.svelte';
 	import TrashBin from '$lib/components/icons/TrashBin.svelte';
-	import { deleteFormCandidate, openCreateFormModal, openedModal, setFormDeleteCandidate } from '$lib/stores/modals';
-	import { DELETE } from '$lib/http';
 	import CreateModal from '$lib/components/modals/CreateModal.svelte';
 	import DeleteFormModal from '$lib/components/modals/DeleteFormModal.svelte';
+	import { deleteFormCandidate, hideModals, openCreateFormModal, openedModal, setFormDeleteCandidate } from '$lib/stores/modals';
+	import { afterNavigate } from '$app/navigation';
 
 	export let data: PageData;
 
@@ -19,8 +20,13 @@
 	// Reset styles to default ones
 	onMount(() => {
 		document.documentElement.className = '';
+		hideModals();
 	});
 
+	afterNavigate((navigation) => {
+		if (navigation?.from?.route?.id) animationFinished = true;
+		console.log(navigation);
+	})
 	// Show UI on animation finish
 	let animationFinished = false;
 	const onAnimationStop = () => (animationFinished = true);
@@ -55,7 +61,7 @@
 					{#each forms as form (form.key)}
 						<div class="item" transition:slide|local={{ duration: 200 }}>
 							<a class="info" href="/editor/{form.key}">
-								<span class="{form.color} indicator">⏺</span>
+								<div class="{form.color} indicator" />
 								<span class="name">{form.name}</span>
 							</a>
 
@@ -183,6 +189,8 @@
 	}
 
 	.info {
+		display: flex;
+		align-items: center;
 		padding: 1rem;
 		width: 100%;
 		overflow: hidden;
@@ -191,8 +199,12 @@
 	}
 
 	.indicator {
-		color: var(--accent);
-		margin-right: 0.25rem;
+		display: block;
+		width: 0.5rem;
+		height: 0.5rem;
+		border-radius: 50%;
+		background-color: var(--accent);
+		margin-right: 0.5rem;
 	}
 
 	.name {

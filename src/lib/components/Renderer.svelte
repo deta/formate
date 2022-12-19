@@ -230,8 +230,8 @@
 		display: flex;
 		flex-direction: column;
 		gap: 3rem;
-		padding: 3rem;
-		padding-bottom: 4rem;
+		padding: 4rem;
+		padding-bottom: 5rem;
 		width: 100%;
 		max-width: 40rem;
 		border-radius: 1rem;
@@ -270,12 +270,14 @@
 		all: unset;
 		display: block;
 		font-weight: bold;
-		font-size: 4rem;
+		font-size: 3rem;
+		line-height: 4rem;
 	}
 
 	.finished p {
 		display: block;
-		font-size: 1rem;
+		font-size: 1.25rem;
+		line-height: 1.5rem;
 		font-weight: 300;
 	}
 
@@ -289,7 +291,7 @@
 		gap: 0.25rem;
 		text-align: center;
 		font-style: italic;
-		font-size: 0.75rem;
+		font-size: 1rem;
 		font-weight: 300;
 		margin-top: 3rem;
 		text-align: center;

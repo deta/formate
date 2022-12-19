@@ -17,7 +17,7 @@
 	<div class="input" bind:this={element} spellcheck="false" contenteditable on:keydown={disableNewline} bind:textContent={value} />
 
 	{#if !value}
-		<i class="input empty" on:keydown={focus} contenteditable>empty</i>
+		<i class="input empty" on:keydown={focus} contenteditable readonly>empty</i>
 	{/if}
 
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
