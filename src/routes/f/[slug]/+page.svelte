@@ -1,7 +1,6 @@
 <script lang="ts">
-	import type { PageData } from './$types';
 	import Renderer from '$lib/components/Renderer.svelte';
-	import { POST } from '$lib/http';
+	import type { PageData } from './$types';
 
 	// Enable server rendering
 	export const ssr = true;
@@ -18,7 +17,11 @@
 	 * @param inputs Inputs data
 	 */
 	async function submit(inputs: any) {
-		await POST(`/api/submit?slug=${data.slug}`, { inputs })
+		await fetch(`/api/submit?slug=${data.slug}`, {
+			method: 'POST',
+			body: JSON.stringify({ inputs }),
+			headers: { 'Content-Type': 'application/json' }
+		});
 	}
 </script>
 

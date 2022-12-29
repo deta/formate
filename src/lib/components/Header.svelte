@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition';
-	import { goto } from '$app/navigation';
+	import { afterNavigate, goto } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
 	import ArrowLeft from '$lib/components/icons/ArrowLeft.svelte';
 	import Publication from './modals/Publication.svelte';
 	import Rocket from './icons/Rocket.svelte';
 	import { openSettingsModal } from '$lib/stores/modals';
 	import { forceSave, form } from '$lib/stores/editor';
-	import { POST } from '$lib/http';
+	import { createPublication, loading } from '$lib/stores/publication';
+	import { onMount } from 'svelte';
 
 	let isPublicationShow = false;
 
@@ -18,7 +19,13 @@
 		window.open(`/preview/${$form.key}`);
 	}
 
-	function togglePublish() {
+	/**
+	 * Updat
+	 */
+	async function togglePublish() {
+		if ($loading) return;
+
+		await createPublication($form);
 		isPublicationShow = !isPublicationShow;
 	}
 
@@ -32,18 +39,18 @@
 </script>
 
 <header>
-	<div class="left" in:fly={{ y: 8, duration: 200 }}>
+	<div class="left" in:fly={{ duration: 200, y: -8 }}>
 		<button class="go-back" on:click={goBack}>
 			<ArrowLeft />
 			<span>Back to forms</span>
 		</button>
 	</div>
 
-	<div class="center" in:fly={{ delay: 100, y: 8, duration: 200 }}>
+	<div class="center" in:fly={{ duration: 200, delay: 100, y: -8 }}>
 		<span class="form-name">{$form?.name}</span>
 	</div>
 
-	<div class="right" in:fly={{ delay: 200, y: 8, duration: 200 }}>
+	<div class="right" in:fly={{ duration: 200, delay: 200, y: -8 }}>
 		<Button small style="neutral" on:click={openSettingsModal}>Settings</Button>
 		<Button small style="neutral" on:click={openPreview}>Preview</Button>
 		<Button small on:click={togglePublish}>Publish<Rocket /></Button>

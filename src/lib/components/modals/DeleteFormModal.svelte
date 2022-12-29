@@ -1,16 +1,18 @@
 <script lang="ts">
+	import { goto, invalidateAll } from '$app/navigation';
 	import { deleteFormCandidate, hideModals } from '$lib/stores/modals';
 	import Button from '../Button.svelte';
 	import Label from '../Label.svelte';
 	import Modal from '../Modal.svelte';
-	import { DELETE } from '$lib/http';
-	import { goto, invalidateAll } from '$app/navigation';
 
 	/**
 	 * Confirm deletion
 	 */
 	async function confirm() {
-		await DELETE(`/api/forms/${$deleteFormCandidate}`);
+		await fetch(`/api/forms/${$deleteFormCandidate}`, {
+			method: 'DELETE'
+		});
+
 		$deleteFormCandidate = undefined;
 
 		await goto('/');

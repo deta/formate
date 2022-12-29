@@ -72,18 +72,18 @@
 
 	.overlay {
 		position: fixed;
+		cursor: pointer;
 		top: 0;
 		left: 0;
-		z-index: 9999;
-		cursor: pointer;
 		width: 100%;
 		height: 100%;
+		z-index: 9999;
 		background-color: rgba(0, 0, 0, 0.3);
 	}
 
 	.tabs {
 		display: flex;
-		gap: 1rem;
+		gap: 1.25rem;
 		width: 100%;
 		padding: 0 2.5rem;
 		background-color: var(--neutral);
@@ -94,10 +94,11 @@
 		opacity: 0.5;
 		cursor: pointer;
 		color: var(--accent);
-		padding-bottom: 0.5rem;
+		padding-bottom: 0.75rem;
 		font-size: 0.9rem;
 		font-weight: 400;
 		text-transform: capitalize;
+		transition: 0.1s ease;
 	}
 
 	.content {
@@ -108,6 +109,10 @@
 		overflow-x: hidden;
 		overflow-y: auto;
 		gap: 2.5rem;
+	}
+
+	.tab.active {
+		box-shadow: inset 0 -2px 0px var(--accent);
 	}
 
 	.tab:hover,

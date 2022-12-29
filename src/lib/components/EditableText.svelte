@@ -1,7 +1,11 @@
 <script lang="ts">
 	import Pencil from './icons/Pencil.svelte';
 
+	// Input value
 	export let value: string;
+
+	// Placeholder text
+	export let placeholder: string = 'empty';
 
 	// ContentEditable element
 	let element: HTMLDivElement;
@@ -17,7 +21,7 @@
 	<div class="input" bind:this={element} spellcheck="false" contenteditable on:keydown={disableNewline} bind:textContent={value} />
 
 	{#if !value}
-		<i class="input empty" on:keydown={focus} contenteditable readonly>empty</i>
+		<i class="input empty" on:keydown={focus} contenteditable>{placeholder}</i>
 	{/if}
 
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -35,7 +39,9 @@
 	}
 
 	.input {
+		word-break: break-all;
 		min-height: 1rem;
+		line-height: 1.5em;
 	}
 
 	.input,

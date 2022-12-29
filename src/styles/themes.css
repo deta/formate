@@ -4,6 +4,7 @@
 	--accent: #fda985;
 	--neutral: #ffe8d5;
 	--danger: #ff6363;
+	--warning: #ffaa50;
 	--border: #ece6e3;
 	--background: #fff9f2;
 }
@@ -13,6 +14,7 @@
 	--accent: #ff7d7d;
 	--neutral: #ffd4d4;
 	--danger: #fe4646;
+	--warning: #ffaa50;
 	--border: #ece3e3;
 	--background: #fff2f2;
 }
@@ -22,6 +24,7 @@
 	--accent: #70d481;
 	--neutral: #d2fbe0;
 	--danger: #ff6363;
+	--warning: #ffaa50;
 	--border: #e3eceb;
 	--background: #f9fff2;
 }
@@ -31,6 +34,7 @@
 	--accent: #76b6ff;
 	--neutral: #d5e9ff;
 	--danger: #ff6363;
+	--warning: #ffaa50;
 	--border: #e3e3ec;
 	--background: #f2f9ff;
 }
@@ -40,6 +44,7 @@
 	--accent: #b381ff;
 	--neutral: #e2d0fd;
 	--danger: #ff6363;
+	--warning: #ffaa50;
 	--border: #e9e3ec;
 	--background: #fcf2ff;
 }

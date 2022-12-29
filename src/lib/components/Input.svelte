@@ -1,14 +1,34 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition';
 
+	// Input valie
 	export let value: string = '';
+
+	// Set to true to disable any interactions
 	export let disabled: boolean = false;
+
+	// Error message
 	export let error: string | boolean = false;
+
+	// Warning message
+	export let warning: string | boolean = false;
+
+	// Type of the input
 	export let type: 'date' | 'time' | 'email' | 'text' | 'tel' | 'url' | 'number' = 'text';
+
+	// Prefix input text
 	export let prefix: string = undefined;
+
+	// Postfix icon
 	export let icon: ConstructorOfATypedSvelteComponent = undefined;
+
+	// Placeholder content
 	export let placeholder: string = '';
+
+	// Set to true to disable editing
 	export let readonly: boolean = false;
+
+	// Spellcheck input value
 	export let spellcheck: boolean = false;
 
 	let inputElement: HTMLInputElement;
@@ -30,7 +50,7 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div>
-	<div class="input-wrapper" class:disabled class:error>
+	<div class="input-wrapper" class:disabled class:error class:warning>
 		{#if prefix}
 			<span class="prefix" on:click={focus}>{prefix}</span>
 		{/if}
@@ -59,7 +79,9 @@
 	</div>
 
 	{#if typeof error === 'string'}
-		<div class="error-message" transition:slide={{ duration: 100 }}>{error}</div>
+		<div class="error-message" transition:slide|local={{ duration: 100 }}>{error}</div>
+	{:else if typeof warning === 'string'}
+		<div class="warning-message" transition:slide|local={{ duration: 100 }}>{warning}</div>
 	{/if}
 </div>
 
@@ -89,6 +111,14 @@
 	.input-wrapper.disabled {
 		opacity: 0.5;
 		user-select: none;
+	}
+
+	.input-wrapper.warning {
+		border-color: var(--warning);
+	}
+
+	.input-wrapper.warning .prefix {
+		color: var(--warning);
 	}
 
 	.input-wrapper.error {
@@ -147,11 +177,19 @@
 		stroke: var(--border);
 	}
 
-	.error-message {
-		color: var(--danger);
+	.error-message,
+	.warning-message {
 		padding: 0 1rem;
 		margin-top: 0.5rem;
-		font-size: 0.75rem;
+		font-size: 0.9rem;
 		font-weight: 300;
+	}
+
+	.warning-message {
+		color: var(--warning);
+	}
+
+	.error-message {
+		color: var(--danger);
 	}
 </style>

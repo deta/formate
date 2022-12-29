@@ -1,47 +1,70 @@
-import type { Form, Publication } from '$lib/types';
-import { writable, get, derived } from 'svelte/store';
-import { nanoid } from 'nanoid';
-import { GET, POST, DELETE, PUT } from '$lib/http';
-import { invalidateAll } from '$app/navigation';
 import { browser } from '$app/environment';
+import { invalidateAll } from '$app/navigation';
+import type { FieldType, Form, Screen } from '$lib/types';
 import { createSlug } from '$lib/utils';
+import { nanoid } from 'nanoid';
+import { get, writable } from 'svelte/store';
 
 // Current opened form
 export const form = writable<Form>();
 
-// Current selected screen
-export const selectedScreen = writable<string>();
+// Current opened screen
+export const screen = writable<Screen | undefined>();
 
-// Current selected screen index
-export const selectedScreenIndex = derived([selectedScreen, form], ([screenKey, form]) => {
-	const index = form?.screens?.findIndex((screen) => screen.key === screenKey);
-	return index === -1 ? 0 : index;
+// Collisions of the columns names
+export const columnsCollision = writable<Set<string>>(new Set());
+
+// Find colums collisions
+let columnsTimer: NodeJS.Timeout;
+form.subscribe((value) => {
+	if (!browser) return;
+	if (!value?.screens) return;
+	if (columnsTimer) clearTimeout(columnsTimer);
+
+	columnsTimer = setTimeout(() => {
+		const columns = new Set<string>();
+		const collisions = new Set<string>();
+
+		value.screens.forEach((screen) => {
+			screen.fields.forEach((field) => {
+				if (columns.has(field.column)) collisions.add(field.column);
+				columns.add(field.column)
+			});
+		});
+
+		console.log(collisions);
+		columnsCollision.set(collisions);
+	}, 300);
 });
 
-// Send form updates to the server
-let timer: NodeJS.Timeout;
-// let previousData: Form | undefined = undefined;
+// Sync form with the server
+let syncTimer: NodeJS.Timeout;
 form.subscribe((value) => {
 	if (!browser) return;
 	if (!value?.key) return;
-	if (timer) clearInterval(timer);
+	if (syncTimer) clearTimeout(syncTimer);
 
-	timer = setTimeout(async () => {
+	syncTimer = setTimeout(async () => {
 		const key = value.key;
 		const data = structuredClone(value);
 
-		// if (!previousData) {
-		// 	previousData = data;
-		// 	return;
-		// }
-
-		// for(const key in data) {
-		// 	if (data[key] === previousData[key]) delete data[key];
-		// }
-
-		await PUT(`/api/forms/${key}`, data);
+		await fetch(`/api/forms/${key}`, {
+			method: 'PUT',
+			body: JSON.stringify(data),
+			headers: { 'Content-Type': 'application/json' }
+		});
 	}, 500);
 });
+
+/**
+ * Select screen
+ * @param key Key of the screen
+ */
+export function selectScreen(key: string) {
+	const formData = get(form);
+	const found = formData.screens.find((screen) => screen.key === key);
+	screen.set(found);
+}
 
 /**
  * Force-Save current form state to the database
@@ -50,10 +73,16 @@ export async function forceSave() {
 	const formData = get(form);
 	if (!formData?.key) return;
 
-	if (timer) clearInterval(timer);
+	if (syncTimer) clearInterval(syncTimer);
 	const key = formData.key;
 	const data = structuredClone(formData);
-	await PUT(`/api/forms/${key}`, data);
+
+	await fetch(`/api/forms/${key}`, {
+		method: 'PUT',
+		body: JSON.stringify(data),
+		headers: { 'Content-Type': 'application/json' }
+	});
+
 	await invalidateAll();
 }
 
@@ -61,19 +90,18 @@ export async function forceSave() {
  * Add new scren
  */
 export function addScreen() {
-	const screenKey = nanoid();
-
-	form.update((value) => {
-		value.screens.push({
-			key: screenKey,
-			title: `New screen #${value.screens.length}`,
-			description: `You can put screen description here.`,
+	form.update((draft) => {
+		const newScreen: Screen = {
+			key: nanoid(),
+			title: `New screen #${draft.screens.length}`,
+			description: undefined,
 			fields: []
-		});
+		}
 
-		selectedScreen.set(screenKey);
+		draft.screens.push(newScreen);
+		screen.set(newScreen);
 
-		return value;
+		return draft;
 	});
 }
 
@@ -81,72 +109,89 @@ export function addScreen() {
  * Remove screen
  */
 export function deleteScreen(key: string) {
-	form.update((value) => {
-		value.screens = value.screens.filter((screen) => screen.key !== key);
-		if (get(selectedScreen) === key) selectedScreen.set(value.screens?.at(-1)?.key);
+	form.update((draft) => {
+		const screenIndex = draft.screens.findIndex((screen) => screen.key === key)
 
-		return value;
+		// Delete screen
+		draft.screens.splice(screenIndex, 1);
+
+		// If current screen is deleted
+		if (get(screen)?.key === key) {
+			screen.set(draft.screens?.[screenIndex] || draft.screens?.at(-1) || undefined);
+		}
+
+		return draft;
 	});
 }
 
 /**
  * Add new field
 A */
-export function addField(type: string) {
-	form.update((value) => {
-		const screenIndex = get(selectedScreenIndex);
-		const fieldsCount = value.screens[screenIndex].fields.length;
+export function addField(type: FieldType) {
+	screen.update((draft) => {
 		const capitalizedType = type.charAt(0).toUpperCase() + type.slice(1);
-		const title = `${capitalizedType} input #${fieldsCount}`;
+		const title = `${capitalizedType} input #${draft.fields.length}`;
+		const column = createSlug(`${type} ${nanoid(4)}`);
+		const key = nanoid();
 
-		value.screens[screenIndex].fields.push({
-			key: nanoid(),
-			column: createSlug(`${type} ${nanoid(4)}`),
-			type: type,
-			title: title,
-			required: false,
-			initial: '',
-			placeholder: ''
-		});
+		if (type === 'short') {
+			draft.fields.push({
+				key,
+				column,
+				type,
+				title,
+				required: false,
+				initial: '',
+				placeholder: ''
+			});
+		}
 
-		return value;
+		if (type === 'long') {
+			draft.fields.push({
+				key,
+				column,
+				type,
+				title,
+				required: false,
+				initial: '',
+				placeholder: ''
+			});
+		}
+
+		return draft;
 	});
 }
 
 /**
- * Remove field
- * @param type Field type
+ * Remove field from screen
+ * @param key Field key
  */
 export function deleteField(key: string) {
-	form.update((value) => {
-		const screenIndex = get(selectedScreenIndex);
-
-		value.screens[screenIndex].fields = value.screens[screenIndex].fields.filter((field) => {
-			return field.key !== key;
-		});
-
-		return value;
+	screen.update((draft) => {
+		draft.fields = draft.fields.filter((value) => value.key !== key);
+		return draft;
 	});
 }
 
+/**
+ * Move field up or down
+ * @param key Field key
+ * @param direction Direction to move to
+ */
 export function moveField(key: string, direction: 'up' | 'down') {
-	form.update((value) => {
-		const screenIndex = get(selectedScreenIndex);
-		const fields = value.screens[screenIndex].fields;
-
-		const fieldIndex = fields.findIndex((field) => field.key === key);
-		if (fieldIndex === -1) return value;
+	screen.update((draft) => {
+		const fieldIndex = draft.fields.findIndex((field) => field.key === key);
+		if (fieldIndex === -1) return draft;
 
 		// Pick next index
 		const nextFieldIndex = direction === 'up' ? fieldIndex - 1 : fieldIndex + 1;
-		if (nextFieldIndex < 0 || nextFieldIndex >= fields.length) return value;
+		if (nextFieldIndex < 0 || nextFieldIndex >= draft.fields.length) return draft;
 
 		// Swap elements
-		const fieldData = fields[fieldIndex];
-		fields.splice(fieldIndex, 1);
-		fields.splice(nextFieldIndex, 0, fieldData);
+		const fieldData = draft.fields[fieldIndex];
+		draft.fields.splice(fieldIndex, 1);
+		draft.fields.splice(nextFieldIndex, 0, fieldData);
 
-		value.screens[screenIndex].fields = fields;
-		return value;
+		return draft;
 	});
 }

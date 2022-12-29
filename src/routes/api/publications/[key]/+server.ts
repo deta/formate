@@ -18,10 +18,9 @@ export const PUT: RequestHandler = async ({ request, params }) => {
 	const key = params.key;
 	const data = await request.json();
 	if (!data) throw error(400, { message: 'Body is not specified' });
+	if (data.key) delete data.key;
 
-	await db.publications.delete(key);
-	const publication = await db.publications.insert(data, key);
-
+	const publication = await db.publications.update(data, key);
 	return json({ publication });
 };
 

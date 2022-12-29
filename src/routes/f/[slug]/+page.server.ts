@@ -1,8 +1,8 @@
-import type { PageServerLoad, PageServerData } from './$types';
 import type { Publication } from '$lib/types';
-import { error, type Actions } from '@sveltejs/kit';
-import db from '$lib/server/database';
+import { error } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
 
+// Load published form
 export const load: PageServerLoad = async ({ params, fetch }) => {
 	const slug = params.slug;
 

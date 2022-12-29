@@ -1,22 +1,16 @@
 <script lang="ts">
 	import { addField } from '$lib/stores/editor';
 	import { hideModals } from '$lib/stores/modals';
-	import Checkbox from '../icons/Checkbox.svelte';
-	import Cursor from '../icons/Cursor.svelte';
-	import Link from '../icons/Link.svelte';
-	import ListCheck from '../icons/ListCheck.svelte';
-	import Mail from '../icons/Mail.svelte';
-	import Paragraph from '../icons/Paragraph.svelte';
-	import Phone from '../icons/Phone.svelte';
-	import Selector from '../icons/Selector.svelte';
-	import SortNumbers from '../icons/SortNumbers.svelte';
+	import type { FieldType } from '$lib/types';
 	import Modal from '../Modal.svelte';
 
+	import { fieldsMetadata } from '$lib/metadata';
+
 	/**
-	 *
+	 * On field select
 	 * @param type
 	 */
-	function selectField(type: string) {
+	function selectField(type: FieldType) {
 		addField(type);
 		hideModals();
 	}
@@ -24,116 +18,17 @@
 
 <Modal title="Add field" paddings={false}>
 	<div class="fields">
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div class="field" on:click={() => selectField('short')}>
-			<div class="icon">
-				<Cursor />
-			</div>
-			<div>
-				<h3>Short Text</h3>
-				<p>Small text input for less than 100 symbols. Perfect for names.</p>
-			</div>
-		</div>
-
-		<div class="field">
-			<div class="icon">
-				<Paragraph />
-			</div>
-			<div>
-				<h3>Long Text</h3>
-				<p>Big text input without symbols count limit. Perfect for descriptions.</p>
-			</div>
-		</div>
-
-		<div class="field">
-			<div class="icon">
-				<SortNumbers />
-			</div>
-			<div>
-				<h3>Number</h3>
-				<p>Input for numbers.</p>
-			</div>
-		</div>
-
-		<div class="field">
-			<div class="icon">
-				<Checkbox />
-			</div>
-			<div>
-				<h3>Checkbox</h3>
-				<p>Input for true / false value.</p>
-			</div>
-		</div>
-
-		<div class="field">
-			<div class="icon">
-				<Selector />
-			</div>
-			<div>
-				<h3>Dropdown</h3>
-				<p>Input for selection on of the predefined results.</p>
-			</div>
-		</div>
-
-		<div class="field">
-			<div class="icon">
-				<ListCheck />
-			</div>
-			<div>
-				<h3>Select</h3>
-				<p>Input for selection one or multiple values.</p>
-			</div>
-		</div>
-
-		<div class="field">
-			<div class="icon">
-				<Mail />
-			</div>
-			<div>
-				<h3>Email</h3>
-				<p>Email input</p>
-			</div>
-		</div>
-
-		<div class="field">
-			<div class="icon">
-				<Phone />
-			</div>
-			<div>
-				<h3>Phone Number</h3>
-				<p>Input for phone numbers</p>
-			</div>
-		</div>
-
-		<div class="field">
-			<div class="icon">
-				<Link />
-			</div>
-			<div>
-				<h3>Link</h3>
-				<p>Input for HTTP links.</p>
-			</div>
-		</div>
-
-		<!-- <div class="field">
-			<div class="icon">
-				<Calendar />
-			</div>
-			<div>
-				<h3>Date</h3>
-				<p>Input for date picking.</p>
-			</div>
-		</div> -->
-
-		<!-- <div class="field">
-			<div class="icon">
-				<Clock />
-			</div>
-			<div>
-				<h3>Time</h3>
-				<p>Input for picking time</p>
-			</div>
-		</div> -->
+		{#each Object.entries(fieldsMetadata) as [type, field]}
+			<button class="field" on:click={() => selectField(type)}>
+				<div class="icon">
+					<svelte:component this={field.icon} />
+				</div>
+				<div>
+					<h3>{field.name}</h3>
+					<p>{field.description}</p>
+				</div>
+			</button>
+		{/each}
 	</div>
 </Modal>
 
@@ -146,6 +41,7 @@
 	}
 
 	.field {
+		all: unset;
 		cursor: pointer;
 		gap: 0.75rem;
 		display: flex;

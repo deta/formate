@@ -1,6 +1,5 @@
 import type { Form, Publication } from '$lib/types';
 import { writable } from 'svelte/store';
-import { DELETE, PUT } from '$lib/http';
 
 // Is publication creating or removing
 export const loading = writable<boolean>(false);
@@ -24,7 +23,11 @@ export async function createPublication(form: Form) {
 		loading.set(true);
 		publication.set(data);
 
-		await PUT(`/api/publications/${form.key}`, data);
+		await fetch(`/api/publications/${form.key}`, {
+			method: 'PUT',
+			body: JSON.stringify(data),
+			headers: { 'Content-Type': 'application/json' }
+		});
 
 	} catch (error) {
 		console.error(error);
@@ -40,7 +43,8 @@ export async function deletePublication(formKey: string) {
 	try {
 		loading.set(true);
 		publication.set(null);
-		await DELETE(`/api/publications/${formKey}`);
+
+		await fetch(`/api/publications/${formKey}`, { method: 'DELETE' });
 	} catch (error) {
 		console.error(error);
 	} finally {

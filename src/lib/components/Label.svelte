@@ -29,18 +29,19 @@
 	.star {
 		color: var(--danger);
 		font-size: 0.75rem;
+		line-height: 0.5rem;
 		margin-left: 0.25rem;
 	}
 
 	h4,
 	p {
+		display: block;
 		margin: 0;
 		padding: 0;
 	}
 
 	h4 {
 		position: relative;
-		display: block;
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		overflow: hidden;
@@ -49,7 +50,6 @@
 	}
 
 	p {
-		display: block;
 		font-size: 0.9rem;
 		opacity: 0.5;
 		font-weight: 300;

@@ -22,14 +22,15 @@
 	.icon {
 		font-size: 4rem;
 		margin-top: -6rem;
-		margin-bottom: 1rem;
+		margin-bottom: 2rem;
 	}
 
 	h1 {
 		all: unset;
 		display: block;
-		font-size: 6rem;
+		font-size: 3rem;
 		font-weight: 800;
+		margin-bottom: 0.5rem;
 	}
 
 	p {

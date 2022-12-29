@@ -1,10 +1,8 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition';
 	import { createEventDispatcher } from 'svelte';
-	import TrashBin from './icons/TrashBin.svelte';
-	import EditableText from './EditableText.svelte';
-	import type { Screen } from '$lib/types';
-
+	import TrashBin from '../icons/TrashBin.svelte';
+	
 	const dispatch = createEventDispatcher();
 
 	export let title: string;
@@ -15,8 +13,8 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div class="card-wrapper" transition:slide|local={{ duration: 200 }}>
 	<div class="card" class:selected on:click>
-		<h3 class:empty={!title}>{title || 'empty'}</h3>
-		<p class:empty={!description}>{description || 'empty'}</p>
+		<h3 class:empty={!title}>{title || 'No Title'}</h3>
+		<p class:empty={!description}>{description || 'No Description'}</p>
 
 		<button class="delete" on:click|stopPropagation={() => dispatch('delete')}>
 			<TrashBin />
@@ -27,9 +25,14 @@
 </div>
 
 <style>
+	.card-wrapper {
+		width: 100%;
+	}
+
 	.card {
 		position: relative;
 		cursor: pointer;
+		width: 100%;
 		padding: 2rem;
 		border-radius: 1rem;
 		border: 2px solid;

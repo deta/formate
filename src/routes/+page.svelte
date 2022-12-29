@@ -1,9 +1,5 @@
 <script lang="ts">
-	import type { PageData } from './$types';
-	import { fly, slide } from 'svelte/transition';
-	import { onMount } from 'svelte';
-
-
+	import { afterNavigate } from '$app/navigation';
 	import Animation from '$lib/components/Animation.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Plus from '$lib/components/icons/Plus.svelte';
@@ -11,7 +7,9 @@
 	import CreateModal from '$lib/components/modals/CreateModal.svelte';
 	import DeleteFormModal from '$lib/components/modals/DeleteFormModal.svelte';
 	import { deleteFormCandidate, hideModals, openCreateFormModal, openedModal, setFormDeleteCandidate } from '$lib/stores/modals';
-	import { afterNavigate } from '$app/navigation';
+	import { onMount } from 'svelte';
+	import { fly, slide } from 'svelte/transition';
+	import type { PageData } from './$types';
 
 	export let data: PageData;
 
@@ -23,10 +21,11 @@
 		hideModals();
 	});
 
+	// Skip animation if mounter from editor
 	afterNavigate((navigation) => {
 		if (navigation?.from?.route?.id) animationFinished = true;
-		console.log(navigation);
-	})
+	});
+
 	// Show UI on animation finish
 	let animationFinished = false;
 	const onAnimationStop = () => (animationFinished = true);
@@ -57,7 +56,7 @@
 
 		{#if animationFinished}
 			{#if forms.length}
-				<div class="list" transition:fly={{ y: -8, duration: 200, delay: 100 }}>
+				<div class="list" in:fly={{ y: -8, duration: 200, delay: 100 }} out:slide|local={{ duration: 200 }}>
 					{#each forms as form (form.key)}
 						<div class="item" transition:slide|local={{ duration: 200 }}>
 							<a class="info" href="/editor/{form.key}">
@@ -118,7 +117,6 @@
 
 	.content {
 		padding: 10vh 1rem;
-		gap: 1rem;
 		display: flex;
 		flex-direction: column;
 		width: 100%;
@@ -141,6 +139,7 @@
 	.list {
 		display: flex;
 		flex-direction: column;
+		margin: 1rem 0;
 		width: 100%;
 		border: 2px solid;
 		border-radius: 0.5rem;

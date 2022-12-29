@@ -1,4 +1,28 @@
-import type { fieldsData } from './fields';
+import type { fieldsMetadata } from './metadata';
+
+/**
+ * Base Field structure
+ */
+export interface BaseField {
+	key: string;
+	column: string;
+	title: string;
+	type: FieldType;
+}
+
+export interface ShortTextField extends BaseField {
+	type: 'short';
+	initial: string;
+	placeholder: string;
+	required: boolean;
+}
+
+export interface LongTextField extends BaseField {
+	type: 'long';
+	initial: string;
+	placeholder: string;
+	required: boolean;
+}
 
 export interface InputField {
 	key: string;
@@ -23,9 +47,12 @@ export type ColorScheme = 'red' | 'orange' | 'green' | 'blue' | 'purple';
 /**
  * Type of the field
  */
-export type FieldType = keyof typeof fieldsData;
+export type FieldType = keyof typeof fieldsMetadata;
 
-export type Field = InputField;
+/**
+ * All fields
+ */
+export type Field = ShortTextField | LongTextField;
 
 /**
  * Form screen type

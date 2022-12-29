@@ -1,19 +1,22 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import Header from '$lib/components/Header.svelte';
-	import Editor from '$lib/components/Editor.svelte';
+	import Editor from '$lib/components/editor/Editor.svelte';
 	import SettingsModal from '$lib/components/modals/SettingsModal.svelte';
 	import AddFieldModal from '$lib/components/modals/AddFieldModal.svelte';
-	import { deleteFormCandidate, openedModal } from '$lib/stores/modals';
-	import { form, selectedScreenIndex } from '$lib/stores/editor';
-	import { publication } from '$lib/stores/publication';
 	import DeleteFormModal from '$lib/components/modals/DeleteFormModal.svelte';
+	
+	import { form, screen } from '$lib/stores/editor';
+	import { publication } from '$lib/stores/publication';
+	import { deleteFormCandidate, openedModal } from '$lib/stores/modals';
+	import { fly } from 'svelte/transition';
 
 	export let data: PageData;
 
 	// Automatically set form & publication data
 	$: $form = data.form;
 	$: $publication = data.publication;
+	$: $screen = data.form?.screens?.[0];
 </script>
 
 <svelte:head>

@@ -1,14 +1,14 @@
-import type { PageServerLoad } from './$types';
 import type { Form } from '$lib/types';
 import { error } from '@sveltejs/kit';
-import db from '$lib/server/database';
+import type { PageServerLoad } from './$types';
 
+// Load preview form
 export const load: PageServerLoad = async ({ params, fetch }) => {
 	const key = params.key;
 
 	const response = await fetch(`/api/forms/${key}`);
-	const data = (await response.json()) as { form: Form };
+	const data = await response.json();
 
 	if (!data?.form) throw error(404, 'Form not found');
-	return data.form;
+	return data.form as Form;
 };

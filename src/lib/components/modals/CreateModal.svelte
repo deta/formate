@@ -1,17 +1,15 @@
 <script lang="ts">
 	import type { ColorScheme, Form } from '$lib/types';
-	import { nanoid } from 'nanoid';
 	import { createSlug } from '$lib/utils';
+	import { nanoid } from 'nanoid';
 
 	import Button from '../Button.svelte';
-	import Modal from '../Modal.svelte';
+	import ColorPicker from '../ColorPicker.svelte';
 	import Input from '../Input.svelte';
 	import Label from '../Label.svelte';
-	import ColorPicker from '../ColorPicker.svelte';
+	import Modal from '../Modal.svelte';
 
-	import { form } from '$lib/stores/editor';
 	import { goto, invalidateAll } from '$app/navigation';
-	import { POST } from '$lib/http';
 	import { hideModals } from '$lib/stores/modals';
 
 	interface CreateFormValues {
@@ -41,14 +39,19 @@
 		const data: Partial<Form> = { ...inputs };
 
 		// Set default values
-		data.key = data.key || nanoid();
+		data.key = data.key || nanoid(8);
 		data.style = data.style || 'clean';
 		data.color = data.color || 'orange';
 		data.table = data.table || `submissions-${createSlug(data.name)}`;
 		data.slug = data.slug || createSlug(data.name);
 		data.screens = data.screens || [];
 
-		const response = await POST('/api/forms', data);
+		await fetch('/api/forms', {
+			method: 'POST',
+			body: JSON.stringify(data),
+			headers: { 'Content-Type': 'application/json' }
+		});
+
 		await invalidateAll();
 
 		hideModals();
@@ -68,13 +71,12 @@
 
 		return isValid;
 	}
-
 </script>
 
 <Modal title="Create Form">
 	<div>
 		<Label title="Form Name" description="Name of your form, that will be displayed on the welcome page." required />
-		<Input bind:value={inputs.name} error={errors.name} on:keyup={() => errors.name = undefined} />
+		<Input bind:value={inputs.name} error={errors.name} on:keyup={() => (errors.name = undefined)} />
 	</div>
 
 	<div>

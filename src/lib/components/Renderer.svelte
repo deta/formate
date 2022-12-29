@@ -186,8 +186,8 @@
 
 	h2 {
 		font-weight: 600;
-		font-size: 2.5rem;
-		line-height: 3rem;
+		font-size: 2rem;
+		line-height: 2.25rem;
 	}
 
 	p {
@@ -252,7 +252,7 @@
 	}
 
 	.heading {
-		gap: 1rem;
+		gap: 0.5rem;
 		display: flex;
 		flex-direction: column;
 	}

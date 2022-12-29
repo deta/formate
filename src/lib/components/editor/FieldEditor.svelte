@@ -1,22 +1,26 @@
 <script lang="ts">
-	import type { Field } from '../types';
+	import { fieldsMetadata } from '$lib/metadata';
+	import { deleteField, moveField } from '$lib/stores/editor';
+	import type { Field, Screen } from '$lib/types';
 	import { fly } from 'svelte/transition';
-	import { deleteField, form, moveField, selectedScreenIndex } from '$lib/stores/editor';
-	import TrashBin from './icons/TrashBin.svelte';
-	import EditableText from './EditableText.svelte';
-	import ArrowDown from './icons/ArrowDown.svelte';
-	import ArrowUp from './icons/ArrowUp.svelte';
-	import { fieldsData } from '$lib/fields';
+	import EditableText from '../EditableText.svelte';
+	import ArrowDown from '../icons/ArrowDown.svelte';
+	import ArrowUp from '../icons/ArrowUp.svelte';
+	import TrashBin from '../icons/TrashBin.svelte';
+	import LongTextOptions from './options/LongTextOptions.svelte';
+	import ShortTextOptions from './options/ShortTextOptions.svelte';
 
-	// Field data
+	// Screen data
+	export let screen: Screen;
+
+	// Initial field data
 	export let field: Field;
 
 	// Index inside the fields list
 	export let index: number = 0;
 
-	// Total fields amount
-	$: totalFields = $form?.screens?.[$selectedScreenIndex]?.fields?.length || 0;
-
+	// Field icon, name, etc.
+	$: fieldData = fieldsMetadata[field.type];
 </script>
 
 <div class="field" in:fly={{ x: -8, delay: 100 * index }} out:fly|local={{ x: 8, delay: 100 * index }}>
@@ -26,7 +30,7 @@
 				<button on:click={() => moveField(field.key, 'up')}><ArrowUp /></button>
 			{/if}
 
-			{#if index < totalFields - 1}
+			{#if index < screen.fields.length - 1}
 				<button on:click={() => moveField(field.key, 'down')}><ArrowDown /></button>
 			{/if}
 
@@ -34,19 +38,23 @@
 		</div>
 
 		<div class="icon">
-			<svelte:component this={fieldsData[field.type].icon} />
+			<svelte:component this={fieldData.icon} />
 		</div>
 
 		<div>
-			<small class="type">{fieldsData[field.type]?.name}</small>
+			<small class="type">{fieldData.name}</small>
 			<h4 class="title">
-				<EditableText bind:value={$form.screens[$selectedScreenIndex].fields[index].title} />
+				<EditableText bind:value={field.title} />
 			</h4>
 		</div>
 	</div>
 
 	<div class="content">
-		<slot />
+		{#if field.type === 'short'}
+			<ShortTextOptions bind:field />
+		{:else if field.type === 'long'}
+			<LongTextOptions bind:field />
+		{/if}
 	</div>
 </div>
 
