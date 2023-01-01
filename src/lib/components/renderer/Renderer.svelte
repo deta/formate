@@ -1,12 +1,13 @@
 <script lang="ts">
-	import type { Form } from '$lib/types';
-	import { onMount, createEventDispatcher } from 'svelte';
-	import { fly } from 'svelte/transition';
+	import { browser } from '$app/environment';
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Label from '$lib/components/Label.svelte';
-	import { browser } from '$app/environment';
+	import type { Form } from '$lib/types';
 	import { sleep } from '$lib/utils';
+	import { createEventDispatcher, onMount } from 'svelte';
+	import { fly } from 'svelte/transition';
+	import TextArea from '../TextArea.svelte';
 
 	const TRANSITION_SPEED = 400;
 
@@ -137,12 +138,21 @@
 					{#each screen.fields as field (field.key)}
 						<div>
 							<Label title={field.title} required={field.required} />
-							<Input
-								placeholder={field?.placeholder}
-								bind:value={inputs[field.column]}
-								error={errors[field.key]}
-								on:keyup={() => (errors[field.key] = undefined)}
-							/>
+							{#if field.type === 'short'}
+								<Input
+									placeholder={field?.placeholder}
+									error={errors[field.key]}
+									bind:value={inputs[field.column]}
+									on:keyup={() => (errors[field.key] = undefined)}
+								/>
+							{:else if field.type === 'long'}
+								<TextArea
+									placeholder={field?.placeholder}
+									error={errors[field.key]}
+									bind:value={inputs[field.column]}
+									on:keyup={() => (errors[field.key] = undefined)}
+								/>
+							{/if}
 						</div>
 					{/each}
 				</div>
