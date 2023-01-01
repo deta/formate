@@ -4,10 +4,10 @@
 	import Label from '$lib/components/Label.svelte';
 	import Toggle from '$lib/components/Toggle.svelte';
 	import { columnsCollision } from '$lib/stores/editor';
-	import type { ShortTextField } from '$lib/types';
+	import type { LongTextField, ShortTextField } from '$lib/types';
 
 	// Field data
-	export let field: ShortTextField;
+	export let field: ShortTextField | LongTextField;
 </script>
 
 <Container>

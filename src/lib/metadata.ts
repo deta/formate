@@ -11,7 +11,7 @@ import Paragraph from './components/icons/Paragraph.svelte';
 interface FieldMetadata {
     name: string;
     description: string;
-    icon: any;
+    icon: typeof Cursor;
 }
 
 // List of all fields metadata

@@ -1,40 +1,6 @@
 import type { fieldsMetadata } from './metadata';
 
 /**
- * Base Field structure
- */
-export interface BaseField {
-	key: string;
-	column: string;
-	title: string;
-	type: FieldType;
-}
-
-export interface ShortTextField extends BaseField {
-	type: 'short';
-	initial: string;
-	placeholder: string;
-	required: boolean;
-}
-
-export interface LongTextField extends BaseField {
-	type: 'long';
-	initial: string;
-	placeholder: string;
-	required: boolean;
-}
-
-export interface InputField {
-	key: string;
-	column: string;
-	type: string;
-	title: string;
-	initial: string;
-	placeholder: string;
-	required: boolean;
-}
-
-/**
  * Form styling variant
  */
 export type Style = 'clean' | 'framed' | 'long';
@@ -43,16 +9,6 @@ export type Style = 'clean' | 'framed' | 'long';
  * Elements color scheme
  */
 export type ColorScheme = 'red' | 'orange' | 'green' | 'blue' | 'purple';
-
-/**
- * Type of the field
- */
-export type FieldType = keyof typeof fieldsMetadata;
-
-/**
- * All fields
- */
-export type Field = ShortTextField | LongTextField;
 
 /**
  * Form screen type
@@ -88,3 +44,51 @@ export interface Publication {
 	content: Form;
 }
 
+/**
+ * Type of the field
+ */
+export type FieldType = keyof typeof fieldsMetadata;
+
+/**
+ * All fields
+ */
+export type Field = ShortTextField | LongTextField | NumberField;
+
+/**
+ * Base Field structure
+ */
+export interface BaseField {
+	key: string;
+	column: string;
+	title: string;
+	type: FieldType;
+}
+
+export interface ShortTextField extends BaseField {
+	type: 'short';
+	initial?: string;
+	placeholder: string;
+	required: boolean;
+}
+
+export interface LongTextField extends BaseField {
+	type: 'long';
+	initial?: string;
+	placeholder: string;
+	required: boolean;
+}
+
+export interface NumberField extends BaseField {
+	type: 'number';
+	initial?: number;
+	placeholder: string;
+	required: boolean;
+	min?: number;
+	max?: number;
+}
+
+export interface CheckboxField extends BaseField {
+	type: 'checkbox';
+	initial: boolean;
+	required: boolean;
+}

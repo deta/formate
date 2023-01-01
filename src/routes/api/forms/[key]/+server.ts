@@ -1,6 +1,6 @@
-import type { RequestHandler } from './$types';
-import { error, json } from '@sveltejs/kit';
 import db from '$lib/server/database';
+import { error, json } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
 
 /**
  * READ Forms
@@ -16,6 +16,7 @@ export const GET: RequestHandler = async ({ params }) => {
  */
 export const PUT: RequestHandler = async ({ request, params }) => {
 	const key = params.key;
+
 	const data = await request.json();
 	if (!data) throw error(400, { message: 'Body is not specified' });
 	if (data.key) delete data.key;

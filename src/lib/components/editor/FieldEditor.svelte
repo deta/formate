@@ -7,8 +7,8 @@
 	import ArrowDown from '../icons/ArrowDown.svelte';
 	import ArrowUp from '../icons/ArrowUp.svelte';
 	import TrashBin from '../icons/TrashBin.svelte';
-	import LongTextOptions from './options/LongTextOptions.svelte';
-	import ShortTextOptions from './options/ShortTextOptions.svelte';
+	import NumberOptions from './options/NumberOptions.svelte';
+	import ShortLongTextOptions from './options/ShortLongTextOptions.svelte';
 
 	// Screen data
 	export let screen: Screen;
@@ -50,10 +50,10 @@
 	</div>
 
 	<div class="content">
-		{#if field.type === 'short'}
-			<ShortTextOptions bind:field />
-		{:else if field.type === 'long'}
-			<LongTextOptions bind:field />
+		{#if field.type === 'short' || field.type === 'long'}
+			<ShortLongTextOptions bind:field />
+		{:else if field.type === 'number'}
+			<NumberOptions bind:field />
 		{/if}
 	</div>
 </div>

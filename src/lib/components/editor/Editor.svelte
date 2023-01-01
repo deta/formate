@@ -1,9 +1,7 @@
 <script lang="ts">
-	import { selectScreen } from '$lib/stores/editor';
-	import type { Screen } from '$lib/types';
-
 	import { browser } from '$app/environment';
-	import { addScreen, deleteScreen, form, screen } from '$lib/stores/editor';
+	import { addScreen, deleteScreen, form, screen, selectScreen } from '$lib/stores/editor';
+	import type { Screen } from '$lib/types';
 	import ScreenEditor from './ScreenEditor.svelte';
 	import Sidebar from './Sidebar.svelte';
 

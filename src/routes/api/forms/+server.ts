@@ -16,7 +16,7 @@ export const GET: RequestHandler = async () => {
 export const POST: RequestHandler = async ({ request }) => {
 	const data = await request.json();
 	if (!data) throw error(400, { message: 'Body is not specified' });
-
+	
 	const form = await db.forms.insert(data);
 	return json({ form });
 };

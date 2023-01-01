@@ -16,37 +16,36 @@ export const columnsCollision = writable<Set<string>>(new Set());
 
 // Find colums collisions
 let columnsTimer: NodeJS.Timeout;
-form.subscribe((value) => {
+form.subscribe((store) => {
 	if (!browser) return;
-	if (!value?.screens) return;
+	if (!store?.screens) return;
 	if (columnsTimer) clearTimeout(columnsTimer);
 
 	columnsTimer = setTimeout(() => {
 		const columns = new Set<string>();
 		const collisions = new Set<string>();
 
-		value.screens.forEach((screen) => {
+		store.screens.forEach((screen) => {
 			screen.fields.forEach((field) => {
 				if (columns.has(field.column)) collisions.add(field.column);
 				columns.add(field.column)
 			});
 		});
 
-		console.log(collisions);
 		columnsCollision.set(collisions);
 	}, 300);
 });
 
 // Sync form with the server
 let syncTimer: NodeJS.Timeout;
-form.subscribe((value) => {
+form.subscribe((store) => {
 	if (!browser) return;
-	if (!value?.key) return;
+	if (!store?.key) return;
 	if (syncTimer) clearTimeout(syncTimer);
 
 	syncTimer = setTimeout(async () => {
-		const key = value.key;
-		const data = structuredClone(value);
+		const key = store.key;
+		const data = structuredClone(store);
 
 		await fetch(`/api/forms/${key}`, {
 			method: 'PUT',
@@ -154,6 +153,17 @@ export function addField(type: FieldType) {
 				title,
 				required: false,
 				initial: '',
+				placeholder: ''
+			});
+		}
+
+		if (type === 'number') {
+			draft.fields.push({
+				key,
+				column,
+				type,
+				title,
+				required: false,
 				placeholder: ''
 			});
 		}

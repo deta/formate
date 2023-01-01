@@ -1,7 +1,7 @@
 <script>
 	import { form } from '$lib/stores/editor';
 	import { setFormDeleteCandidate } from '$lib/stores/modals';
-	import { publication } from '$lib/stores/publication';
+	import { createPublication, deletePublication, publication } from '$lib/stores/publication';
 	import { createSlug } from '$lib/utils';
 	import { fly } from 'svelte/transition';
 	import Button from '../Button.svelte';
@@ -29,8 +29,7 @@
 	 * On modal close
 	 */
 	function onClose() {
-		// Format slug
-		$form.slug = createSlug($form.slug);
+		$form.slug = createSlug($form.slug); // Format slug
 	}
 </script>
 
@@ -70,8 +69,8 @@
 			<Label title="Publication" description="You can unpublish the form, the public link will no longer be available." />
 
 			<div class="buttons">
-				<Toggle value={!!$publication} controlled>Public</Toggle>
-				<Toggle value={!$publication} controlled>Private</Toggle>
+				<Toggle value={!!$publication} controlled on:click={() => createPublication($form)}>Public</Toggle>
+				<Toggle value={!$publication} controlled on:click={() => deletePublication($form.key)}>Private</Toggle>
 			</div>
 		</div>
 

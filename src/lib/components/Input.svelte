@@ -2,7 +2,7 @@
 	import { slide } from 'svelte/transition';
 
 	// Input valie
-	export let value: string = '';
+	export let value: string | number = '';
 
 	// Set to true to disable any interactions
 	export let disabled: boolean = false;
@@ -14,7 +14,7 @@
 	export let warning: string | boolean = false;
 
 	// Type of the input
-	export let type: 'date' | 'time' | 'email' | 'text' | 'tel' | 'url' | 'number' = 'text';
+	export let type: 'text' | 'number' = 'text';
 
 	// Prefix input text
 	export let prefix: string = undefined;
@@ -22,7 +22,7 @@
 	// Postfix icon
 	export let icon: ConstructorOfATypedSvelteComponent = undefined;
 
-	// Placeholder content
+	// Filler text
 	export let placeholder: string = '';
 
 	// Set to true to disable editing

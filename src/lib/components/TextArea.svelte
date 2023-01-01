@@ -1,23 +1,43 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition';
 
-	export let rows: number = 3;
-	export let cols: number = 20;
+	// Input value
 	export let value: string = '';
+
+	// Amount of rows
+	export let rows: number = 3;
+
+	// Amount of collumns
+	export let cols: number = 20;
+
+	// Is it disabled
 	export let disabled: boolean = false;
+
+	// Error message
 	export let error: string | boolean = false;
+
+	// Warning message
+	export let warning: string | boolean = false;
+
+	// Filler text
 	export let placeholder: string = '';
+
+	// Set to true to disable editing
 	export let readonly: boolean = false;
+
+	// Spellcheck input value
 	export let spellcheck: boolean = false;
 </script>
 
 <div>
-	<div class="input-wrapper" class:disabled class:error>
+	<div class="input-wrapper" class:disabled class:error class:warning>
 		<textarea bind:value disabled={readonly || disabled} on:change on:keyup on:click on:focus on:blur {placeholder} {spellcheck} {rows} {cols} />
 	</div>
 
 	{#if typeof error === 'string'}
-		<div class="error-message" transition:slide={{ duration: 100 }}>{error}</div>
+		<div class="error-message" transition:slide|local={{ duration: 100 }}>{error}</div>
+	{:else if typeof warning === 'string'}
+		<div class="warning-message" transition:slide|local={{ duration: 100 }}>{warning}</div>
 	{/if}
 </div>
 
@@ -60,11 +80,19 @@
 		width: 100%;
 	}
 
-	.error-message {
-		color: var(--danger);
+	.error-message,
+	.warning-message {
 		padding: 0 1rem;
 		margin-top: 0.5rem;
-		font-size: 0.75rem;
+		font-size: 0.9rem;
 		font-weight: 300;
+	}
+
+	.warning-message {
+		color: var(--warning);
+	}
+
+	.error-message {
+		color: var(--danger);
 	}
 </style>

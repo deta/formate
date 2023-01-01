@@ -4,10 +4,10 @@
 	import Label from '$lib/components/Label.svelte';
 	import Toggle from '$lib/components/Toggle.svelte';
 	import { columnsCollision } from '$lib/stores/editor';
-	import type { LongTextField } from '$lib/types';
+	import type { NumberField } from '$lib/types';
 
 	// Field data
-	export let field: LongTextField;
+	export let field: NumberField;
 </script>
 
 <Container>
@@ -28,10 +28,21 @@
 <Container>
 	<div>
 		<Label title="Default Value" />
-		<Input bind:value={field.initial} placeholder="Initial input value" />
+		<Input type="number" bind:value={field.initial} placeholder="Initial input value" />
 	</div>
 	<div>
 		<Label title="Placeholder" />
 		<Input bind:value={field.placeholder} placeholder="Filler text" />
+	</div>
+</Container>
+
+<Container>
+	<div>
+		<Label title="Min Value" />
+		<Input type="number" bind:value={field.min} placeholder="Minimum possible value" />
+	</div>
+	<div>
+		<Label title="Max Value" />
+		<Input type="number" bind:value={field.max} placeholder="Maximum possible value" />
 	</div>
 </Container>

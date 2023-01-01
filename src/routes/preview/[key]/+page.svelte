@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { onMount } from 'svelte';
-	import Renderer from '$lib/components/Renderer.svelte';
+	import Renderer from '$lib/components/renderer/Renderer.svelte';
 
 	// Enable server rendering
 	export const ssr = true;

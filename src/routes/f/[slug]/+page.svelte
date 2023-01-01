@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Renderer from '$lib/components/Renderer.svelte';
+	import Renderer from '$lib/components/renderer/Renderer.svelte';
 	import type { PageData } from './$types';
 
 	// Enable server rendering
