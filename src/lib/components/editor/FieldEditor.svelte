@@ -7,6 +7,7 @@
 	import ArrowDown from '../icons/ArrowDown.svelte';
 	import ArrowUp from '../icons/ArrowUp.svelte';
 	import TrashBin from '../icons/TrashBin.svelte';
+	import CheckboxOptions from './options/CheckboxOptions.svelte';
 	import NumberOptions from './options/NumberOptions.svelte';
 	import ShortLongTextOptions from './options/ShortLongTextOptions.svelte';
 
@@ -54,6 +55,8 @@
 			<ShortLongTextOptions bind:field />
 		{:else if field.type === 'number'}
 			<NumberOptions bind:field />
+		{:else if field.type === 'checkbox'}
+			<CheckboxOptions bind:field />
 		{/if}
 	</div>
 </div>

@@ -39,7 +39,7 @@
 	// Handle inputs
 	const handleInput = (event: any) => {
 		if (readonly) return;
-		value = type.match(/^(number|range)$/) ? +event.target.value : event.target.value;
+		value = type === 'number' ? +event.target.value : event.target.value;
 	};
 
 	// Scroll to element if error appeared

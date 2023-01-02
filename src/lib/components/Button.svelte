@@ -1,8 +1,17 @@
 <script lang="ts">
+	// Style of the buttoh
 	export let style: 'normal' | 'neutral' | 'link' | 'danger' = 'normal';
+
+	// Make button width 100%
 	export let fullWidth: boolean = false;
+
+	// Small button variant
 	export let small: boolean = false;
+
+	// Disable button
 	export let disabled: boolean = false;
+
+	// Button align position
 	export let position: 'centered' | 'left' | 'right' | 'auto' = 'auto';
 </script>
 
@@ -39,7 +48,8 @@
 		transition: 0.1s ease;
 	}
 
-	button:hover {
+	button:hover,
+	button:focus {
 		filter: brightness(1.05);
 	}
 

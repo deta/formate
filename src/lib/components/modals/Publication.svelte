@@ -1,13 +1,10 @@
 <script lang="ts">
-	import { fly, slide } from 'svelte/transition';
+	import { publication } from '$lib/stores/publication';
 	import { onMount } from 'svelte';
+	import { fly } from 'svelte/transition';
+	import Copy from '../icons/Copy.svelte';
 	import Input from '../Input.svelte';
 	import Label from '../Label.svelte';
-	import Toggle from '../Toggle.svelte';
-	import Button from '../Button.svelte';
-	import Copy from '../icons/Copy.svelte';
-	import { createPublication, deletePublication, publication, loading } from '$lib/stores/publication';
-	import { form } from '$lib/stores/editor';
 
 	// Click outside event
 	export let shown: boolean = false;
@@ -27,7 +24,10 @@
 	// Handle outside click
 	onMount(() => {
 		const handler = (event) => {
-			if (!element.contains(event.target)) shown = false;
+			if (!element.contains(event.target)) {
+				event.stopPropagation();
+				shown = false;
+			}
 		};
 
 		document.addEventListener('click', handler, true);

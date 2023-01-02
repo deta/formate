@@ -125,7 +125,7 @@ export function deleteScreen(key: string) {
 
 /**
  * Add new field
-A */
+ */
 export function addField(type: FieldType) {
 	screen.update((draft) => {
 		const capitalizedType = type.charAt(0).toUpperCase() + type.slice(1);
@@ -165,6 +165,17 @@ export function addField(type: FieldType) {
 				title,
 				required: false,
 				placeholder: ''
+			});
+		}
+
+		if (type === 'checkbox') {
+			draft.fields.push({
+				key,
+				column,
+				type,
+				title,
+				required: false,
+				initial: false,
 			});
 		}
 

@@ -51,9 +51,7 @@
 		overflow-x: hidden;
 		overflow-y: overlay;
 		height: 100%;
-		width: 100%;
-		min-width: fit-content;
-		max-width: 20rem;
+		width: 22rem;
 		padding: 2rem;
 		padding-bottom: 4rem;
 		background-color: var(--background);

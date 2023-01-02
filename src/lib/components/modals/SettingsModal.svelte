@@ -3,14 +3,13 @@
 	import { setFormDeleteCandidate } from '$lib/stores/modals';
 	import { createPublication, deletePublication, publication } from '$lib/stores/publication';
 	import { createSlug } from '$lib/utils';
-	import { fly } from 'svelte/transition';
 	import Button from '../Button.svelte';
 	import ColorPicker from '../ColorPicker.svelte';
 	import TrashBin from '../icons/TrashBin.svelte';
 	import Input from '../Input.svelte';
 	import Label from '../Label.svelte';
+	import LayoutPicker from '../LayoutPicker.svelte';
 	import Modal from '../Modal.svelte';
-	import StylePicker from '../StylePicker.svelte';
 	import TextArea from '../TextArea.svelte';
 	import Toggle from '../Toggle.svelte';
 
@@ -35,37 +34,37 @@
 
 <Modal title="Settings" bind:currentTab tabs={['general', 'preferences', 'other']} on:hide={onClose}>
 	{#if currentTab === 'general'}
-		<div in:fly|local={{ duration: 200, x: -8 }}>
+		<div>
 			<Label title="Form Name" description="Name of your form, that will be displayed on the welcome page." required />
 			<Input bind:value={$form.name} />
 		</div>
 
-		<div in:fly|local={{ duration: 200, x: -8, delay: 50 }}>
-			<Label title="Storage Table" description="Name of the table, that will be used for storing submissions" required />
+		<div>
+			<Label title="Storage Table" description="Name of the table, that will be used for storing submissions." required />
 			<Input bind:value={$form.table} />
 		</div>
 
-		<div in:fly|local={{ duration: 200, x: -8, delay: 100 }}>
+		<div>
 			<Label title="URL Slug" description="The link, where the final published form will be available!" required />
 			<Input bind:value={$form.slug} prefix="{window.location.origin}/f/" />
 		</div>
 	{:else if currentTab === 'preferences'}
-		<div in:fly|local={{ duration: 200, x: -8 }}>
-			<Label title="Color Scheme" description="Accent color that will be used in the editor of your forms UI" />
+		<div>
+			<Label title="Color Scheme" description="Accent color that will be used in the editor and form UI." />
 			<ColorPicker bind:value={$form.color} />
 		</div>
 
-		<div in:fly|local={{ duration: 200, x: -8, delay: 50 }}>
-			<Label title="Style" description="Style of the form layout" />
-			<StylePicker bind:value={$form.style} />
+		<div>
+			<Label title="Layout" description="Style of the form layout" />
+			<LayoutPicker bind:value={$form.layout} />
 		</div>
 
-		<div in:fly|local={{ duration: 200, x: -8, delay: 100 }}>
-			<Label title="Custom CSS" description="Custom CSS code, that will be injected to the form page" />
+		<div>
+			<Label title="Custom CSS" description="Custom CSS code, that will be injected to the form page." />
 			<TextArea placeholder="Leave blank so that no additional styles are added" bind:value={$form.css} />
 		</div>
 	{:else if currentTab === 'other'}
-		<div in:fly|local={{ duration: 200, x: -8 }}>
+		<div>
 			<Label title="Publication" description="You can unpublish the form, the public link will no longer be available." />
 
 			<div class="buttons">
@@ -74,8 +73,8 @@
 			</div>
 		</div>
 
-		<div in:fly|local={{ duration: 200, x: -8, delay: 50 }}>
-			<Label title="Delete Form" description="Delete this form (Submissions wont be removed)" />
+		<div>
+			<Label title="Delete Form" description="Delete this form. (Submissions wont be removed)" />
 			<Button style="danger" on:click={() => setFormDeleteCandidate($form.key)}><TrashBin /></Button>
 		</div>
 	{/if}

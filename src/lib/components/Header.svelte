@@ -1,14 +1,13 @@
 <script lang="ts">
-	import { fly } from 'svelte/transition';
-	import { afterNavigate, goto } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
 	import ArrowLeft from '$lib/components/icons/ArrowLeft.svelte';
-	import Publication from './modals/Publication.svelte';
-	import Rocket from './icons/Rocket.svelte';
-	import { openSettingsModal } from '$lib/stores/modals';
 	import { forceSave, form } from '$lib/stores/editor';
+	import { openSettingsModal } from '$lib/stores/modals';
 	import { createPublication, loading } from '$lib/stores/publication';
-	import { onMount } from 'svelte';
+	import { fly } from 'svelte/transition';
+	import Rocket from './icons/Rocket.svelte';
+	import Publication from './modals/Publication.svelte';
 
 	let isPublicationShow = false;
 

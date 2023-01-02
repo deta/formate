@@ -1,12 +1,22 @@
 <script lang="ts">
-	import { fly, fade } from 'svelte/transition';
 	import { hideModals } from '$lib/stores/modals';
 	import { createEventDispatcher } from 'svelte';
+	import { fade, fly } from 'svelte/transition';
 
+	// Modal title
 	export let title: string;
+
+	// Add padding to the content
 	export let paddings: boolean = true;
+
+	// Array of tabs
 	export let tabs: string[] = [];
+
+	// Current opened tab
 	export let currentTab: string = tabs?.[0] || '';
+
+	// Fix on top
+	export let centered: boolean = false;
 
 	// Dispatch close event
 	const dispatch = createEventDispatcher();
@@ -23,7 +33,7 @@
 	}
 </script>
 
-<div class="wrapper" transition:fade={{ duration: 200 }}>
+<div class="wrapper" class:centered transition:fade={{ duration: 200 }}>
 	<div class="modal" transition:fly={{ y: 32, opacity: 1, duration: 200 }}>
 		<h2>{title}</h2>
 		<div class="tabs">
@@ -31,9 +41,11 @@
 				<button class="tab" class:active={currentTab === tab} on:click={createTabHandler(tab)}>{tab}</button>
 			{/each}
 		</div>
-		<div class="content" class:paddings>
-			<slot />
-		</div>
+		{#key currentTab}
+			<div class="content" class:paddings in:fly|local={{ duration: 200, x: -16 }}>
+				<slot />
+			</div>
+		{/key}
 	</div>
 
 	<!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -52,6 +64,11 @@
 		padding: 1rem;
 		display: flex;
 		align-items: center;
+		flex-direction: column;
+		justify-content: start;
+	}
+
+	.wrapper.centered {
 		justify-content: center;
 	}
 

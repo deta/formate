@@ -40,7 +40,7 @@
 
 		// Set default values
 		data.key = data.key || nanoid(8);
-		data.style = data.style || 'clean';
+		data.layout = data.layout || 'clean';
 		data.color = data.color || 'orange';
 		data.table = data.table || `submissions-${createSlug(data.name)}`;
 		data.slug = data.slug || createSlug(data.name);
@@ -73,7 +73,7 @@
 	}
 </script>
 
-<Modal title="Create Form">
+<Modal title="Create Form" centered={true}>
 	<div>
 		<Label title="Form Name" description="Name of your form, that will be displayed on the welcome page." required />
 		<Input bind:value={inputs.name} error={errors.name} on:keyup={() => (errors.name = undefined)} />

@@ -1,13 +1,13 @@
 <script lang="ts">
-	import type { Style } from '$lib/types';
+	import type { Layout } from '$lib/types';
 	import { fade } from 'svelte/transition';
 	import Checkmark from './icons/Checkmark.svelte';
 
-	export let value: Style = 'clean';
+	export let value: Layout = 'clean';
 </script>
 
-<div class="styles">
-	<button class="style" on:click={() => (value = 'clean')}>
+<div class="layouts">
+	<button class="layout" on:click={() => (value = 'clean')}>
 		{#if value === 'clean'}
 			<div class="selection" in:fade={{ duration: 200 }}>
 				<Checkmark />
@@ -27,7 +27,7 @@
 		</svg>
 	</button>
 
-	<button class="style" on:click={() => (value = 'framed')}>
+	<button class="layout" on:click={() => (value = 'framed')}>
 		{#if value === 'framed'}
 			<div class="selection" in:fade={{ duration: 200 }}>
 				<Checkmark />
@@ -49,7 +49,7 @@
 		</svg>
 	</button>
 
-	<button class="style" on:click={() => (value = 'long')}>
+	<button class="layout" on:click={() => (value = 'long')}>
 		{#if value === 'long'}
 			<div class="selection" in:fade={{ duration: 200 }}>
 				<Checkmark />
@@ -79,13 +79,13 @@
 		display: block;
 	}
 
-	.styles {
+	.layouts {
 		gap: 1rem;
 		display: flex;
 		justify-content: row;
 	}
 
-	.style {
+	.layout {
 		position: relative;
 		display: flex;
 		align-items: center;
@@ -99,11 +99,11 @@
 		transition: 0.1s ease;
 	}
 
-	.style:hover {
+	.layout:hover {
 		filter: grayscale(0%);
 	}
 
-	.style:active {
+	.layout:active {
 		transform: scale(0.95);
 	}
 

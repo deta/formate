@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { slide } from 'svelte/transition';
 	import { createEventDispatcher } from 'svelte';
+	import { slide } from 'svelte/transition';
 	import TrashBin from '../icons/TrashBin.svelte';
-	
+
 	const dispatch = createEventDispatcher();
 
 	export let title: string;

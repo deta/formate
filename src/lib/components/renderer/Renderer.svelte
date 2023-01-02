@@ -5,11 +5,13 @@
 	import Label from '$lib/components/Label.svelte';
 	import type { Form } from '$lib/types';
 	import { sleep } from '$lib/utils';
+	import { prepareInputs, validateScreenInputs } from '$lib/validator';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import TextArea from '../TextArea.svelte';
+	import Toggle from '../Toggle.svelte';
 
-	const TRANSITION_SPEED = 400;
+	const TRANSITION_SPEED = 500;
 
 	// Dispatch events
 	const dispatch = createEventDispatcher<{ submit: Record<string, any> }>();
@@ -32,6 +34,11 @@
 	// Is form visible
 	let visible = false;
 
+	// Reset values if form changes
+	$: if (form) {
+		if (!form.screens[currentScreenIndex]) currentScreenIndex = 0;
+	}
+
 	// Current screen
 	$: screen = form?.screens?.[currentScreenIndex];
 
@@ -45,17 +52,9 @@
 		document.head.append(element);
 	}
 
-	// Initial values
-	if (browser) {
-		form.screens.forEach((screen) => {
-			screen.fields.forEach((field) => {
-				inputs[field.column] = field.initial || '';
-			});
-		});
-	}
-
 	// On renderer mount
 	onMount(() => {
+		inputs = prepareInputs(form, inputs);
 		setTimeout(() => (visible = true), TRANSITION_SPEED);
 	});
 
@@ -77,15 +76,15 @@
 	 * Go to next screen
 	 */
 	async function next() {
-		const isValid = validate();
-		if (!isValid) return;
+		errors = validateScreenInputs(screen, inputs);
+		if (Object.keys(errors).length > 0) return;
 
 		visible = false;
 		await sleep(TRANSITION_SPEED / 2);
 
 		if (currentScreenIndex >= form.screens.length - 1) {
 			finished = true;
-			dispatch('submit', inputs);
+			dispatch('submit', prepareInputs(form, inputs));
 		} else {
 			currentScreenIndex += 1;
 		}
@@ -93,37 +92,16 @@
 		await sleep(TRANSITION_SPEED / 2);
 		visible = true;
 	}
-
-	/**
-	 * Validate form data
-	 */
-	function validate() {
-		let isValid = true;
-
-		screen.fields.forEach((field) => {
-			const inputValue = inputs[field.column];
-
-			// If field required
-			if (field.required) {
-				if (inputValue.trim() === '') {
-					errors[field.key] = 'This field cant be empty';
-					isValid = false;
-				}
-			}
-		});
-
-		return isValid;
-	}
 </script>
 
 <svelte:head>
 	<title>{form.name}</title>
 </svelte:head>
 
-<div class="wrapper {form.color} {form.style}">
+<div class="wrapper {form.color} {form.layout}">
 	<div class="container">
 		{#if !finished}
-			<div class="form" class:hidden={!visible}>
+			<div class="form" class:hidden={!visible} style:transition="{TRANSITION_SPEED / 2}ms ease">
 				<div class="heading">
 					{#if screen?.title}
 						<h2>{screen.title}</h2>
@@ -137,7 +115,7 @@
 				<div class="fields">
 					{#each screen.fields as field (field.key)}
 						<div>
-							<Label title={field.title} required={field.required} />
+							<Label title={field.title} required={field?.required} />
 							{#if field.type === 'short'}
 								<Input
 									placeholder={field?.placeholder}
@@ -152,6 +130,16 @@
 									bind:value={inputs[field.column]}
 									on:keyup={() => (errors[field.key] = undefined)}
 								/>
+							{:else if field.type === 'number'}
+								<Input
+									type="number"
+									placeholder={field?.placeholder}
+									error={errors[field.key]}
+									bind:value={inputs[field.column]}
+									on:keyup={() => (errors[field.key] = undefined)}
+								/>
+							{:else if field.type === 'checkbox'}
+								<Toggle bind:value={inputs[field.column]} />
 							{/if}
 						</div>
 					{/each}

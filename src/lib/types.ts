@@ -3,7 +3,7 @@ import type { fieldsMetadata } from './metadata';
 /**
  * Form styling variant
  */
-export type Style = 'clean' | 'framed' | 'long';
+export type Layout = 'clean' | 'framed' | 'long';
 
 /**
  * Elements color scheme
@@ -27,7 +27,7 @@ export interface Form {
 	key: string;
 	name: string;
 	slug: string;
-	style: Style;
+	layout: Layout;
 	color: ColorScheme;
 	table: string;
 	css?: string;
@@ -52,7 +52,7 @@ export type FieldType = keyof typeof fieldsMetadata;
 /**
  * All fields
  */
-export type Field = ShortTextField | LongTextField | NumberField;
+export type Field = ShortTextField | LongTextField | NumberField | CheckboxField;
 
 /**
  * Base Field structure
@@ -90,5 +90,4 @@ export interface NumberField extends BaseField {
 export interface CheckboxField extends BaseField {
 	type: 'checkbox';
 	initial: boolean;
-	required: boolean;
 }

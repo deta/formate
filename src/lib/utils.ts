@@ -25,7 +25,7 @@ export function getFormHash(form: Form) {
 		key: form.key,
 		name: form.name,
 		slug: form.slug,
-		style: form.style,
+		layout: form.layout,
 		css: form.css,
 		color: form.color,
 		screens: form.screens
