@@ -52,6 +52,7 @@
 		overflow-y: overlay;
 		height: 100%;
 		width: 100%;
+		min-width: fit-content;
 		max-width: 20rem;
 		padding: 2rem;
 		padding-bottom: 4rem;

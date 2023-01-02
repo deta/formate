@@ -2,6 +2,7 @@
 	import { browser } from '$app/environment';
 	import { addScreen, deleteScreen, form, screen, selectScreen } from '$lib/stores/editor';
 	import type { Screen } from '$lib/types';
+	import { blur } from 'svelte/transition';
 	import ScreenEditor from './ScreenEditor.svelte';
 	import Sidebar from './Sidebar.svelte';
 
@@ -33,6 +34,8 @@
 		{#key $screen.key}
 			<ScreenEditor screen={$screen} on:change={({ detail }) => onScreenChange(detail)} />
 		{/key}
+	{:else}
+		<div class="tutorial" in:blur />
 	{/if}
 </div>
 
@@ -43,5 +46,14 @@
 		width: 100%;
 		display: flex;
 		flex-direction: row;
+	}
+
+	.tutorial {
+		width: 100%;
+		height: 100%;
+		opacity: 0.3;
+		background-image: url('/tutorial.webp');
+		background-repeat: no-repeat;
+		background-size: contain;
 	}
 </style>

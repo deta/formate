@@ -6,6 +6,7 @@
 	import type { Field, Screen } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
 	import { flip } from 'svelte/animate';
+	import { blur } from 'svelte/transition';
 
 	const dispatch = createEventDispatcher<{ change: Screen }>();
 
@@ -44,6 +45,10 @@
 	<div class="buttons">
 		<Button position="right" style="neutral" on:click={openAddFieldModal}>Add Field</Button>
 	</div>
+
+	{#if screen.fields.length === 0}
+		<div class="tutorial" in:blur />
+	{/if}
 </div>
 
 <style>
@@ -79,5 +84,16 @@
 
 	.buttons {
 		padding: 1rem 2.25rem;
+	}
+
+	.tutorial {
+		height: 100%;
+		width: 100%;
+		opacity: 0.3;
+		margin-right: 2.25rem;
+		background-image: url('/tutorial2.webp');
+		background-repeat: no-repeat;
+		background-size: contain;
+		transform: translateY(-16px);
 	}
 </style>
