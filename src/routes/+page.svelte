@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { version } from '$app/environment';
 	import { afterNavigate } from '$app/navigation';
 	import Animation from '$lib/components/Animation.svelte';
 	import Button from '$lib/components/Button.svelte';
@@ -7,13 +8,17 @@
 	import CreateModal from '$lib/components/modals/CreateModal.svelte';
 	import DeleteFormModal from '$lib/components/modals/DeleteFormModal.svelte';
 	import { deleteFormCandidate, hideModals, openCreateFormModal, openedModal, setFormDeleteCandidate } from '$lib/stores/modals';
+	import { format } from 'date-fns';
 	import { onMount } from 'svelte';
 	import { fly, slide } from 'svelte/transition';
 	import type { PageData } from './$types';
 
+	// Initial forms data
 	export let data: PageData;
-
 	$: forms = data.forms;
+
+	// Current build version
+	let buildVersion = format(new Date(Number(version)), 'HH:mm:ss dd.MM.y');
 
 	// Reset styles to default ones
 	onMount(() => {
@@ -78,6 +83,10 @@
 				</Button>
 			</div>
 		{/if}
+	</div>
+
+	<div class="version">
+		Build: {buildVersion}
 	</div>
 </div>
 
@@ -213,5 +222,13 @@
 
 	.info:hover .name {
 		opacity: 1;
+	}
+
+	.version {
+		position: fixed;
+		bottom: 1rem;
+		right: 1rem;
+		opacity: 0.3;
+		font-size: 0.75rem;
 	}
 </style>

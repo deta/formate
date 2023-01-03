@@ -1,6 +1,6 @@
 # Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
 v: 0
-app_name: "Formate"
+app_name: 'Formate'
 icon: ./static/icon.png
 micros:
   - name: formate
@@ -10,3 +10,5 @@ micros:
     public_routes:
       - /f/*
       - /api/submit
+      - /favicon.svg
+      - /_app/*

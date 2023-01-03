@@ -5,7 +5,7 @@
 	import Label from '$lib/components/Label.svelte';
 	import type { Form } from '$lib/types';
 	import { sleep } from '$lib/utils';
-	import { sanitizeInputs } from '$lib/validator';
+	import { sanitizeInputs, validateScreenInputs } from '$lib/validator';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import TextArea from '../TextArea.svelte';
@@ -76,12 +76,14 @@
 	 * Go to next screen
 	 */
 	async function next() {
-		// errors = validateScreenInputs(screen, inputs);
-		// if (Object.keys(errors).length > 0) return;
+		// Validate
+		errors = validateScreenInputs(screen, inputs);
+		if (Object.keys(errors).length > 0) return;
 
 		visible = false;
 		await sleep(TRANSITION_SPEED / 2);
 
+		// Submit
 		if (currentScreenIndex >= form.screens.length - 1) {
 			finished = true;
 			dispatch('submit', sanitizeInputs(form, inputs));
@@ -341,5 +343,12 @@
 
 	.long .info {
 		width: fit-content;
+	}
+
+	@media screen and (max-width: 800px) {
+		.form {
+			padding: 3rem;
+			padding-bottom: 4rem;
+		}
 	}
 </style>
