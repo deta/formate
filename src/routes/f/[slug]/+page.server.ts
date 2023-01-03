@@ -8,7 +8,7 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
 
 	const response = await fetch(`/api/publications?slug=${slug}`);
 	const data = await response.json();
-	const publication: Publication = data?.publications?.length ? data.publications[0] : null;
+	const publication: Publication = data?.publications?.[0] || null;
 
 	if (!publication) throw error(404, 'Form not found');
 	return publication.content;

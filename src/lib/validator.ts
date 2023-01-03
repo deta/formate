@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import type { Form, Screen } from './types';
 
 // TODO: Put validation logic to this section
@@ -8,8 +10,8 @@ import type { Form, Screen } from './types';
  * @param inputs Initial inputs
  * @returns 
  */
-export function prepareInputs(form: Form, inputs: Record<string, unknown> = {}) {
-    const newInuts: Record<string, unknown> = {};
+export function sanitizeInputs(form: Form, inputs: Record<string, any> = {}) {
+    const newInuts: Record<string, any> = {};
 
     for (let i = 0; i < form.screens.length; i++) {
         const screen = form.screens[i];
@@ -47,7 +49,7 @@ export function prepareInputs(form: Form, inputs: Record<string, unknown> = {}) 
  * @param form Form structure
  * @param inputs Form inputs
  */
-export function validateInputs(form: Form, inputs: Record<string, unknown>) {
+export function validateInputs(form: Form, inputs: Record<string, any>) {
     let errors: Record<string, string> = {};
 
     for (let i = 0; i < form.screens.length; i++) {
@@ -64,7 +66,7 @@ export function validateInputs(form: Form, inputs: Record<string, unknown>) {
  * @param screen Screen structure
  * @param inputs Form inputs
  */
-export function validateScreenInputs(screen: Screen, inputs: Record<string, unknown>) {
+export function validateScreenInputs(screen: Screen, inputs: Record<string, any>) {
     const errors: Record<string, string> = {};
 
     for (let i = 0; i < screen.fields.length; i++) {
