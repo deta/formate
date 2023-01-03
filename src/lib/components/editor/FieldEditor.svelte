@@ -160,4 +160,10 @@
 	.delete:hover :global(svg *) {
 		stroke: var(--danger);
 	}
+
+	@media screen and (max-width: 800px) {
+		.content {
+			padding-left: 0;
+		}
+	}
 </style>

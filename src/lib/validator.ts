@@ -3,6 +3,7 @@
 import type { Form, Screen } from './types';
 
 // TODO: Put validation logic to this section
+// TODO: Render error page inside the renderer
 
 /**
  * Initialize inputs for submission 

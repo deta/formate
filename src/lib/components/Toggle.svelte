@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { slide } from 'svelte/transition';
 	import Checkmark from './icons/Checkmark.svelte';
 
 	// Is toggle active
@@ -8,8 +7,6 @@
 
 	// Set to true if value controlled from the outside
 	export let controlled: boolean = false;
-
-	export let error: string | boolean = false;
 
 	// Click event
 	const dispath = createEventDispatcher();
@@ -23,15 +20,11 @@
 	}
 </script>
 
-<button class:active={value} class:with-checkmark={!$$slots.default} on:click={toggle}>
+<button class="toggle" class:active={value} class:with-checkmark={!$$slots.default} on:click={toggle}>
 	<slot>
 		<Checkmark />
 	</slot>
 </button>
-
-{#if typeof error === 'string'}
-	<div class="error-message" transition:slide|local={{ duration: 100 }}>{error}</div>
-{/if}
 
 <style>
 	button {
@@ -98,13 +91,5 @@
 
 	.with-checkmark {
 		padding: 1rem;
-	}
-
-	.error-message {
-		color: var(--danger);
-		padding: 0 1rem;
-		margin-top: 0.5rem;
-		font-size: 0.9rem;
-		font-weight: 300;
 	}
 </style>

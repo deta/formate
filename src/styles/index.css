@@ -34,12 +34,12 @@ body {
 
 @media screen and (max-width: 600px) {
 	:root {
-		font-size: 12px;
+		font-size: 13px;
 	}
 }
 
 @media screen and (max-width: 400px) {
 	:root {
-		font-size: 8px;
+		font-size: 11px;
 	}
 }

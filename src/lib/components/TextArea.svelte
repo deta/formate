@@ -30,41 +30,47 @@
 </script>
 
 <div>
-	<div class="input-wrapper" class:disabled class:error class:warning>
+	<div class="textarea" class:disabled class:error class:warning>
 		<textarea bind:value disabled={readonly || disabled} on:change on:keyup on:click on:focus on:blur {placeholder} {spellcheck} {rows} {cols} />
 	</div>
 
-	{#if typeof error === 'string'}
-		<div class="error-message" transition:slide|local={{ duration: 100 }}>{error}</div>
-	{:else if typeof warning === 'string'}
-		<div class="warning-message" transition:slide|local={{ duration: 100 }}>{warning}</div>
+	{#if typeof error === 'string' || typeof warning === 'string'}
+		<div class="message" class:error class:warning transition:slide|local={{ duration: 100 }}>{error || warning}</div>
 	{/if}
 </div>
 
 <style>
-	.input-wrapper {
+	.textarea {
 		display: flex;
 		flex-direction: row;
 		border: 1px solid;
 		border-radius: 0.5rem;
 		border-color: var(--border);
-		overflow-x: auto;
-		overflow-y: hidden;
+		overflow: hidden;
 		padding: 1rem 1.25rem;
 		transition: border-color 0.1s ease;
 	}
 
-	.input-wrapper:focus-within {
+	.textarea:focus-within {
 		border-color: var(--accent);
 	}
 
-	.input-wrapper.disabled {
+	.textarea.disabled {
 		opacity: 0.5;
+		pointer-events: none;
 		user-select: none;
 	}
 
-	.input-wrapper.error {
+	.textarea.error {
 		border-color: var(--danger);
+	}
+
+	textarea {
+		all: unset;
+		cursor: pointer;
+		font-size: 1rem;
+		line-height: 1.5rem;
+		width: 100%;
 	}
 
 	textarea::placeholder {
@@ -73,26 +79,18 @@
 		font-style: italic;
 	}
 
-	textarea {
-		all: unset;
-		font-size: 1rem;
-		line-height: 1.5rem;
-		width: 100%;
-	}
-
-	.error-message,
-	.warning-message {
+	.message {
 		padding: 0 1rem;
 		margin-top: 0.5rem;
 		font-size: 0.9rem;
 		font-weight: 300;
 	}
 
-	.warning-message {
+	.message.warning {
 		color: var(--warning);
 	}
 
-	.error-message {
+	.message.error {
 		color: var(--danger);
 	}
 </style>

@@ -50,7 +50,7 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div>
-	<div class="input-wrapper" class:disabled class:error class:warning>
+	<div class="input" class:disabled class:error class:warning>
 		{#if prefix}
 			<span class="prefix" on:click={focus}>{prefix}</span>
 		{/if}
@@ -78,54 +78,52 @@
 		{/if}
 	</div>
 
-	{#if typeof error === 'string'}
-		<div class="error-message" transition:slide|local={{ duration: 100 }}>{error}</div>
-	{:else if typeof warning === 'string'}
-		<div class="warning-message" transition:slide|local={{ duration: 100 }}>{warning}</div>
+	{#if typeof error === 'string' || typeof warning === 'string'}
+		<div class="message" class:error class:warning transition:slide|local={{ duration: 100 }}>{error || warning}</div>
 	{/if}
 </div>
 
 <style>
-	.input-wrapper {
+	.input {
 		display: flex;
 		flex-direction: row;
 		border: 1px solid;
 		border-radius: 0.5rem;
 		border-color: var(--border);
 		padding: 0 1.25rem;
-		overflow-x: auto;
-		overflow-y: hidden;
+		overflow: hidden;
 		min-height: 1.5rem;
 		min-width: 1.5rem;
 		transition: border-color 0.1s ease;
 	}
 
-	.input-wrapper:focus-within {
+	.input:focus-within {
 		border-color: var(--accent);
 	}
 
-	.input-wrapper:focus-within .icon :global(svg *) {
+	.input:focus-within .icon :global(svg *) {
 		stroke: var(--accent);
 	}
 
-	.input-wrapper.disabled {
+	.input.disabled {
 		opacity: 0.5;
+		pointer-events: none;
 		user-select: none;
 	}
 
-	.input-wrapper.warning {
+	.input.warning {
 		border-color: var(--warning);
 	}
 
-	.input-wrapper.warning .prefix {
+	.input.warning .prefix {
 		color: var(--warning);
 	}
 
-	.input-wrapper.error {
+	.input.error {
 		border-color: var(--danger);
 	}
 
-	.input-wrapper.error .prefix {
+	.input.error .prefix {
 		color: var(--danger);
 	}
 
@@ -139,6 +137,7 @@
 	}
 
 	input {
+		cursor: pointer;
 		width: 100%;
 	}
 
@@ -177,19 +176,30 @@
 		stroke: var(--border);
 	}
 
-	.error-message,
-	.warning-message {
+	.message {
 		padding: 0 1rem;
 		margin-top: 0.5rem;
 		font-size: 0.9rem;
 		font-weight: 300;
 	}
 
-	.warning-message {
+	.message.warning {
 		color: var(--warning);
 	}
 
-	.error-message {
+	.message.error {
 		color: var(--danger);
+	}
+
+	/* Disable spin buttons for numbers on Edge, Safari, Chrome */
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+
+	/* Disable spin buttons for Firefox */
+	input[type='number'] {
+		-moz-appearance: textfield;
 	}
 </style>
