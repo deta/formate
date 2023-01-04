@@ -2,8 +2,12 @@
 
 import type { Form, Screen } from './types';
 
-// TODO: Put validation logic to this section
 // TODO: Render error page inside the renderer
+
+// Validators
+const PhoneNumberRegExp = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/;
+const EmailRegExp = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+const LinkRegExp = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/;
 
 /**
  * Initialize inputs for submission 
@@ -23,7 +27,7 @@ export function sanitizeInputs(form: Form, inputs: Record<string, any> = {}) {
             newInuts[field.column] = inputs?.[field.column] || field?.initial;
 
             // Short and Long text fields
-            if (field.type === 'short' || field.type === 'long') {
+            if (field.type === 'short' || field.type === 'long' || field.type === 'email' || field.type === 'link' || field.type === 'phone') {
                 if (typeof newInuts[field.column] !== 'string') newInuts[field.column] = '';
                 continue;
             }
@@ -75,17 +79,21 @@ export function validateScreenInputs(screen: Screen, inputs: Record<string, any>
         const value = inputs?.[field.column];
 
         // Short & Long fields validation
-        if (field.type === 'short' || field.type === 'long') {
+        if (field.type === 'short' || field.type === 'long' || field.type === 'email' || field.type === 'link' || field.type === 'phone') {
+
+            // Text fields should be a string
             if (typeof value !== 'string') {
                 errors[field.key] = 'Invalid value type';
                 continue;
             }
 
+            // Field must contain something if required
             if (field.required && value.trim() === '') {
                 errors[field.key] = 'This field cant be empty';
                 continue;
             }
 
+            // Small text fields should be less than 100 chars
             if (field.type === 'short') {
                 if (value.length > 100) {
                     errors[field.key] = 'Value must be less than 100 symbols';
@@ -93,6 +101,7 @@ export function validateScreenInputs(screen: Screen, inputs: Record<string, any>
                 }
             }
 
+            // Long text should be less than 10k chars
             if (field.type === 'long') {
                 if (value.length > 100000) {
                     errors[field.key] = 'Value must be less than 100,000 symbols';
@@ -100,42 +109,67 @@ export function validateScreenInputs(screen: Screen, inputs: Record<string, any>
                 }
             }
 
-            continue;
+            // Check if email valid
+            if (field.type === 'email') {
+                if (!EmailRegExp.test(value) && value.trim() !== '') {
+                    errors[field.key] = 'Invalid email address';
+                    continue;
+                }
+            }
+
+            // Check if email valid
+            if (field.type === 'link') {
+                if (!LinkRegExp.test(value) && value.trim() !== '') {
+                    errors[field.key] = 'Invalid URL';
+                    continue;
+                }
+            }
+
+            // Check if email valid
+            if (field.type === 'phone') {
+                if (!PhoneNumberRegExp.test(value) && value.trim() !== '') {
+                    errors[field.key] = 'Invalid phone number';
+                    continue;
+                }
+            }
         }
 
         // Validate checkbox field
         if (field.type === 'checkbox') {
+
+            // Field must be a boolean
             if (typeof value !== 'boolean') {
                 errors[field.key] = 'Invalid value type';
                 continue;
             }
-
-            continue;
         }
 
         // Validate number field
         if (field.type === 'number') {
+
+            // Field must be a number
             if (typeof value !== 'number' && typeof value !== 'undefined') {
                 errors[field.key] = 'Invalid value type';
                 continue;
             }
 
+            // If field required, check 
             if (field.required && typeof value === 'undefined') {
                 errors[field.key] = 'This field cant be empty';
                 continue;
             }
 
+            // Value should be more than min param
             if (field.min && value < field.min) {
                 errors[field.key] = `Value cant be less than ${field.min}`;
                 continue;
             }
 
+            // Value should be less than max param
             if (field.max && value > field.max) {
                 errors[field.key] = `Value cant be greater than ${field.min}`;
                 continue;
             }
-
-            continue;
         }
     }
 

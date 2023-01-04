@@ -47,7 +47,6 @@
 		border-radius: 0.5rem;
 		border-color: var(--border);
 		overflow: hidden;
-		padding: 1rem 1.25rem;
 		transition: border-color 0.1s ease;
 	}
 
@@ -67,10 +66,12 @@
 
 	textarea {
 		all: unset;
+		width: 100%;
+		overflow-x: hidden;
 		cursor: pointer;
 		font-size: 1rem;
 		line-height: 1.5rem;
-		width: 100%;
+		padding: 1rem 1.25rem;
 	}
 
 	textarea::placeholder {

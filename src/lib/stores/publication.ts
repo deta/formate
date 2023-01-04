@@ -38,6 +38,7 @@ export async function createPublication(form: Form) {
 
 /**
  * Make current form private
+ * @param formKey Key of the form to unpublish
  */
 export async function deletePublication(formKey: string) {
 	try {

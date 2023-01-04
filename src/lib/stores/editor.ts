@@ -125,6 +125,7 @@ export function deleteScreen(key: string) {
 
 /**
  * Add new field
+ * @param type Type of the field to add
  */
 export function addField(type: FieldType) {
 	screen.update((draft) => {
@@ -133,19 +134,7 @@ export function addField(type: FieldType) {
 		const column = createSlug(`${type} ${nanoid(4)}`);
 		const key = nanoid();
 
-		if (type === 'short') {
-			draft.fields.push({
-				key,
-				column,
-				type,
-				title,
-				required: false,
-				initial: '',
-				placeholder: ''
-			});
-		}
-
-		if (type === 'long') {
+		if (type === 'short' || type === 'long') {
 			draft.fields.push({
 				key,
 				column,
@@ -174,8 +163,43 @@ export function addField(type: FieldType) {
 				column,
 				type,
 				title,
-				required: false,
 				initial: false,
+			});
+		}
+
+		if (type === 'email') {
+			draft.fields.push({
+				key,
+				column,
+				type,
+				title,
+				required: false,
+				initial: '',
+				placeholder: ''
+			});
+		}
+
+		if (type === 'phone') {
+			draft.fields.push({
+				key,
+				column,
+				type,
+				title,
+				required: false,
+				initial: '',
+				placeholder: ''
+			});
+		}
+
+		if (type === 'link') {
+			draft.fields.push({
+				key,
+				column,
+				type,
+				title,
+				required: false,
+				initial: '',
+				placeholder: ''
 			});
 		}
 

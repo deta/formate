@@ -16,8 +16,8 @@ body {
 }
 
 ::selection {
-	color: white;
-	background: var(--accent);
+	color: var(--accent);
+	background: var(--neutral);
 }
 
 @supports (font-variation-settings: normal) {

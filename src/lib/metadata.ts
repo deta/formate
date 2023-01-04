@@ -1,8 +1,8 @@
 import Checkbox from '$lib/components/icons/Checkbox.svelte';
-// import Link from '$lib/components/icons/Link.svelte';
+import Link from '$lib/components/icons/Link.svelte';
 // import ListCheck from '$lib/components/icons/ListCheck.svelte';
-// import Mail from '$lib/components/icons/Mail.svelte';
-// import Phone from '$lib/components/icons/Phone.svelte';
+import Mail from '$lib/components/icons/Mail.svelte';
+import Phone from '$lib/components/icons/Phone.svelte';
 // import Selector from '$lib/components/icons/Selector.svelte';
 import SortNumbers from '$lib/components/icons/SortNumbers.svelte';
 import Cursor from './components/icons/Cursor.svelte';
@@ -46,19 +46,20 @@ export const fieldsMetadata: Record<string, FieldMetadata> = {
     //     description: 'Input for selection one or multiple values.',
     //     icon: ListCheck,
     // },
-    // email: {
-    //     name: 'Email',
-    //     description: 'Input for Email adresses.',
-    //     icon: Mail,
-    // },
-    // phone: {
-    //     name: 'Phone Number',
-    //     description: 'Input for Phone numbers',
-    //     icon: Phone,
-    // },
-    // link: {
-    //     name: 'Link',
-    //     description: 'Input for HTTP links.',
-    //     icon: Link,
-    // }
+    email: {
+        name: 'Email',
+        description: 'Input for Email adresses.',
+        icon: Mail,
+    },
+    phone: {
+        name: 'Phone Number',
+        description: 'Input for Phone numbers',
+        icon: Phone,
+    },
+    link: {
+        name: 'Link',
+        description: 'Input for HTTP links.',
+        icon: Link,
+    }
+    // TODO: Custom Regexp
 };

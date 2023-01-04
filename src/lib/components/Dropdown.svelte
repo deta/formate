@@ -49,7 +49,16 @@
 </script>
 
 <div>
-	<button class="dropdown" bind:this={buttonElement} on:blur={clickOutside} on:click={onToggle} class:disabled class:error class:warning class:opened>
+	<button
+		class="dropdown"
+		bind:this={buttonElement}
+		on:blur={clickOutside}
+		on:click={onToggle}
+		class:disabled
+		class:error
+		class:warning
+		class:opened={opened && options.length > 0}
+	>
 		<span class="value">{value}</span>
 
 		<span class="icon">
@@ -93,6 +102,7 @@
 
 	.dropdown {
 		all: unset;
+		box-sizing: border-box;
 		position: relative;
 		cursor: pointer;
 		width: 100%;
@@ -103,7 +113,7 @@
 		border-color: var(--border);
 		min-height: 1.5rem;
 		min-width: 1.5rem;
-		transition: border-color 0.1s ease, border-radius 0.1s ease;
+		transition: border-color 0.1s ease, border-radius 0.05s linear;
 		transition-delay: 100ms;
 	}
 
@@ -119,8 +129,8 @@
 		stroke: var(--accent);
 	}
 
-	.dropdown.opened .icon {
-		transform: rotate(180deg);
+	.dropdown.opened .icon :global(svg) {
+		transform: scaleY(-100%);
 	}
 
 	.dropdown.opened .options {
@@ -163,7 +173,7 @@
 		transition: 0.1s ease;
 	}
 
-	.option-value:hover {
+	.option:hover .option-value {
 		opacity: 1;
 	}
 
@@ -175,17 +185,17 @@
 		user-select: none;
 		min-width: fit-content;
 		margin-left: 0.5rem;
-		margin-right: 1rem;
+		padding-right: 1rem;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		transition: transform 0.1s ease;
 	}
 
 	.icon :global(svg) {
 		display: block;
 		width: 1.5rem;
 		height: 1.5rem;
+		transition: transform 0.1s ease;
 	}
 
 	.icon :global(svg *) {

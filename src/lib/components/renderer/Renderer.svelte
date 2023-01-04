@@ -8,10 +8,14 @@
 	import { sanitizeInputs, validateScreenInputs } from '$lib/validator';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
+	import Link from '../icons/Link.svelte';
+	import Mail from '../icons/Mail.svelte';
+	import Phone from '../icons/Phone.svelte';
+	import SortNumbers from '../icons/SortNumbers.svelte';
 	import TextArea from '../TextArea.svelte';
 	import Toggle from '../Toggle.svelte';
 
-	const TRANSITION_SPEED = 500;
+	const TRANSITION_SPEED = 200;
 
 	// Dispatch events
 	const dispatch = createEventDispatcher<{ submit: Record<string, any> }>();
@@ -36,14 +40,17 @@
 
 	// Reset values if form changes
 	$: if (form) {
-		if (!form.screens[currentScreenIndex]) currentScreenIndex = 0;
+		if (!form.screens[currentScreenIndex]) {
+			currentScreenIndex = 0;
+			inputs = sanitizeInputs(form, inputs);
+		}
 	}
 
 	// Current screen
 	$: screen = form?.screens?.[currentScreenIndex];
 
 	// Check if errors exists
-	$: hasErrors = Object.keys(errors).some((key) => typeof errors[key] === 'string');
+	$: hasErrors = Object.keys(errors).length > 0;
 
 	// Append global styles
 	if (browser && form?.css) {
@@ -59,16 +66,25 @@
 	});
 
 	/**
+	 * Reset field error
+	 * @param key Field key
+	 */
+	function cleanError(key: string) {
+		delete errors[key];
+		errors = errors;
+	}
+
+	/**
 	 * Go to previous screen
 	 */
 	async function back() {
 		visible = false;
-		await sleep(TRANSITION_SPEED / 2);
+		await sleep(TRANSITION_SPEED);
 
 		errors = {};
 		if (currentScreenIndex > 0) currentScreenIndex -= 1;
 
-		await sleep(TRANSITION_SPEED / 2);
+		await sleep(TRANSITION_SPEED);
 		visible = true;
 	}
 
@@ -81,7 +97,7 @@
 		if (Object.keys(errors).length > 0) return;
 
 		visible = false;
-		await sleep(TRANSITION_SPEED / 2);
+		await sleep(TRANSITION_SPEED);
 
 		// Submit
 		if (currentScreenIndex >= form.screens.length - 1) {
@@ -91,7 +107,7 @@
 			currentScreenIndex += 1;
 		}
 
-		await sleep(TRANSITION_SPEED / 2);
+		await sleep(TRANSITION_SPEED);
 		visible = true;
 	}
 </script>
@@ -103,7 +119,7 @@
 <div class="wrapper {form.color} {form.layout}">
 	<div class="container">
 		{#if !finished}
-			<div class="form" class:hidden={!visible} style:transition="{TRANSITION_SPEED / 2}ms ease">
+			<div class="form" class:hidden={!visible} style:transition="{TRANSITION_SPEED}ms ease">
 				<div class="heading">
 					{#if screen?.title}
 						<h2>{screen.title}</h2>
@@ -117,31 +133,56 @@
 				<div class="fields">
 					{#each screen.fields as field (field.key)}
 						<div>
-							<Label title={field.title} required={field?.required} />
+							<Label title={field.title} required={'required' in field && field.required} />
 							{#if field.type === 'short'}
 								<Input
 									placeholder={field?.placeholder}
 									error={errors[field.key]}
 									bind:value={inputs[field.column]}
-									on:keyup={() => (errors[field.key] = undefined)}
+									on:keyup={() => cleanError(field.key)}
 								/>
 							{:else if field.type === 'long'}
 								<TextArea
 									placeholder={field?.placeholder}
 									error={errors[field.key]}
 									bind:value={inputs[field.column]}
-									on:keyup={() => (errors[field.key] = undefined)}
+									on:keyup={() => cleanError(field.key)}
 								/>
 							{:else if field.type === 'number'}
 								<Input
 									type="number"
 									placeholder={field?.placeholder}
 									error={errors[field.key]}
+									icon={SortNumbers}
 									bind:value={inputs[field.column]}
-									on:keyup={() => (errors[field.key] = undefined)}
+									on:keyup={() => cleanError(field.key)}
 								/>
 							{:else if field.type === 'checkbox'}
 								<Toggle bind:value={inputs[field.column]} />
+							{:else if field.type === 'email'}
+								<Input
+									placeholder={field?.placeholder}
+									error={errors[field.key]}
+									icon={Mail}
+									bind:value={inputs[field.column]}
+									on:keyup={() => cleanError(field.key)}
+								/>
+							{:else if field.type === 'phone'}
+								<Input
+									placeholder={field?.placeholder}
+									error={errors[field.key]}
+									icon={Phone}
+									bind:value={inputs[field.column]}
+									on:keyup={() => cleanError(field.key)}
+								/>
+							{:else if field.type === 'link'}
+								<Input
+									placeholder={field?.placeholder}
+									error={errors[field.key]}
+									icon={Link}
+									bind:value={inputs[field.column]}
+									on:keyup={() => cleanError(field.key)}
+								/>
 							{/if}
 						</div>
 					{/each}

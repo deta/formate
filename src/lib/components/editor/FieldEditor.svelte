@@ -24,7 +24,7 @@
 	$: fieldData = fieldsMetadata[field.type];
 </script>
 
-<div class="field" in:fly={{ x: -8, delay: 100 * index }} out:fly|local={{ x: 8, delay: 100 * index }}>
+<div class="field" in:fly={{ x: -8, delay: 100 * index }} out:fly|local={{ x: 8, delay: 100 }}>
 	<div class="heading">
 		<div class="buttons">
 			{#if index > 0}
@@ -57,6 +57,8 @@
 			<NumberOptions bind:field />
 		{:else if field.type === 'checkbox'}
 			<CheckboxOptions bind:field />
+		{:else if field.type === 'email' || field.type === 'phone' || field.type === 'link'}
+			<ShortLongTextOptions bind:field />
 		{/if}
 	</div>
 </div>

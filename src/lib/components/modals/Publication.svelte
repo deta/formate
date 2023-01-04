@@ -58,5 +58,10 @@
 		border-color: var(--accent);
 		background-color: white;
 		box-shadow: 0 0.5rem 2rem var(--neutral);
+		transition: 0.1s ease;
+	}
+
+	.publication :global(.input svg) {
+		cursor: pointer;
 	}
 </style>

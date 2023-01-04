@@ -37,7 +37,7 @@
 	</div>
 
 	{#each screen.fields as field, index (field.key)}
-		<div animate:flip={{ duration: 300 }}>
+		<div animate:flip={{ duration: 200 }}>
 			<FieldEditor bind:field {index} {screen} on:change={({ detail }) => onFieldChange(index, detail)} />
 		</div>
 	{/each}

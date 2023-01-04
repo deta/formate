@@ -90,7 +90,6 @@
 		border: 1px solid;
 		border-radius: 0.5rem;
 		border-color: var(--border);
-		padding: 0 1.25rem;
 		overflow: hidden;
 		min-height: 1.5rem;
 		min-width: 1.5rem;
@@ -133,7 +132,7 @@
 		all: unset;
 		font-size: 1rem;
 		line-height: 1.5rem;
-		padding: 1rem 0;
+		padding: 1rem 1.25rem;
 	}
 
 	input {
@@ -150,6 +149,8 @@
 	.prefix {
 		opacity: 0.5;
 		letter-spacing: -0.05rem;
+		padding-right: 0;
+		margin-right: -1.25rem;
 	}
 
 	.prefix,
@@ -159,8 +160,8 @@
 	}
 
 	.icon {
-		margin-left: 0.5rem;
-		margin-right: -0.25rem;
+		padding: 1rem;
+		padding-left: 0;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -174,6 +175,7 @@
 
 	.icon :global(svg *) {
 		stroke: var(--border);
+		transition: 0.1s ease;
 	}
 
 	.message {
