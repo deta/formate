@@ -16,7 +16,7 @@ const LinkRegExp = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]
  * @returns 
  */
 export function sanitizeInputs(form: Form, inputs: Record<string, any> = {}) {
-    const newInuts: Record<string, any> = {};
+    const newInputs: Record<string, any> = {};
 
     for (let i = 0; i < form.screens.length; i++) {
         const screen = form.screens[i];
@@ -24,29 +24,35 @@ export function sanitizeInputs(form: Form, inputs: Record<string, any> = {}) {
         for (let i = 0; i < screen.fields.length; i++) {
             const field = screen.fields[i];
 
-            newInuts[field.column] = inputs?.[field.column] || field?.initial;
+            newInputs[field.column] = inputs?.[field.column] || field?.initial;
 
             // Short and Long text fields
             if (field.type === 'short' || field.type === 'long' || field.type === 'email' || field.type === 'link' || field.type === 'phone') {
-                if (typeof newInuts[field.column] !== 'string') newInuts[field.column] = '';
+                if (typeof newInputs[field.column] !== 'string') newInputs[field.column] = '';
                 continue;
             }
 
             // Checkbox fields
             if (field.type === 'checkbox') {
-                if (typeof newInuts[field.column] !== 'boolean') newInuts[field.column] = false;
+                if (typeof newInputs[field.column] !== 'boolean') newInputs[field.column] = false;
                 continue;
             }
 
             // Number fields
             if (field.type === 'number') {
-                if (typeof newInuts[field.column] !== 'number') newInuts[field.column] = null;
+                if (typeof newInputs[field.column] !== 'number') newInputs[field.column] = null;
+                continue;
+            }
+
+            // Dropdown fields
+            if (field.type === 'dropdown') {
+                if (typeof newInputs[field.column] !== 'string') newInputs[field.column] = field?.options?.[0];
                 continue;
             }
         }
     }
 
-    return newInuts;
+    return newInputs;
 }
 
 /**
@@ -101,7 +107,7 @@ export function validateScreenInputs(screen: Screen, inputs: Record<string, any>
                 }
             }
 
-            // Long text should be less than 10k chars
+            // Long text should be less than 100k chars
             if (field.type === 'long') {
                 if (value.length > 100000) {
                     errors[field.key] = 'Value must be less than 100,000 symbols';
@@ -168,6 +174,22 @@ export function validateScreenInputs(screen: Screen, inputs: Record<string, any>
             // Value should be less than max param
             if (field.max && value > field.max) {
                 errors[field.key] = `Value cant be greater than ${field.max}`;
+                continue;
+            }
+        }
+
+        // Dropdown validation
+        if (field.type === 'dropdown') {
+
+            // Field must be a string
+            if (typeof value !== 'string') {
+                errors[field.key] = 'Invalid value type';
+                continue;
+            }
+
+            // If value is not an option
+            if (!field.options.includes(value)) {
+                errors[field.key] = 'The selected value is not in the options list';
                 continue;
             }
         }

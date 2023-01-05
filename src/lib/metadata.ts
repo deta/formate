@@ -6,6 +6,7 @@ import Phone from '$lib/components/icons/Phone.svelte';
 import Selector from '$lib/components/icons/Selector.svelte';
 import SortNumbers from '$lib/components/icons/SortNumbers.svelte';
 import Cursor from './components/icons/Cursor.svelte';
+import Hammer from './components/icons/Hammer.svelte';
 import Paragraph from './components/icons/Paragraph.svelte';
 
 interface FieldMetadata {
@@ -18,12 +19,12 @@ interface FieldMetadata {
 export const fieldsMetadata: Record<string, FieldMetadata> = {
     short: {
         name: 'Short Text',
-        description: 'Small text input for less than 100 symbols. Perfect for names.',
+        description: 'Small text input for less than 100 symbols.',
         icon: Cursor,
     },
     long: {
         name: 'Long Text',
-        description: 'Big text input without symbols count limit. Perfect for descriptions.',
+        description: 'Big text input for less than 100,000 symbols.',
         icon: Paragraph,
     },
     number: {
@@ -38,7 +39,7 @@ export const fieldsMetadata: Record<string, FieldMetadata> = {
     },
     dropdown: {
         name: 'Dropdown',
-        description: 'Input for selection on of the predefined results.',
+        description: 'Input for selection one of the predefined options.',
         icon: Selector,
     },
     // select: {
@@ -53,7 +54,7 @@ export const fieldsMetadata: Record<string, FieldMetadata> = {
     },
     phone: {
         name: 'Phone Number',
-        description: 'Input for Phone numbers',
+        description: 'Input for Phone numbers.',
         icon: Phone,
     },
     link: {
@@ -61,9 +62,9 @@ export const fieldsMetadata: Record<string, FieldMetadata> = {
         description: 'Input for HTTP links.',
         icon: Link,
     },
-    // custom: {
-    //     name: 'custom',
-    //     description: 'Input with the custom RegEx validation.',
-    //     icon: Link,
-    // },
+    custom: {
+        name: 'Custom Field',
+        description: 'Input with the custom RegEx validation.',
+        icon: Hammer,
+    },
 };
