@@ -13,11 +13,18 @@
 	// Field data
 	export let field: DropdownField;
 
+	/**
+	 * Add new option
+	 */
 	function addOption() {
 		field.options.push(`Dropdown option #${field.options.length}`);
 		field = field;
 	}
 
+	/**
+	 * Delete option
+	 * @param index Index of the option
+	 */
 	function deleteOption(index: number) {
 		field.options.splice(index, 1);
 		field = field;
