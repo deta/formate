@@ -1,16 +1,14 @@
 <script lang="ts">
+	import { goto, invalidateAll } from '$app/navigation';
+	import { hideModals } from '$lib/stores/modals';
 	import type { ColorScheme, Form } from '$lib/types';
 	import { createSlug } from '$lib/utils';
 	import { nanoid } from 'nanoid';
-
 	import Button from '../Button.svelte';
 	import ColorPicker from '../ColorPicker.svelte';
 	import Input from '../Input.svelte';
 	import Label from '../Label.svelte';
 	import Modal from '../Modal.svelte';
-
-	import { goto, invalidateAll } from '$app/navigation';
-	import { hideModals } from '$lib/stores/modals';
 
 	interface CreateFormValues {
 		name: string;

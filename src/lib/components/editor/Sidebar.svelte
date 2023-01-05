@@ -6,29 +6,33 @@
 
 	const dispatch = createEventDispatcher<{ select: string; delete: string; add: undefined }>();
 
-	let element: HTMLDivElement;
-
 	export let screens: Screen[];
 	export let selectedScreen: string;
 
 	// Scroll to bottom
 	onMount(() => {
-		if (element) element.scrollTo({ top: element.scrollHeight });
+		scrollToBottom(false);
 	});
 
 	/**
 	 * Add screen
 	 */
 	function addScreen() {
-		setTimeout(() => {
-			// Scroll to bottom
-			if (element) element.scrollTo({ top: element.scrollHeight, behavior: 'smooth' });
-		}, 200);
+		setTimeout(() => scrollToBottom(), 200);
+
 		dispatch('add');
+	}
+
+	/**
+	 * Scroll to latest screen
+	 */
+	function scrollToBottom(smooth: boolean = true) {
+		const sidebarElement = document.querySelector('#sidebar');
+		if (sidebarElement) sidebarElement.scrollTo({ top: sidebarElement.scrollHeight, behavior: smooth ? 'smooth' : 'auto' });
 	}
 </script>
 
-<div class="sidebar" bind:this={element}>
+<div id="sidebar" class="sidebar">
 	{#each screens as screen, index (screen.key)}
 		<div>
 			<Card

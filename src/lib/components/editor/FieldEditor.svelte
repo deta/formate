@@ -8,6 +8,7 @@
 	import ArrowUp from '../icons/ArrowUp.svelte';
 	import TrashBin from '../icons/TrashBin.svelte';
 	import CheckboxOptions from './options/CheckboxOptions.svelte';
+	import CustomOptions from './options/CustomOptions.svelte';
 	import DropdownOptions from './options/DropdownOptions.svelte';
 	import NumberOptions from './options/NumberOptions.svelte';
 	import DefaultTextOptions from './options/TextOptions.svelte';
@@ -25,7 +26,7 @@
 	$: fieldData = fieldsMetadata[field.type];
 </script>
 
-<div class="field" in:fly={{ x: -8, delay: 100 * index }} out:fly|local={{ x: 8, delay: 100 }}>
+<div class="field" in:fly={{ y: -16, delay: 100 * index, duration: 200 }} out:fly|local={{ duration: 200 }}>
 	<div class="heading">
 		<div class="buttons">
 			{#if index > 0}
@@ -60,6 +61,8 @@
 			<CheckboxOptions bind:field />
 		{:else if field.type === 'dropdown'}
 			<DropdownOptions bind:field />
+		{:else if field.type === 'custom'}
+			<CustomOptions bind:field />
 		{/if}
 	</div>
 </div>

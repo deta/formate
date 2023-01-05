@@ -1,10 +1,9 @@
 <script lang="ts">
+	import { fieldsMetadata } from '$lib/metadata';
 	import { addField } from '$lib/stores/editor';
 	import { hideModals } from '$lib/stores/modals';
 	import type { FieldType } from '$lib/types';
 	import Modal from '../Modal.svelte';
-
-	import { fieldsMetadata } from '$lib/metadata';
 
 	/**
 	 * On field select
@@ -13,6 +12,12 @@
 	function selectField(type: FieldType) {
 		addField(type);
 		hideModals();
+
+		// Scroll to botton
+		setTimeout(() => {
+			const screenElement = document.querySelector('#screen-editor');
+			if (screenElement) screenElement.scrollTo({ top: screenElement.scrollHeight, behavior: 'smooth' });
+		}, 100);
 	}
 </script>
 

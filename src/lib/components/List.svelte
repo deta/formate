@@ -20,9 +20,9 @@
 </script>
 
 {#if items?.length}
-	<div class="list" class:small class:bold transition:slide|local={{ duration: 100 }}>
-		{#each items as item, index}
-			<div class="item" transition:slide|local={{ duration: 100 }}>
+	<div class="list" class:small class:bold transition:slide|local={{ duration: 300 }}>
+		{#each items as item, index (index)}
+			<div class="item" transition:slide|local={{ duration: 300 }}>
 				<slot {item} {index} />
 
 				{#if deletable}

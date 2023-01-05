@@ -26,7 +26,7 @@
 	}
 </script>
 
-<div class="screen">
+<div id="screen-editor" class="screen">
 	<div class="field">
 		<h3>
 			<EditableText bind:value={screen.title} placeholder="No Title" />

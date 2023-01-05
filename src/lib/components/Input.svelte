@@ -145,6 +145,14 @@
 		stroke: var(--accent);
 	}
 
+	.input.warning:focus-within .icon :global(svg *) {
+		stroke: var(--warning);
+	}
+
+	.input.error:focus-within .icon :global(svg *) {
+		stroke: var(--danger);
+	}
+
 	.input.disabled {
 		opacity: 0.5;
 		pointer-events: none;

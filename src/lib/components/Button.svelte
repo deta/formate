@@ -43,8 +43,8 @@
 		line-height: 1rem;
 		border-radius: 0.5rem;
 		padding: 1rem 1.5rem;
-		min-height: 1rem;
-		min-width: 1rem;
+		min-height: 3rem;
+		min-width: 2rem;
 		background-color: var(--accent);
 		transition: 0.1s ease;
 	}

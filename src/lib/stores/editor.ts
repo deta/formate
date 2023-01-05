@@ -146,6 +146,19 @@ export function addField(type: FieldType) {
 			});
 		}
 
+		if (type === 'custom') {
+			draft.fields.push({
+				key,
+				column,
+				type,
+				title,
+				required: false,
+				initial: '',
+				validator: '',
+				placeholder: ''
+			});
+		}
+
 		if (type === 'number') {
 			draft.fields.push({
 				key,

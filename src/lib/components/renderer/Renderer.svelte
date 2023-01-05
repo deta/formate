@@ -192,6 +192,13 @@
 									error={errors[field.key]}
 									disabled={field.options.length === 0}
 								/>
+							{:else if field.type === 'custom'}
+								<Input
+									placeholder={field?.placeholder}
+									error={errors[field.key]}
+									bind:value={inputs[field.column]}
+									on:keyup={() => cleanError(field.key)}
+								/>
 							{/if}
 						</div>
 					{/each}

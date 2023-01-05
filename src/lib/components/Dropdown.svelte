@@ -179,6 +179,8 @@
 	.option {
 		all: unset;
 		width: 100%;
+		overflow: hidden;
+		white-space: nowrap;
 		font-size: 1rem;
 		line-height: 1.5rem;
 		padding: 1rem 1.25rem;
@@ -197,6 +199,7 @@
 
 	.option-value {
 		opacity: 0.5;
+		white-space: nowrap;
 		transition: 0.1s ease;
 	}
 
@@ -209,9 +212,9 @@
 		font-size: 1rem;
 		line-height: 1.5rem;
 		padding: 1rem 0;
+		padding-left: 0;
 		user-select: none;
 		min-width: fit-content;
-		margin-left: 0.5rem;
 		padding-right: 1rem;
 		display: flex;
 		align-items: center;

@@ -1,5 +1,3 @@
-import md5 from 'md5';
-import type { Form } from './types';
 
 /**
  * Create URL slug
@@ -17,26 +15,34 @@ export function createSlug(value: string) {
 }
 
 /**
- * Generate form data hash
- * @param form Form to create hash from
- */
-export function getFormHash(form: Form) {
-	const content = JSON.stringify({
-		key: form.key,
-		name: form.name,
-		slug: form.slug,
-		layout: form.layout,
-		css: form.css,
-		color: form.color,
-		screens: form.screens
-	});
-
-	return md5(content);
-}
-
-
-/**
  * Async sleep function
  * @param ms Time to sleep
  */
 export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
+ * Validate if string contains valid regex
+ * @param regex 
+ */
+export function isRegExValid(regex: string) {
+	let isValid = true;
+
+	try {
+		new RegExp(regex);
+	} catch (e) {
+		isValid = false;
+	}
+
+	return isValid;
+}
+
+/**
+ * Convert string to regex
+ * @param str String to convert
+ * @returns 
+ */
+export function stringToRegEx(str: string) {
+	const main = str.match(/\/(.+)\/.*/)[1];
+	const options = str.match(/\/.+\/(.*)/)[1];
+	return new RegExp(main, options);
+}

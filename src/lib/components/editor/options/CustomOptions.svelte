@@ -1,28 +1,31 @@
 <script lang="ts">
 	import Container from '$lib/components/Container.svelte';
+	import Key from '$lib/components/icons/Key.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Label from '$lib/components/Label.svelte';
 	import Toggle from '$lib/components/Toggle.svelte';
 	import { columnsCollision } from '$lib/stores/editor';
-	import type { NumberField } from '$lib/types';
+	import type { CustomField } from '$lib/types';
+	import { isRegExValid } from '$lib/utils';
 
 	// Field data
-	export let field: NumberField;
+	export let field: CustomField;
 </script>
 
 <Container>
 	<div>
 		<Label title="Column" required />
 		<Input
-			small
 			bind:value={field.column}
 			placeholder="Unique value, that will be used as a column key"
 			warning={$columnsCollision.has(field.column)}
+			icon={Key}
+			small
 		/>
 	</div>
 	<div>
 		<Label title="Default Value" />
-		<Input small type="number" bind:value={field.initial} placeholder="Initial input value" />
+		<Input small bind:value={field.initial} placeholder="Initial input value" />
 	</div>
 	<div>
 		<Label title="Placeholder" />
@@ -36,13 +39,12 @@
 
 <Container>
 	<div>
-		<Label title="Min Value" />
-		<Input small type="number" bind:value={field.min} placeholder="Minimum possible value" />
+		<Label title="Validator" description="Custom regular expression, that will be used to validate input value." required />
+		<Input
+			bind:value={field.validator}
+			placeholder="/formate is (super|ultra) cool/i"
+			error={!isRegExValid(field.validator) && 'Invalid regular expression'}
+			small
+		/>
 	</div>
-	<div>
-		<Label title="Max Value" />
-		<Input small type="number" bind:value={field.max} placeholder="Maximum possible value" />
-	</div>
-	<div />
-	<div />
 </Container>

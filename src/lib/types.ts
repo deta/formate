@@ -52,7 +52,7 @@ export type FieldType = keyof typeof fieldsMetadata;
 /**
  * All fields
  */
-export type Field = ShortTextField | LongTextField | NumberField | CheckboxField | LinkField | PhoneField | EmailField | DropdownField;
+export type Field = ShortTextField | LongTextField | NumberField | CheckboxField | LinkField | PhoneField | EmailField | DropdownField | CustomField;
 
 /**
  * Base Field structure
@@ -90,6 +90,11 @@ export interface LinkField extends TextField {
 	type: 'link';
 }
 
+export interface CustomField extends TextField {
+	type: 'custom';
+	validator: string;
+}
+
 export interface NumberField extends BaseField {
 	type: 'number';
 	initial?: number;
@@ -110,4 +115,3 @@ export interface DropdownField extends BaseField {
 	placeholder: string;
 	options: string[];
 }
-

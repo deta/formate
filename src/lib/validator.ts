@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import type { Form, Screen } from './types';
+import { isRegExValid, stringToRegEx } from './utils';
 
 // TODO: Render error page inside the renderer
 
@@ -85,7 +86,7 @@ export function validateScreenInputs(screen: Screen, inputs: Record<string, any>
         const value = inputs?.[field.column];
 
         // Short & Long fields validation
-        if (field.type === 'short' || field.type === 'long' || field.type === 'email' || field.type === 'link' || field.type === 'phone') {
+        if (field.type === 'short' || field.type === 'long' || field.type === 'email' || field.type === 'link' || field.type === 'phone' || field.type === 'custom') {
 
             // Text fields should be a string
             if (typeof value !== 'string') {
@@ -138,6 +139,14 @@ export function validateScreenInputs(screen: Screen, inputs: Record<string, any>
                     continue;
                 }
             }
+
+            // Check input with custom validator
+            if (field.type === 'custom') {
+                if (isRegExValid(field.validator) && value.trim() !== '') {
+                    if (!stringToRegEx(field.validator).test(value)) errors[field.key] = `Invalid value that does not qualify for the following regular expression: ${field.validator}`;
+                    continue;
+                }
+            }
         }
 
         // Validate checkbox field
@@ -179,7 +188,7 @@ export function validateScreenInputs(screen: Screen, inputs: Record<string, any>
         }
 
         // Dropdown validation
-        if (field.type === 'dropdown') {
+        if (field.type === 'dropdown' && field.options.length > 0) {
 
             // Field must be a string
             if (typeof value !== 'string') {

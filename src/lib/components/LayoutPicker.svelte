@@ -3,6 +3,7 @@
 	import { fade } from 'svelte/transition';
 	import Checkmark from './icons/Checkmark.svelte';
 
+	// Current layout style
 	export let value: Layout = 'clean';
 </script>
 

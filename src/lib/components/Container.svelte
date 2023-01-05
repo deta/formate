@@ -6,6 +6,7 @@
 	.container {
 		display: flex;
 		flex-direction: row;
+		align-items: flex-end;
 		width: 100%;
 		gap: 1.5rem;
 	}
