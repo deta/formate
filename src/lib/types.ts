@@ -52,7 +52,7 @@ export type FieldType = keyof typeof fieldsMetadata;
 /**
  * All fields
  */
-export type Field = ShortTextField | LongTextField | NumberField | CheckboxField | LinkField | PhoneField | EmailField;
+export type Field = ShortTextField | LongTextField | NumberField | CheckboxField | LinkField | PhoneField | EmailField | DropdownField;
 
 /**
  * Base Field structure
@@ -64,18 +64,30 @@ export interface BaseField {
 	type: FieldType;
 }
 
-export interface ShortTextField extends BaseField {
-	type: 'short';
+export interface TextField extends BaseField {
 	initial?: string;
 	placeholder: string;
 	required: boolean;
 }
 
-export interface LongTextField extends BaseField {
+export interface ShortTextField extends TextField {
+	type: 'short';
+}
+
+export interface LongTextField extends TextField {
 	type: 'long';
-	initial?: string;
-	placeholder: string;
-	required: boolean;
+}
+
+export interface EmailField extends TextField {
+	type: 'email';
+}
+
+export interface PhoneField extends TextField {
+	type: 'phone';
+}
+
+export interface LinkField extends TextField {
+	type: 'link';
 }
 
 export interface NumberField extends BaseField {
@@ -92,23 +104,10 @@ export interface CheckboxField extends BaseField {
 	initial: boolean;
 }
 
-export interface EmailField extends BaseField {
-	type: 'email';
+export interface DropdownField extends BaseField {
+	type: 'dropdown';
 	initial?: string;
 	placeholder: string;
-	required: boolean;
+	options: string[];
 }
 
-export interface PhoneField extends BaseField {
-	type: 'phone';
-	initial?: string;
-	placeholder: string;
-	required: boolean;
-}
-
-export interface LinkField extends BaseField {
-	type: 'link';
-	initial?: string;
-	placeholder: string;
-	required: boolean;
-}

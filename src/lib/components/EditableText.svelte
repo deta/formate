@@ -18,7 +18,17 @@
 </script>
 
 <div class="editable">
-	<div class="input" bind:this={element} spellcheck="false" contenteditable on:keydown={disableNewline} bind:textContent={value} />
+	<div
+		class="input"
+		spellcheck="false"
+		contenteditable
+		bind:this={element}
+		bind:textContent={value}
+		on:keydown={disableNewline}
+		on:blur
+		on:focus
+		on:click
+	/>
 
 	{#if !value}
 		<i class="input empty" on:keydown={focus} contenteditable>{placeholder}</i>

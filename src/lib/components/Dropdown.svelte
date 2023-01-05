@@ -23,6 +23,9 @@
 	// Is opened
 	export let opened: boolean = false;
 
+	// Placeholder where it is nothing to select
+	export let placeholder: string = '';
+
 	let buttonElement: HTMLButtonElement;
 
 	// Automatically select value from options
@@ -33,9 +36,14 @@
 		buttonElement?.scrollIntoView({ block: 'center' });
 	}
 
+	// Is something selected
+	$: isSelected = typeof value === 'string';
+
+	// If has options to pick from
+	$: hasOptions = options.length > 0;
+
 	/**
 	 * Hide on click outside
-	 * @param event
 	 */
 	function clickOutside(event) {
 		if (!event.currentTarget.contains(event.relatedTarget)) {
@@ -61,15 +69,16 @@
 		class:error
 		class:warning
 		class:small
-		class:opened={opened && options.length > 0}
+		class:opened
+		class:disable-rounding={opened && hasOptions}
 	>
-		<span class="value">{value}</span>
+		<span class="value" class:placeholder={!isSelected}>{isSelected ? value : placeholder}</span>
 
 		<span class="icon">
 			<ArrowUp />
 		</span>
 
-		{#if opened}
+		{#if opened && hasOptions}
 			<div class="options" transition:slide|local={{ duration: 200 }}>
 				{#each options as option}
 					<button class="option" on:click={() => (value = option)}>
@@ -128,10 +137,13 @@
 
 	.dropdown.opened {
 		border-color: var(--accent);
-		border-bottom-left-radius: 0;
-		border-bottom-right-radius: 0;
 		transition: border-color 0.1s ease;
 		transition-delay: 0;
+	}
+
+	.disable-rounding {
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
 	}
 
 	.dropdown.opened .icon :global(svg *) {
@@ -170,6 +182,12 @@
 		font-size: 1rem;
 		line-height: 1.5rem;
 		padding: 1rem 1.25rem;
+	}
+
+	.placeholder {
+		opacity: 0.5;
+		font-weight: 300;
+		font-style: italic;
 	}
 
 	.option {

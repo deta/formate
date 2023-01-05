@@ -8,8 +8,9 @@
 	import ArrowUp from '../icons/ArrowUp.svelte';
 	import TrashBin from '../icons/TrashBin.svelte';
 	import CheckboxOptions from './options/CheckboxOptions.svelte';
-	import DefaultTextOptions from './options/DefaultTextOptions.svelte';
+	import DropdownOptions from './options/DropdownOptions.svelte';
 	import NumberOptions from './options/NumberOptions.svelte';
+	import DefaultTextOptions from './options/TextOptions.svelte';
 
 	// Screen data
 	export let screen: Screen;
@@ -57,6 +58,8 @@
 			<NumberOptions bind:field />
 		{:else if field.type === 'checkbox'}
 			<CheckboxOptions bind:field />
+		{:else if field.type === 'dropdown'}
+			<DropdownOptions bind:field />
 		{/if}
 	</div>
 </div>

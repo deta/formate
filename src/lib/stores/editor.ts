@@ -131,10 +131,10 @@ export function addField(type: FieldType) {
 	screen.update((draft) => {
 		const capitalizedType = type.charAt(0).toUpperCase() + type.slice(1);
 		const title = `${capitalizedType} input #${draft.fields.length}`;
-		const column = createSlug(`${type} ${nanoid(4)}`);
+		const column = createSlug(`${type}_${nanoid(4)}`);
 		const key = nanoid();
 
-		if (type === 'short' || type === 'long') {
+		if (type === 'short' || type === 'long' || type === 'email' || type === 'phone' || type === 'link') {
 			draft.fields.push({
 				key,
 				column,
@@ -167,39 +167,14 @@ export function addField(type: FieldType) {
 			});
 		}
 
-		if (type === 'email') {
+		if (type === 'dropdown') {
 			draft.fields.push({
 				key,
 				column,
 				type,
 				title,
-				required: false,
-				initial: '',
-				placeholder: ''
-			});
-		}
-
-		if (type === 'phone') {
-			draft.fields.push({
-				key,
-				column,
-				type,
-				title,
-				required: false,
-				initial: '',
-				placeholder: ''
-			});
-		}
-
-		if (type === 'link') {
-			draft.fields.push({
-				key,
-				column,
-				type,
-				title,
-				required: false,
-				initial: '',
-				placeholder: ''
+				placeholder: '',
+				options: []
 			});
 		}
 

@@ -5,10 +5,10 @@
 	import Label from '$lib/components/Label.svelte';
 	import Toggle from '$lib/components/Toggle.svelte';
 	import { columnsCollision } from '$lib/stores/editor';
-	import type { EmailField, LinkField, LongTextField, PhoneField, ShortTextField } from '$lib/types';
+	import type { TextField } from '$lib/types';
 
 	// Field data
-	export let field: ShortTextField | LongTextField | EmailField | LinkField | PhoneField;
+	export let field: TextField;
 </script>
 
 <Container>

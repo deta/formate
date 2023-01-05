@@ -3,7 +3,7 @@ import Link from '$lib/components/icons/Link.svelte';
 // import ListCheck from '$lib/components/icons/ListCheck.svelte';
 import Mail from '$lib/components/icons/Mail.svelte';
 import Phone from '$lib/components/icons/Phone.svelte';
-// import Selector from '$lib/components/icons/Selector.svelte';
+import Selector from '$lib/components/icons/Selector.svelte';
 import SortNumbers from '$lib/components/icons/SortNumbers.svelte';
 import Cursor from './components/icons/Cursor.svelte';
 import Paragraph from './components/icons/Paragraph.svelte';
@@ -36,11 +36,11 @@ export const fieldsMetadata: Record<string, FieldMetadata> = {
         description: 'Input for true / false value.',
         icon: Checkbox,
     },
-    // dropdown: {
-    //     name: 'Dropdown',
-    //     description: 'Input for selection on of the predefined results.',
-    //     icon: Selector,
-    // },
+    dropdown: {
+        name: 'Dropdown',
+        description: 'Input for selection on of the predefined results.',
+        icon: Selector,
+    },
     // select: {
     //     name: 'Select',
     //     description: 'Input for selection one or multiple values.',

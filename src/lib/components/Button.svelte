@@ -1,6 +1,6 @@
 <script lang="ts">
 	// Style of the buttoh
-	export let style: 'normal' | 'neutral' | 'link' | 'danger' = 'normal';
+	export let style: 'normal' | 'neutral' | 'danger' = 'normal';
 
 	// Make button width 100%
 	export let fullWidth: boolean = false;
@@ -103,7 +103,7 @@
 	.small {
 		min-height: 1rem;
 		min-width: 1rem;
-		padding: 0.75rem 1.25rem;
+		padding: 0.75rem 1rem;
 	}
 
 	.centered {

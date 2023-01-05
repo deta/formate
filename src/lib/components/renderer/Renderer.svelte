@@ -8,6 +8,7 @@
 	import { sanitizeInputs, validateScreenInputs } from '$lib/validator';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
+	import Dropdown from '../Dropdown.svelte';
 	import Link from '../icons/Link.svelte';
 	import Mail from '../icons/Mail.svelte';
 	import Phone from '../icons/Phone.svelte';
@@ -182,6 +183,14 @@
 									icon={Link}
 									bind:value={inputs[field.column]}
 									on:keyup={() => cleanError(field.key)}
+								/>
+							{:else if field.type === 'dropdown'}
+								<Dropdown
+									bind:value={inputs[field.column]}
+									options={field.options}
+									placeholder={field?.placeholder}
+									error={errors[field.key]}
+									disabled={field.options.length === 0}
 								/>
 							{/if}
 						</div>

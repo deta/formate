@@ -4,13 +4,13 @@
 	import Animation from '$lib/components/Animation.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import Plus from '$lib/components/icons/Plus.svelte';
-	import TrashBin from '$lib/components/icons/TrashBin.svelte';
+	import List from '$lib/components/List.svelte';
 	import CreateModal from '$lib/components/modals/CreateModal.svelte';
 	import DeleteFormModal from '$lib/components/modals/DeleteFormModal.svelte';
 	import { deleteFormCandidate, hideModals, openCreateFormModal, openedModal, setFormDeleteCandidate } from '$lib/stores/modals';
 	import { format } from 'date-fns';
 	import { onMount } from 'svelte';
-	import { fly, slide } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
 	import type { PageData } from './$types';
 
 	// Initial forms data
@@ -60,22 +60,12 @@
 		</div>
 
 		{#if animationFinished}
-			{#if forms.length}
-				<div class="list" in:fly={{ y: -8, duration: 200, delay: 100 }} out:slide|local={{ duration: 200 }}>
-					{#each forms as form (form.key)}
-						<div class="item" transition:slide|local={{ duration: 200 }}>
-							<a class="info" href="/editor/{form.key}">
-								<div class="{form.color} indicator" />
-								<span class="name">{form.name}</span>
-							</a>
-
-							<button class="delete" on:click={() => setFormDeleteCandidate(form.key)}>
-								<TrashBin />
-							</button>
-						</div>
-					{/each}
-				</div>
-			{/if}
+			<List bold items={forms} let:item on:delete={({ detail }) => setFormDeleteCandidate(detail.item.key)}>
+				<a class="form" href="/editor/{item.key}">
+					<div class="{item.color} indicator" />
+					<span class="name">{item.name}</span>
+				</a>
+			</List>
 
 			<div in:fly={{ y: -8, duration: 200, delay: 150 }}>
 				<Button position="centered" fullWidth on:click={openCreateFormModal}>
@@ -91,7 +81,6 @@
 </div>
 
 <style>
-	button,
 	a {
 		all: unset;
 		display: block;
@@ -145,62 +134,12 @@
 		filter: drop-shadow(0 2px 4px #0000001a);
 	}
 
-	.list {
+	.form {
 		display: flex;
-		flex-direction: column;
-		margin: 1rem 0;
+		align-items: center;
 		width: 100%;
-		border: 2px solid;
-		border-radius: 0.5rem;
-		border-color: var(--border);
-		background-color: white;
-	}
-
-	.list .item {
-		white-space: nowrap;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		border-bottom: 2px solid;
-		border-color: var(--border);
-	}
-
-	.list .item:last-of-type {
-		border-bottom: none;
-	}
-
-	.delete :global(svg) {
-		display: block;
-		cursor: pointer;
-		opacity: 0;
-		pointer-events: none;
-		width: 1.25rem;
-		height: 1.25rem;
-		transition: 0.1s ease;
-	}
-
-	.item:hover .delete :global(svg) {
-		opacity: 0.5;
-		pointer-events: fill;
-	}
-
-	.item:hover .delete:hover :global(svg) {
-		opacity: 1;
-	}
-
-	.item:hover .delete:hover :global(svg *) {
-		stroke: var(--danger);
-	}
-
-	.delete {
-		margin-right: 1rem;
-	}
-
-	.info {
-		display: flex;
-		align-items: center;
 		padding: 1rem;
-		width: 100%;
+		margin: -1rem;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		cursor: pointer;
@@ -220,7 +159,7 @@
 		transition: 0.1s ease;
 	}
 
-	.info:hover .name {
+	.form:hover .name {
 		opacity: 1;
 	}
 
