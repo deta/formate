@@ -14,35 +14,35 @@
 	<div>
 		<Label title="Column" required />
 		<Input
+			small
 			bind:value={field.column}
 			placeholder="Unique value, that will be used as a column key"
 			warning={$columnsCollision.has(field.column) && 'Value must be unique across all screens'}
 		/>
 	</div>
 	<div>
-		<Label title="Is Required" />
-		<Toggle bind:value={field.required} />
-	</div>
-</Container>
-
-<Container>
-	<div>
 		<Label title="Default Value" />
-		<Input type="number" bind:value={field.initial} placeholder="Initial input value" />
+		<Input small type="number" bind:value={field.initial} placeholder="Initial input value" />
 	</div>
 	<div>
 		<Label title="Placeholder" />
-		<Input bind:value={field.placeholder} placeholder="Filler text" />
+		<Input small bind:value={field.placeholder} placeholder="Filler text" />
+	</div>
+	<div>
+		<Label title="Is Required" />
+		<Toggle small bind:value={field.required} />
 	</div>
 </Container>
 
 <Container>
 	<div>
 		<Label title="Min Value" />
-		<Input type="number" bind:value={field.min} placeholder="Minimum possible value" />
+		<Input small type="number" bind:value={field.min} placeholder="Minimum possible value" />
 	</div>
 	<div>
 		<Label title="Max Value" />
-		<Input type="number" bind:value={field.max} placeholder="Maximum possible value" />
+		<Input small type="number" bind:value={field.max} placeholder="Maximum possible value" />
 	</div>
+	<div />
+	<div />
 </Container>

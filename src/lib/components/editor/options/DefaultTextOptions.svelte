@@ -1,13 +1,14 @@
 <script lang="ts">
 	import Container from '$lib/components/Container.svelte';
+	import Key from '$lib/components/icons/Key.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Label from '$lib/components/Label.svelte';
 	import Toggle from '$lib/components/Toggle.svelte';
 	import { columnsCollision } from '$lib/stores/editor';
-	import type { LongTextField, ShortTextField } from '$lib/types';
+	import type { EmailField, LinkField, LongTextField, PhoneField, ShortTextField } from '$lib/types';
 
 	// Field data
-	export let field: ShortTextField | LongTextField;
+	export let field: ShortTextField | LongTextField | EmailField | LinkField | PhoneField;
 </script>
 
 <Container>
@@ -17,21 +18,20 @@
 			bind:value={field.column}
 			placeholder="Unique value, that will be used as a column key"
 			warning={$columnsCollision.has(field.column) && 'Value must be unique across all screens'}
+			small
+			icon={Key}
 		/>
 	</div>
 	<div>
-		<Label title="Is Required" />
-		<Toggle bind:value={field.required} />
-	</div>
-</Container>
-
-<Container>
-	<div>
 		<Label title="Default Value" />
-		<Input bind:value={field.initial} placeholder="Initial input value" />
+		<Input small bind:value={field.initial} placeholder="Initial input value" />
 	</div>
 	<div>
 		<Label title="Placeholder" />
-		<Input bind:value={field.placeholder} placeholder="Filler text" />
+		<Input small bind:value={field.placeholder} placeholder="Filler text" />
+	</div>
+	<div>
+		<Label title="Is Required" />
+		<Toggle small bind:value={field.required} />
 	</div>
 </Container>

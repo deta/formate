@@ -19,9 +19,6 @@
 
 	// Log form structure data
 	onMount(() => {
-		console.log('🔎 Formate Preview', data);
-
-		// TODO: Fix
 		const listener = () => {
 			if (document.visibilityState !== 'visible') return;
 			invalidateAll();
@@ -40,9 +37,10 @@
 
 <style>
 	.preview {
+		z-index: 99999999;
 		position: fixed;
-		top: 1rem;
-		left: 1rem;
+		bottom: 1rem;
+		right: 1rem;
 		font-size: 0.75rem;
 		opacity: 0.3;
 	}

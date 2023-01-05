@@ -31,6 +31,9 @@
 	// Spellcheck input value
 	export let spellcheck: boolean = false;
 
+	// Spellcheck input value
+	export let small: boolean = false;
+
 	let inputElement: HTMLInputElement;
 
 	// Focus on the input element
@@ -50,7 +53,7 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div>
-	<div class="input" class:disabled class:error class:warning>
+	<div class="input" class:small class:disabled class:error class:warning>
 		{#if prefix}
 			<span class="prefix" on:click={focus}>{prefix}</span>
 		{/if}
@@ -84,6 +87,27 @@
 </div>
 
 <style>
+	input,
+	.prefix,
+	.icon {
+		all: unset;
+		box-sizing: border-box;
+		font-size: 1rem;
+		line-height: 1.5rem;
+		padding: 1rem 1.25rem;
+	}
+
+	input {
+		cursor: pointer;
+		width: 100%;
+	}
+
+	input::placeholder {
+		opacity: 0.5;
+		font-weight: 300;
+		font-style: italic;
+	}
+
 	.input {
 		display: flex;
 		flex-direction: row;
@@ -94,6 +118,17 @@
 		min-height: 1.5rem;
 		min-width: 1.5rem;
 		transition: border-color 0.1s ease;
+	}
+
+	.input.small {
+		min-height: 1rem;
+		min-width: 1rem;
+	}
+
+	.input.small input,
+	.input.small .prefix,
+	.input.small .icon {
+		padding: 0.75rem 1rem;
 	}
 
 	.input:focus-within {
@@ -126,44 +161,22 @@
 		color: var(--danger);
 	}
 
-	input,
-	.prefix,
-	.icon {
-		all: unset;
-		font-size: 1rem;
-		line-height: 1.5rem;
-		padding: 1rem 1.25rem;
-	}
-
-	input {
-		cursor: pointer;
-		width: 100%;
-	}
-
-	input::placeholder {
-		opacity: 0.5;
-		font-weight: 300;
-		font-style: italic;
-	}
-
 	.prefix {
 		opacity: 0.5;
-		letter-spacing: -0.05rem;
 		padding-right: 0;
 		margin-right: -1.25rem;
-	}
-
-	.prefix,
-	.icon {
+		letter-spacing: -0.05rem;
 		user-select: none;
 		min-width: fit-content;
 	}
 
 	.icon {
-		padding: 1rem;
-		padding-left: 0;
 		display: flex;
+		padding: 1rem;
+		padding-left: 0 !important;
+		user-select: none;
 		align-items: center;
+		min-width: fit-content;
 		justify-content: center;
 	}
 

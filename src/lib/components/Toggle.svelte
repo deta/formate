@@ -8,6 +8,9 @@
 	// Set to true if value controlled from the outside
 	export let controlled: boolean = false;
 
+	// Small button variant
+	export let small: boolean = false;
+
 	// Click event
 	const dispath = createEventDispatcher();
 
@@ -20,7 +23,7 @@
 	}
 </script>
 
-<button class="toggle" class:active={value} class:with-checkmark={!$$slots.default} on:click={toggle}>
+<button class="toggle" class:small class:active={value} class:with-checkmark={!$$slots.default} on:click={toggle}>
 	<slot>
 		<Checkmark />
 	</slot>
@@ -29,6 +32,7 @@
 <style>
 	button {
 		all: unset;
+		box-sizing: border-box;
 	}
 
 	button {
@@ -50,7 +54,7 @@
 		font-weight: 600;
 		font-size: 1rem;
 		line-height: 1rem;
-		padding: 1rem 1.25rem;
+		padding: 1rem 1.5rem;
 		min-height: 1.5rem;
 		min-width: 1.5rem;
 		transition: 0.1s ease;
@@ -89,7 +93,17 @@
 		stroke: var(--accent);
 	}
 
+	button.small {
+		min-height: 1rem;
+		min-width: 1rem;
+		padding: 0.75rem 1rem;
+	}
+
 	.with-checkmark {
+		padding: 1.25rem;
+	}
+
+	button.small.with-checkmark {
 		padding: 1rem;
 	}
 </style>

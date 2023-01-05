@@ -5,7 +5,6 @@
 	import { createSlug } from '$lib/utils';
 	import Button from '../Button.svelte';
 	import ColorPicker from '../ColorPicker.svelte';
-	import TrashBin from '../icons/TrashBin.svelte';
 	import Input from '../Input.svelte';
 	import Label from '../Label.svelte';
 	import LayoutPicker from '../LayoutPicker.svelte';
@@ -75,7 +74,7 @@
 
 		<div>
 			<Label title="Delete Form" description="Delete this form. (Submissions wont be removed)" />
-			<Button style="danger" on:click={() => setFormDeleteCandidate($form.key)}><TrashBin /></Button>
+			<Button style="danger" on:click={() => setFormDeleteCandidate($form.key)}>Delete</Button>
 		</div>
 	{/if}
 </Modal>

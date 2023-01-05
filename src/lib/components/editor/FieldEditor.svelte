@@ -8,8 +8,8 @@
 	import ArrowUp from '../icons/ArrowUp.svelte';
 	import TrashBin from '../icons/TrashBin.svelte';
 	import CheckboxOptions from './options/CheckboxOptions.svelte';
+	import DefaultTextOptions from './options/DefaultTextOptions.svelte';
 	import NumberOptions from './options/NumberOptions.svelte';
-	import ShortLongTextOptions from './options/ShortLongTextOptions.svelte';
 
 	// Screen data
 	export let screen: Screen;
@@ -51,14 +51,12 @@
 	</div>
 
 	<div class="content">
-		{#if field.type === 'short' || field.type === 'long'}
-			<ShortLongTextOptions bind:field />
+		{#if field.type === 'short' || field.type === 'long' || field.type === 'email' || field.type === 'phone' || field.type === 'link'}
+			<DefaultTextOptions bind:field />
 		{:else if field.type === 'number'}
 			<NumberOptions bind:field />
 		{:else if field.type === 'checkbox'}
 			<CheckboxOptions bind:field />
-		{:else if field.type === 'email' || field.type === 'phone' || field.type === 'link'}
-			<ShortLongTextOptions bind:field />
 		{/if}
 	</div>
 </div>

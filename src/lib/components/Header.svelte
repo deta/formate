@@ -129,4 +129,10 @@
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
+
+	@media screen and (max-width: 600px) {
+		.center {
+			display: none;
+		}
+	}
 </style>

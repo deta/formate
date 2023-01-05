@@ -60,6 +60,10 @@ export const fieldsMetadata: Record<string, FieldMetadata> = {
         name: 'Link',
         description: 'Input for HTTP links.',
         icon: Link,
-    }
-    // TODO: Custom Regexp
+    },
+    // custom: {
+    //     name: 'custom',
+    //     description: 'Input with the custom RegEx validation.',
+    //     icon: Link,
+    // },
 };

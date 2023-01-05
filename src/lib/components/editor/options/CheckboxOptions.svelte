@@ -23,4 +23,7 @@
 		<Label title="Default Value" />
 		<Toggle bind:value={field.initial} />
 	</div>
+
+	<div />
+	<div />
 </Container>

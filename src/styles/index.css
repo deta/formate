@@ -26,20 +26,8 @@ body {
 	}
 }
 
-@media screen and (max-width: 800px) {
-	:root {
-		font-size: 14px;
-	}
-}
-
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1000px) {
 	:root {
 		font-size: 13px;
-	}
-}
-
-@media screen and (max-width: 400px) {
-	:root {
-		font-size: 11px;
 	}
 }

@@ -15,13 +15,14 @@
 	export let position: 'centered' | 'left' | 'right' | 'auto' = 'auto';
 </script>
 
-<button on:click class:small class:fullWidth class:disabled class="{style} {position}">
+<button on:click class:full-width={fullWidth} class:small class:disabled class="{style} {position}">
 	<slot />
 </button>
 
 <style>
 	button {
 		all: unset;
+		box-sizing: border-box;
 	}
 
 	button {
@@ -88,7 +89,7 @@
 		stroke: white;
 	}
 
-	.fullWidth {
+	.full-width {
 		width: 100%;
 		padding-left: 0;
 		padding-right: 0;

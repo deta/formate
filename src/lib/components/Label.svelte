@@ -1,10 +1,18 @@
 <script lang="ts">
+	// Label title
 	export let title: string;
+
+	// Additional info
 	export let description: string = '';
+
+	// Add red start to mark as required
 	export let required: boolean = false;
+
+	// Add margin to the label
+	export let margin: boolean = true;
 </script>
 
-<div class="label">
+<div class="label" class:margin>
 	{#if title}
 		<h4>
 			{title}
@@ -22,15 +30,16 @@
 
 <style>
 	.label {
-		margin-bottom: 0.75rem;
+		position: relative;
 		line-height: 1.5rem;
+	}
+
+	.margin {
+		margin-bottom: 0.75rem;
 	}
 
 	.star {
 		color: var(--danger);
-		font-size: 0.75rem;
-		line-height: 0.5rem;
-		margin-left: 0.25rem;
 	}
 
 	h4,

@@ -17,6 +17,9 @@
 	// Warning message
 	export let warning: string | boolean = false;
 
+	// Small variant
+	export let small: boolean = true;
+
 	// Is opened
 	export let opened: boolean = false;
 
@@ -57,6 +60,7 @@
 		class:disabled
 		class:error
 		class:warning
+		class:small
 		class:opened={opened && options.length > 0}
 	>
 		<span class="value">{value}</span>
@@ -115,6 +119,11 @@
 		min-width: 1.5rem;
 		transition: border-color 0.1s ease, border-radius 0.05s linear;
 		transition-delay: 100ms;
+	}
+
+	.dropdown.small {
+		min-height: 1rem;
+		min-width: 1rem;
 	}
 
 	.dropdown.opened {
@@ -195,11 +204,17 @@
 		display: block;
 		width: 1.5rem;
 		height: 1.5rem;
-		transition: transform 0.1s ease;
+		transition: transform 0.1s linear;
 	}
 
 	.icon :global(svg *) {
 		stroke: var(--border);
+	}
+
+	.dropdown.small .value,
+	.dropdown.small .option,
+	.dropdown.small .icon {
+		padding: 0.75rem 1rem;
 	}
 
 	.message {
