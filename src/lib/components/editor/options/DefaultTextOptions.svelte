@@ -18,8 +18,8 @@
 			bind:value={field.column}
 			placeholder="Unique value, that will be used as a column key"
 			warning={$columnsCollision.has(field.column) && 'Value must be unique across all screens'}
-			small
 			icon={Key}
+			small
 		/>
 	</div>
 	<div>

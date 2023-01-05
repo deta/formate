@@ -1,9 +1,6 @@
 <script lang="ts">
 	import { slide } from 'svelte/transition';
 
-	// Input valie
-	export let value: string | number = '';
-
 	// Set to true to disable any interactions
 	export let disabled: boolean = false;
 
@@ -15,6 +12,9 @@
 
 	// Type of the input
 	export let type: 'text' | 'number' = 'text';
+
+	// Input value
+	export let value: string | number | null = type === 'number' ? null : '';
 
 	// Prefix input text
 	export let prefix: string = undefined;
@@ -41,8 +41,14 @@
 
 	// Handle inputs
 	const handleInput = (event: any) => {
+		const inputValue = event.target.value;
 		if (readonly) return;
-		value = type === 'number' ? +event.target.value : event.target.value;
+
+		if (type === 'number') {
+			value = inputValue == '' ? null : +inputValue;
+		} else {
+			value = inputValue;
+		}
 	};
 
 	// Scroll to element if error appeared
@@ -67,11 +73,11 @@
 			on:focus
 			on:blur
 			{placeholder}
-			{type}
-			{value}
 			{spellcheck}
 			{disabled}
 			{readonly}
+			{value}
+			{type}
 		/>
 
 		{#if icon}

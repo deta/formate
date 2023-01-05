@@ -40,7 +40,7 @@ export function sanitizeInputs(form: Form, inputs: Record<string, any> = {}) {
 
             // Number fields
             if (field.type === 'number') {
-                if (typeof newInuts[field.column] !== 'number') newInuts[field.column] = undefined;
+                if (typeof newInuts[field.column] !== 'number') newInuts[field.column] = null;
                 continue;
             }
         }
@@ -148,13 +148,13 @@ export function validateScreenInputs(screen: Screen, inputs: Record<string, any>
         if (field.type === 'number') {
 
             // Field must be a number
-            if (typeof value !== 'number' && typeof value !== 'undefined') {
+            if (typeof value !== 'number' && value !== null) {
                 errors[field.key] = 'Invalid value type';
                 continue;
             }
 
             // If field required, check 
-            if (field.required && typeof value === 'undefined') {
+            if (field.required && typeof value !== 'number') {
                 errors[field.key] = 'This field cant be empty';
                 continue;
             }
@@ -167,7 +167,7 @@ export function validateScreenInputs(screen: Screen, inputs: Record<string, any>
 
             // Value should be less than max param
             if (field.max && value > field.max) {
-                errors[field.key] = `Value cant be greater than ${field.min}`;
+                errors[field.key] = `Value cant be greater than ${field.max}`;
                 continue;
             }
         }

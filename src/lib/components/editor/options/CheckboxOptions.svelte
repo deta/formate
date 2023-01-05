@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Container from '$lib/components/Container.svelte';
+	import Key from '$lib/components/icons/Key.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Label from '$lib/components/Label.svelte';
 	import Toggle from '$lib/components/Toggle.svelte';
@@ -17,11 +18,13 @@
 			bind:value={field.column}
 			placeholder="Unique value, that will be used as a column key"
 			warning={$columnsCollision.has(field.column) && 'Value must be unique across all screens'}
+			icon={Key}
+			small
 		/>
 	</div>
 	<div>
 		<Label title="Default Value" />
-		<Toggle bind:value={field.initial} />
+		<Toggle small bind:value={field.initial} />
 	</div>
 
 	<div />
