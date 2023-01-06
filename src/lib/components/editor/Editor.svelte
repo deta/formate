@@ -55,5 +55,6 @@
 		background-image: url('/tutorial.webp');
 		background-repeat: no-repeat;
 		background-size: contain;
+		pointer-events: none;
 	}
 </style>

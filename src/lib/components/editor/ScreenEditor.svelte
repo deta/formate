@@ -90,10 +90,10 @@
 		height: 100%;
 		width: 100%;
 		opacity: 0.3;
-		margin-right: 2.25rem;
 		background-image: url('/tutorial2.webp');
 		background-repeat: no-repeat;
 		background-size: contain;
-		transform: translateY(-16px);
+		transform: translateY(-4rem);
+		pointer-events: none;
 	}
 </style>
