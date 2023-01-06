@@ -14,26 +14,14 @@
 
 <Container>
 	<div>
-		<Label title="Column" required />
+		<Label title="Column Key" description="The key that will be used to store the value in the database" required />
 		<Input
 			bind:value={field.column}
 			placeholder="Unique value, that will be used as a column key"
-			warning={$columnsCollision.has(field.column)}
+			warning={$columnsCollision.has(field.column) && 'The column key must be unique across the entire form'}
 			icon={Key}
 			small
 		/>
-	</div>
-	<div>
-		<Label title="Default Value" />
-		<Input small bind:value={field.initial} placeholder="Initial input value" />
-	</div>
-	<div>
-		<Label title="Placeholder" />
-		<Input small bind:value={field.placeholder} placeholder="Filler text" />
-	</div>
-	<div>
-		<Label title="Is Required" />
-		<Toggle small bind:value={field.required} />
 	</div>
 </Container>
 
@@ -46,5 +34,20 @@
 			error={field.validator !== '' && !isRegExValid(field.validator) && 'Invalid regular expression'}
 			small
 		/>
+	</div>
+</Container>
+
+<Container>
+	<div>
+		<Label title="Default Value" />
+		<Input small bind:value={field.initial} placeholder="Initial input value" />
+	</div>
+	<div>
+		<Label title="Placeholder" />
+		<Input small bind:value={field.placeholder} placeholder="Filler text" />
+	</div>
+	<div>
+		<Label title="Is Required" />
+		<Toggle small bind:value={field.required} />
 	</div>
 </Container>

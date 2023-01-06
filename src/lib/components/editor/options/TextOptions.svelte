@@ -13,15 +13,18 @@
 
 <Container>
 	<div>
-		<Label title="Column" required />
+		<Label title="Column Key" description="The key that will be used to store the value in the database" required />
 		<Input
 			bind:value={field.column}
 			placeholder="Unique value, that will be used as a column key"
-			warning={$columnsCollision.has(field.column)}
+			warning={$columnsCollision.has(field.column) && 'The column key must be unique across the entire form'}
 			icon={Key}
 			small
 		/>
 	</div>
+</Container>
+
+<Container>
 	<div>
 		<Label title="Default Value" />
 		<Input small bind:value={field.initial} placeholder="Initial input value" />

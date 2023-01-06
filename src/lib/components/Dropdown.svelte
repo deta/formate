@@ -193,6 +193,8 @@
 	}
 
 	.option {
+		min-height: 1.5rem;
+		min-width: 1.5rem;
 		border-top: 1px solid;
 		border-color: var(--border);
 	}

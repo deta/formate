@@ -40,15 +40,18 @@
 
 <Container>
 	<div>
-		<Label title="Column" required />
+		<Label title="Column Key" description="The key that will be used to store the value in the database" required />
 		<Input
 			bind:value={field.column}
 			placeholder="Unique value, that will be used as a column key"
-			warning={$columnsCollision.has(field.column)}
+			warning={$columnsCollision.has(field.column) && 'The column key must be unique across the entire form'}
 			icon={Key}
 			small
 		/>
 	</div>
+</Container>
+
+<Container>
 	<div>
 		<Label title="Default Value" />
 		<Dropdown bind:value={field.initial} disabled={field.options.length === 0} options={field.options} placeholder="Nothing to select" />
@@ -70,6 +73,5 @@
 		<Button small style="neutral" position="right" fullWidth on:click={addOption}>Add Option</Button>
 	</div>
 
-	<div />
 	<div />
 </Container>
