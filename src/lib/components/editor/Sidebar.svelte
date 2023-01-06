@@ -19,7 +19,6 @@
 	 */
 	function addScreen() {
 		setTimeout(() => scrollToBottom(), 200);
-
 		dispatch('add');
 	}
 

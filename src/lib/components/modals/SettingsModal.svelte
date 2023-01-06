@@ -18,8 +18,9 @@
 	// Update slug & table name depending on the form name
 	$: {
 		const previousSlug = createSlug(previousName);
+
 		if (previousSlug === createSlug($form.slug)) $form.slug = createSlug($form.name);
-		if (`submissions-${previousSlug}` === createSlug($form.table)) $form.table = `submissions-${createSlug($form.name)}`;
+		if (`submissions-${previousSlug}` === $form.table) $form.table = `submissions-${createSlug($form.name)}`;
 		previousName = $form.name;
 	}
 
@@ -29,23 +30,37 @@
 	function onClose() {
 		$form.slug = createSlug($form.slug); // Format slug
 	}
+
+	/**
+	 * Fill empty field on blur
+	 */
+	function onBlur() {
+		if ($form.name === '') $form.name = 'My form';
+		if ($form.table === '' || $form.table === 'forms' || $form.table === 'publications') $form.table = `submissions-${createSlug($form.name)}`;
+		if ($form.slug === '') $form.slug = createSlug($form.name);
+	}
+
+	// Errors
+	$: nameError = $form.name === '' && 'Form name cant be empty';
+	$: tableError = ($form.table === '' || $form.table === 'forms' || $form.table === 'publications') && 'Invalid table name';
+	$: slugError = $form.slug === '' && 'URL slug cant be empty';
 </script>
 
 <Modal title="Settings" bind:currentTab tabs={['general', 'preferences', 'other']} on:hide={onClose}>
 	{#if currentTab === 'general'}
 		<div>
 			<Label title="Form Name" description="Name of your form, that will be displayed on the welcome page." required />
-			<Input bind:value={$form.name} />
+			<Input bind:value={$form.name} on:blur={onBlur} error={nameError} />
 		</div>
 
 		<div>
-			<Label title="Storage Table" description="Name of the table, that will be used for storing submissions." required />
-			<Input bind:value={$form.table} />
+			<Label title="Submissions Table" description="Name of the table, that will be used for storing submissions." required />
+			<Input bind:value={$form.table} on:blur={onBlur} error={tableError} />
 		</div>
 
 		<div>
 			<Label title="URL Slug" description="The link, where the final published form will be available!" required />
-			<Input bind:value={$form.slug} prefix="{window.location.origin}/f/" />
+			<Input bind:value={$form.slug} prefix="{window.location.origin}/f/" on:blur={onBlur} error={slugError} />
 		</div>
 	{:else if currentTab === 'preferences'}
 		<div>

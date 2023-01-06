@@ -40,7 +40,7 @@
 		data.key = data.key || nanoid(8);
 		data.layout = data.layout || 'clean';
 		data.color = data.color || 'orange';
-		data.table = data.table || `submissions_${createSlug(data.name, '_')}`;
+		data.table = data.table || `submissions-${createSlug(data.name)}`;
 		data.slug = data.slug || createSlug(data.name);
 		data.screens = data.screens || [];
 

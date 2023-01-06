@@ -78,7 +78,7 @@
 		background-image: url('/tutorial2.webp');
 		background-repeat: no-repeat;
 		background-size: contain;
-		transform: translateY(-4rem);
 		pointer-events: none;
+		margin-top: -3rem;
 	}
 </style>
