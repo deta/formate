@@ -2,14 +2,15 @@
 /**
  * Create URL slug
  * @param value Value to create slug from
+ * @param separator Character for separating words
  * @returns
  */
-export function createSlug(value: string) {
+export function createSlug(value: string, separator = '-') {
 	return value
 		.toLowerCase()
-		.replace(/\s+/g, '-')
+		.replace(/\s+/g, separator)
 		.replace(/[^\w-]+/g, '')
-		.replace(/--+/g, '-')
+		.replace(/--+/g, separator)
 		.replace(/^-+/, '')
 		.replace(/-+$/, '');
 }

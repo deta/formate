@@ -27,6 +27,7 @@ form.subscribe((store) => {
 
 		store.screens.forEach((screen) => {
 			screen.fields.forEach((field) => {
+				if (field.column === '') return;
 				if (columns.has(field.column)) collisions.add(field.column);
 				columns.add(field.column)
 			});
@@ -131,7 +132,7 @@ export function addField(type: FieldType) {
 	screen.update((draft) => {
 		const capitalizedType = type.charAt(0).toUpperCase() + type.slice(1);
 		const title = `${capitalizedType} input #${draft.fields.length}`;
-		const column = createSlug(`${type}_${nanoid(4)}`);
+		const column = createSlug(`${type}_${nanoid(4)}`, '_');
 		const key = nanoid();
 
 		if (type === 'short' || type === 'long' || type === 'email' || type === 'phone' || type === 'link') {

@@ -67,7 +67,7 @@ export function validateInputs(form: Form, inputs: Record<string, any>) {
     for (let i = 0; i < form.screens.length; i++) {
         const screen = form.screens[i];
         const screenErrors = validateScreenInputs(screen, inputs);
-        if (screenErrors) errors = { ...errors, ...screenErrors };
+        errors = { ...errors, ...screenErrors };
     }
 
     return errors;
@@ -83,6 +83,8 @@ export function validateScreenInputs(screen: Screen, inputs: Record<string, any>
 
     for (let i = 0; i < screen.fields.length; i++) {
         const field = screen.fields[i];
+
+        if (typeof field.column !== 'string' || field.column === '') continue;
         const value = inputs?.[field.column];
 
         // Short & Long fields validation
