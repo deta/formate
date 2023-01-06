@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { addScreen, deleteScreen, form, screen, selectScreen } from '$lib/stores/editor';
-	import type { Screen } from '$lib/types';
 	import { blur } from 'svelte/transition';
 	import ScreenEditor from './ScreenEditor.svelte';
 	import Sidebar from './Sidebar.svelte';
@@ -10,14 +9,6 @@
 	$: if (browser && $form.color) {
 		document.documentElement.className = '';
 		document.documentElement.classList.add($form.color);
-	}
-
-	// Find screen index by key
-	$: screenIndex = $form.screens.findIndex((value) => value.key === $screen.key);
-
-	// Update form store on screen change
-	function onScreenChange(data: Screen) {
-		$form.screens[screenIndex] = data;
 	}
 </script>
 
@@ -32,7 +23,7 @@
 
 	{#if $screen}
 		{#key $screen.key}
-			<ScreenEditor screen={$screen} on:change={({ detail }) => onScreenChange(detail)} />
+			<ScreenEditor bind:screen={$screen} />
 		{/key}
 	{:else}
 		<div class="tutorial" in:blur />

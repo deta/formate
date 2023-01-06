@@ -3,7 +3,7 @@ import { invalidateAll } from '$app/navigation';
 import type { FieldType, Form, Screen } from '$lib/types';
 import { createSlug } from '$lib/utils';
 import { nanoid } from 'nanoid';
-import { get, writable } from 'svelte/store';
+import { derived, get, writable } from 'svelte/store';
 
 // Current opened form
 export const form = writable<Form>();
@@ -11,8 +11,26 @@ export const form = writable<Form>();
 // Current opened screen
 export const screen = writable<Screen | undefined>();
 
+// Find screen index by key
+export const screenIndex = derived([form, screen], ([form, screen]) => {
+	return form.screens.findIndex((value) => value.key === screen.key);
+});
+
 // Collisions of the columns names
 export const columnsCollision = writable<Set<string>>(new Set());
+
+// Sync screen with the form state
+screen.subscribe((store) => {
+	if (!browser) return;
+	if (!store?.key) return;
+
+	form.update((form) => {
+		const index = get(screenIndex);
+		if (form?.screens?.[index]) form.screens[index] = store;
+
+		return form;
+	});
+});
 
 // Find colums collisions
 let columnsTimer: NodeJS.Timeout;

@@ -3,27 +3,12 @@
 	import EditableText from '$lib/components/EditableText.svelte';
 	import FieldEditor from '$lib/components/editor/FieldEditor.svelte';
 	import { openAddFieldModal } from '$lib/stores/modals';
-	import type { Field, Screen } from '$lib/types';
-	import { createEventDispatcher } from 'svelte';
+	import type { Screen } from '$lib/types';
 	import { flip } from 'svelte/animate';
 	import { blur } from 'svelte/transition';
 
-	const dispatch = createEventDispatcher<{ change: Screen }>();
-
 	// Initial screen data
 	export let screen: Screen;
-
-	// Dispatch local screen changes
-	$: dispatch('change', screen);
-
-	/**
-	 * Handle field values change
-	 * @param index Index of the field
-	 * @param data Field data
-	 */
-	function onFieldChange(index: number, data: Field) {
-		screen.fields[index] = data;
-	}
 </script>
 
 <div id="screen-editor" class="screen">
@@ -38,7 +23,7 @@
 
 	{#each screen.fields as field, index (field.key)}
 		<div animate:flip={{ duration: 200 }}>
-			<FieldEditor bind:field {index} {screen} on:change={({ detail }) => onFieldChange(index, detail)} />
+			<FieldEditor bind:field {index} {screen} />
 		</div>
 	{/each}
 
