@@ -43,7 +43,7 @@
 		<Input
 			bind:value={field.validator}
 			placeholder="/formate is (super|ultra) cool/i"
-			error={!isRegExValid(field.validator) && 'Invalid regular expression'}
+			error={field.validator !== '' && !isRegExValid(field.validator) && 'Invalid regular expression'}
 			small
 		/>
 	</div>

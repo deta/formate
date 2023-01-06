@@ -25,15 +25,12 @@ export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve
  * @param regex 
  */
 export function isRegExValid(regex: string) {
-	let isValid = true;
-
 	try {
-		new RegExp(regex);
+		stringToRegEx(regex);
+		return true;
 	} catch (e) {
-		isValid = false;
+		return false;
 	}
-
-	return isValid;
 }
 
 /**
