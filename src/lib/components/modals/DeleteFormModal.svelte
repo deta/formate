@@ -28,7 +28,7 @@
 	}
 </script>
 
-<Modal title="Delete Form" centered={true}>
+<Modal title="Delete form" centered={true}>
 	<Label
 		title="Are you sure?"
 		description="This action cannot be undone. The published form won’t be available afterwards. Form submissions will not be deleted and will remain accessible through Base."

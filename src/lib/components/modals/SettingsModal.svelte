@@ -49,7 +49,7 @@
 <Modal title="Settings" bind:currentTab tabs={['general', 'preferences', 'other']} on:hide={onClose}>
 	{#if currentTab === 'general'}
 		<div>
-			<Label title="Form Name" description="Name of your form, that will be displayed on the welcome page." required />
+			<Label title="Name" description="Name of your form, that will be displayed on the welcome page." required />
 			<Input bind:value={$form.name} on:blur={onBlur} error={nameError} />
 		</div>
 
@@ -69,7 +69,7 @@
 		</div>
 
 		<div>
-			<Label title="Layout" description="Style of the form layout" />
+			<Label title="Layout" description="Style of the form layout." />
 			<LayoutPicker bind:value={$form.layout} />
 		</div>
 

@@ -71,14 +71,14 @@
 	}
 </script>
 
-<Modal title="Create Form" centered={true}>
+<Modal title="Create form" centered={true}>
 	<div>
-		<Label title="Form Name" description="Name of your form, that will be displayed on the welcome page." required />
+		<Label title="Name" description="Name of your form, that will be displayed on the welcome page." required />
 		<Input bind:value={inputs.name} error={errors.name} on:keyup={() => (errors.name = undefined)} />
 	</div>
 
 	<div>
-		<Label title="Color Scheme" description="Accent color that will be used in the editor of your forms UI" />
+		<Label title="Color Scheme" description="Accent color that will be used in the editor of your forms UI." />
 		<ColorPicker bind:value={inputs.color} />
 	</div>
 

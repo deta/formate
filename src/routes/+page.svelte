@@ -3,7 +3,6 @@
 	import { afterNavigate } from '$app/navigation';
 	import Animation from '$lib/components/Animation.svelte';
 	import Button from '$lib/components/Button.svelte';
-	import Plus from '$lib/components/icons/Plus.svelte';
 	import List from '$lib/components/List.svelte';
 	import CreateModal from '$lib/components/modals/CreateModal.svelte';
 	import DeleteFormModal from '$lib/components/modals/DeleteFormModal.svelte';
@@ -55,22 +54,22 @@
 
 			{#if animationFinished}
 				<h1 in:fly={{ y: -8, duration: 200 }}>formate</h1>
-				<p in:fly={{ y: -8, duration: 200, delay: 50 }}>Build forms in a matter of minutes</p>
+				<p in:fly={{ y: -8, duration: 200, delay: 50 }}>build forms in minutes</p>
 			{/if}
 		</div>
 
 		{#if animationFinished}
-			<List bold items={forms} let:item on:delete={({ detail }) => setFormDeleteCandidate(detail.item.key)}>
-				<a class="form" href="/editor/{item.key}">
-					<div class="{item.color} indicator" />
-					<span class="name">{item.name}</span>
-				</a>
-			</List>
+			<div in:fly={{ y: -8, duration: 200, delay: 100 }}>
+				<List bold items={forms} let:item on:delete={({ detail }) => setFormDeleteCandidate(detail.item.key)}>
+					<a class="form" href="/editor/{item.key}">
+						<div class="{item.color} indicator" />
+						<span class="name">{item.name}</span>
+					</a>
+				</List>
+			</div>
 
 			<div in:fly={{ y: -8, duration: 200, delay: 150 }}>
-				<Button position="centered" fullWidth on:click={openCreateFormModal}>
-					Create form <Plus />
-				</Button>
+				<Button position="centered" fullWidth on:click={openCreateFormModal}>Create</Button>
 			</div>
 		{/if}
 	</div>
@@ -97,7 +96,7 @@
 
 	p {
 		margin: 0;
-		font-size: 1.25rem;
+		font-size: 1.75rem;
 		font-weight: lighter;
 		text-align: center;
 		color: var(--text);
@@ -122,7 +121,7 @@
 	}
 
 	.hero {
-		padding-bottom: 2rem;
+		padding-bottom: 4rem;
 	}
 
 	.hero :global(.logo) {
