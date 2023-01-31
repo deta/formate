@@ -15,6 +15,16 @@ body {
 	overflow-x: hidden;
 }
 
+a {
+	color: var(--accent);
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+	text-underline-offset: 0.25rem;
+}
+
 ::selection {
 	color: var(--accent);
 	background: var(--neutral);

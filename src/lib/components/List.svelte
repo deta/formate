@@ -4,7 +4,7 @@
 	import TrashBin from './icons/TrashBin.svelte';
 
 	// On item delete event
-	const dispatch = createEventDispatcher<{ delete: { item: any; index: number } }>();
+	const dispatch = createEventDispatcher<{ delete: { item: any; index: number }; click: { item: any; index: number } }>();
 
 	// Items to render
 	export let items: any[] = [];
@@ -48,6 +48,7 @@
 	}
 
 	.list .item {
+		width: 100%;
 		padding: 1rem 1.25rem;
 		white-space: nowrap;
 		overflow: hidden;

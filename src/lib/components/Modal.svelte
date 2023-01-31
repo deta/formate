@@ -18,6 +18,9 @@
 	// Fix on top
 	export let centered: boolean = false;
 
+	// Make form wider
+	export let wider: boolean = false;
+
 	// Dispatch close event
 	const dispatch = createEventDispatcher();
 
@@ -34,8 +37,9 @@
 </script>
 
 <div class="wrapper" class:centered transition:fade={{ duration: 200 }}>
-	<div class="modal" transition:fly={{ y: 32, opacity: 1, duration: 200 }}>
+	<div class="modal" class:wider transition:fly={{ y: 32, opacity: 1, duration: 200 }}>
 		<h2>{title}</h2>
+
 		<div class="tabs">
 			{#each tabs as tab}
 				<button class="tab" class:active={currentTab === tab} on:click={createTabHandler(tab)}>{tab}</button>
@@ -85,6 +89,10 @@
 		max-width: 600px;
 		border-radius: 1rem;
 		background-color: white;
+	}
+
+	.modal.wider {
+		max-width: 1000px;
 	}
 
 	.overlay {

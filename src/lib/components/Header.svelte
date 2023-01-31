@@ -3,9 +3,10 @@
 	import Button from '$lib/components/Button.svelte';
 	import ArrowLeft from '$lib/components/icons/ArrowLeft.svelte';
 	import { forceSave, form } from '$lib/stores/editor';
-	import { openSettingsModal } from '$lib/stores/modals';
+	import { openDataModal, openSettingsModal } from '$lib/stores/modals';
 	import { createPublication, loading } from '$lib/stores/publication';
 	import { fly } from 'svelte/transition';
+	import Database from './icons/Database.svelte';
 	import Rocket from './icons/Rocket.svelte';
 	import Publication from './modals/Publication.svelte';
 
@@ -19,7 +20,7 @@
 	}
 
 	/**
-	 * Updat
+	 * Toggle publishing modal
 	 */
 	async function togglePublish() {
 		if ($loading) return;
@@ -52,7 +53,8 @@
 	<div class="right" in:fly={{ duration: 200, delay: 200, y: -8 }}>
 		<Button small style="neutral" on:click={openSettingsModal}>Settings</Button>
 		<Button small style="neutral" on:click={openPreview}>Preview</Button>
-		<Button small on:click={togglePublish}>Publish<Rocket /></Button>
+		<Button small style="neutral" on:click={openDataModal}>Data <Database /></Button>
+		<Button small on:click={togglePublish}>Publish <Rocket /></Button>
 	</div>
 
 	{#if isPublicationShow}

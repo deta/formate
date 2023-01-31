@@ -17,7 +17,7 @@ export async function createPublication(form: Form) {
 			key: form.key,
 			slug: form.slug,
 			date: Date.now(),
-			content: form
+			content: structuredClone(form)
 		};
 
 		loading.set(true);
@@ -28,7 +28,6 @@ export async function createPublication(form: Form) {
 			body: JSON.stringify(data),
 			headers: { 'Content-Type': 'application/json' }
 		});
-
 	} catch (error) {
 		console.error(error);
 	} finally {

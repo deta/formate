@@ -1,15 +1,15 @@
 <script lang="ts">
-	import type { PageData } from './$types';
-	import Header from '$lib/components/Header.svelte';
 	import Editor from '$lib/components/editor/Editor.svelte';
-	import SettingsModal from '$lib/components/modals/SettingsModal.svelte';
+	import Header from '$lib/components/Header.svelte';
 	import AddFieldModal from '$lib/components/modals/AddFieldModal.svelte';
 	import DeleteFormModal from '$lib/components/modals/DeleteFormModal.svelte';
-	
+	import SettingsModal from '$lib/components/modals/SettingsModal.svelte';
+	import type { PageData } from './$types';
+
+	import DataModal from '$lib/components/modals/DataModal.svelte';
 	import { form, screen } from '$lib/stores/editor';
-	import { publication } from '$lib/stores/publication';
 	import { deleteFormCandidate, openedModal } from '$lib/stores/modals';
-	import { fly } from 'svelte/transition';
+	import { publication } from '$lib/stores/publication';
 
 	export let data: PageData;
 
@@ -29,6 +29,10 @@
 
 {#if $openedModal === 'add_field'}
 	<AddFieldModal />
+{/if}
+
+{#if $openedModal === 'data'}
+	<DataModal />
 {/if}
 
 {#if $deleteFormCandidate}

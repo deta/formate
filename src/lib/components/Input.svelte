@@ -206,6 +206,7 @@
 	}
 
 	.message {
+		line-height: 1.5rem;
 		padding: 0 1rem;
 		margin-top: 0.5rem;
 		font-size: 0.9rem;

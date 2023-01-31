@@ -7,6 +7,8 @@ micros:
     src: ./
     engine: svelte-kit
     primary: true
+    presets:
+      api_keys: true
     public_routes:
       - /f/*
       - /api/submit

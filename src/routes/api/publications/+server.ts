@@ -32,5 +32,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	}
 
 	const publication = await db.publications.insert(data);
+	console.log('Publication created', JSON.stringify(data));
+
 	return json({ publication });
 };

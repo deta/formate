@@ -2,6 +2,7 @@
 	import { publication } from '$lib/stores/publication';
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
+	import CopyInput from '../CopyInput.svelte';
 	import Copy from '../icons/Copy.svelte';
 	import Input from '../Input.svelte';
 	import Label from '../Label.svelte';
@@ -11,15 +12,6 @@
 
 	// Publication window element
 	let element: HTMLElement;
-
-	/**
-	 * Copy URL on click
-	 * @param event Click event
-	 */
-	function copyPublicURL(event: MouseEvent) {
-		(event.target as HTMLInputElement).select();
-		navigator.clipboard.writeText(`${window.location.origin}/f/${$publication.slug}`);
-	}
 
 	// Handle outside click
 	onMount(() => {
@@ -37,8 +29,8 @@
 
 <div class="publication" bind:this={element} transition:fly|local={{ duration: 200, y: -8 }}>
 	<div>
-		<Label title="Form published!" description="Сopy it and share it with your respondents!" />
-		<Input value="{window.location.origin}/f/{$publication?.slug}" icon={Copy} on:focus={copyPublicURL} readonly />
+		<Label title="Form published! 🎉" description="Сopy it and share it with your respondents!" />
+		<CopyInput value="{window.location.origin}/f/{$publication?.slug}" />
 	</div>
 </div>
 

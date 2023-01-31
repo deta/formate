@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-export type OpenedModal = 'create_form' | 'add_field' | 'settings' | 'publish_form';
+export type OpenedModal = 'create_form' | 'add_field' | 'settings' | 'data';
 
 export const openedModal = writable<OpenedModal | null>(null);
 export const deleteFormCandidate = writable<string | null>(null);
@@ -35,10 +35,10 @@ export function openSettingsModal() {
 }
 
 /**
- * Open publish form modal
+ * Open data modal
  */
-export function openPublishFormModal() {
-	openedModal.set('publish_form');
+export function openDataModal() {
+	openedModal.set('data');
 }
 
 /**

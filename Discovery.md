@@ -10,8 +10,6 @@ Formate is a tool for building forms quickly and easily. You can create forms fo
 
 Built using **TypeScript** & **SvelteKit**!
 
-> Currently, the only way to see submissions is to **open Resources tab of the installed app on your Space Canvas!** ⚠️
-
 ## Features
 
 - Easy to use: Formate is designed to be user-friendly, so you can create a form with just a few clicks! 🎓

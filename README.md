@@ -1,18 +1,10 @@
-# create-svelte
+<img src="static/icon.png" height="160px" width="160px">
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+# Formate
 
-## Creating a project
+Formate is a tool for building forms quickly and easily. You can create forms for a variety of purposes, including surveys, polls, registration, and more.
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+<br>
 
 ## Developing
 

@@ -18,7 +18,7 @@ export const POST: RequestHandler = async ({ request, url, fetch }) => {
 	// Get form structure
 	const form = publications[0].content;
 
-	// Prepare inp
+	// Prepare inputs
 	const data = await request.json();
 	const inputs = sanitizeInputs(form, data?.inputs);
 	if (!inputs) throw error(400, { message: 'Data is not specified' });
@@ -28,8 +28,11 @@ export const POST: RequestHandler = async ({ request, url, fetch }) => {
 	if (Object.keys(errors).length > 0) throw error(400, { message: 'Inputs didnt passed the validation' });
 
 	// Insert
-	const db = deta.Base(publications[0].content.table);
-	await db.insert(inputs)
+	const db = deta.Base(form.table);
+	await db.insert(inputs);
+
+	// Log
+	console.log('Data submited', slug, JSON.stringify(inputs));
 
 	return json({ success: true });
 };
