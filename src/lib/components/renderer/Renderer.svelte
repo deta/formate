@@ -225,9 +225,9 @@
 
 			<div class="info" in:fly={{ duration: 500, delay: 500, y: 64 }}>
 				<span in:fly={{ duration: 500, y: 8, delay: 700 }}>Built with</span>
-				<a href="https://alpha.deta.space/discovery/@kirlovon/formate" in:fly={{ duration: 500, y: 8, delay: 800 }}>Formate</a>
+				<a href="https://deta.space/discovery/@kirlovon/formate" in:fly={{ duration: 500, y: 8, delay: 800 }}>Formate</a>
 				<span in:fly={{ duration: 500, y: 8, delay: 900 }}>, powered by</span>
-				<a href="https://alpha.deta.space/" in:fly={{ duration: 500, y: 8, delay: 1000 }}>Deta Space</a>
+				<a href="https://deta.space/" in:fly={{ duration: 500, y: 8, delay: 1000 }}>Deta Space</a>
 			</div>
 		{/if}
 	</div>

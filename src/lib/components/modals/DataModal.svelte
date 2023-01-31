@@ -61,12 +61,12 @@
 				</div>
 
 				<ol>
-					<li>Generate the API Key in the configuration tab of the installed application.</li>
+					<li>Generate the API Key in the settings tab of the installed application.</li>
 					<li>
 						Set the <span class="code">X-Space-App-Key</span>
 						HTTP header to the generated API Key.
 					</li>
-					<li>Send a request with the headers to the API route.</li>
+					<li>Send a request with the header to the API route.</li>
 				</ol>
 
 				<p>Example: <i>(JavaScript)</i></p>

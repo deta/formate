@@ -16,3 +16,9 @@
 </script>
 
 <Input bind:value icon={Copy} on:focus={copyPublicURL} readonly />
+
+<style>
+	:global(.input svg) {
+		cursor: pointer;
+	}
+</style>

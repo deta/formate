@@ -32,7 +32,7 @@ export const POST: RequestHandler = async ({ request, url, fetch }) => {
 	await db.insert(inputs);
 
 	// Log
-	console.log('Data submited', slug, JSON.stringify(inputs));
+	console.log('Data submited', `(${slug})`, JSON.stringify(inputs));
 
 	return json({ success: true });
 };

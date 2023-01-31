@@ -136,6 +136,7 @@
 	}
 
 	.warning {
+		font-size: 0.75rem;
 		display: flex;
 		gap: 0.5rem;
 		align-items: center;

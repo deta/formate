@@ -4,10 +4,6 @@
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 
-	// Enable server rendering
-	export const ssr = true;
-	export const csr = true;
-
 	// Form data
 	export let data: PageData;
 
