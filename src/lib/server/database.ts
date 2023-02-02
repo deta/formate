@@ -1,7 +1,7 @@
 import { Deta } from 'deta';
 
 // Load project key
-const DETA_PROJECT_KEY = process.env.DETA_PROJECT_KEY || (await import('$env/static/private')).DETA_PROJECT_KEY;
+const DETA_PROJECT_KEY = process.env.DETA_PROJECT_KEY || "key";
 
 // Initiate Deta SDK
 export const deta = Deta(DETA_PROJECT_KEY);
