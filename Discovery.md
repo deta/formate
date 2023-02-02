@@ -3,7 +3,6 @@ title: 'Formate'
 tagline: 'Build forms in minutes'
 theme_color: '#FF8947'
 git: 'https://github.com/deta/formate'
-homepage: 'https://deta.space'
 ---
 
 Formate is a tool for building forms quickly and easily. You can create forms for a variety of purposes, including surveys, polls, registration, and more.
